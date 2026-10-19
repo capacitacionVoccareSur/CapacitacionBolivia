@@ -288,6 +288,7 @@ body.sidebar-hidden #top-header { padding-left: 20px; }
   margin-left: var(--nav-w);
   margin-top: var(--header-h);
   padding-top: 16px;
+  padding-bottom: 60vh;
   min-height: calc(100vh - var(--header-h));
   transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
 }
@@ -435,6 +436,8 @@ th {
 td { padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: var(--surface-2); }
+#tabla-planes tr:hover td { background: none; }
+#tabla-planes tr.row-hover td { background: var(--surface-2); }
 .table-container { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 
 /* Pasos numerados */
@@ -505,6 +508,16 @@ tr:hover td { background: var(--surface-2); }
 /* validation method tags */
 .ruta-tag { display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 5px; background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(27,107,58,0.25); }
 [data-theme="dark"] .ruta-tag { color: #3DBF6A; border-color: rgba(61,191,106,0.25); }
+/* planes desplegable */
+.planes-extra { margin-top: 2px; }
+.planes-extra summary {
+  display: inline; cursor: pointer; list-style: none;
+  color: var(--accent); font-weight: 600; font-size: 0.7rem;
+}
+.planes-extra summary::-webkit-details-marker { display: none; }
+.planes-extra summary::marker { display: none; }
+.planes-extra > div { padding-top: 3px; line-height: 1.6; }
+
 /* critical note strip */
 .nota-critica { font-size: 0.74rem; color: var(--gold); background: var(--gold-bg); border-left: 3px solid var(--gold); padding: 5px 9px; border-radius: 0 5px 5px 0; margin-top: 9px; line-height: 1.4; }
 [data-theme="dark"] .nota-critica { background: rgba(138,98,0,0.10); }
@@ -724,6 +737,7 @@ const TOTAL_ASIST = 1642;
     <div class="section-group">
       <span class="group-label">Referencia</span>
       <a href="#errores" class="nav-link"><span class="icon">10</span> Errores y Terminología</a>
+      <a href="#documentacion" class="nav-link"><span class="icon">11</span> Documentación</a>
     </div>
   </nav>
   <div id="feedback-panel">
@@ -1034,6 +1048,11 @@ const TOTAL_ASIST = 1642;
 
     <div id="grid-cuentas" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:14px"></div>
 
+    <h3 style="margin:32px 0 10px; font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em">Apertura manual por plan</h3>
+    <div class="table-container" style="margin-bottom: 24px">
+      <table id="tabla-planes"><thead><tr><th style="width:38%">Cuenta</th><th>Plan</th></tr></thead><tbody></tbody></table>
+    </div>
+
     <script>
     const FCLASS = {Vehicular:'vehicular', Médica:'medica', Hogar:'hogar', Mascota:'mascota', Mixta:'mixta'};
     const CUENTAS = [
@@ -1089,10 +1108,15 @@ const TOTAL_ASIST = 1642;
         nota:'100% descuento en medicamentos. Validar receta física y límite mensual en SOA antes de coordinar.' }
     ];
 
-    // Subtítulo de cada card: planes principales con volumen
+    // Subtítulo de cada card: planes principales con desplegable para el resto
     function planesTexto(planes) {
+      const label = planes.length > 1 ? 'Planes: ' : 'Plan: ';
       const top = planes.slice(0, 3).map(([p, n]) => p + ' (' + n + ')').join(' · ');
-      return (planes.length > 1 ? 'Planes: ' : 'Plan: ') + top + (planes.length > 3 ? ' · +' + (planes.length - 3) + ' más' : '');
+      if (planes.length <= 3) return label + top;
+      const rest = planes.slice(3).map(([p, n]) => p + ' (' + n + ')').join(' · ');
+      return label + top +
+        ' <details class="planes-extra"><summary>+' + (planes.length - 3) + ' más</summary>' +
+        '<div>' + rest + '</div></details>';
     }
 
     function renderCuentas(familia) {
@@ -1144,6 +1168,31 @@ const TOTAL_ASIST = 1642;
     });
 
     renderCuentas('*');
+    (function() {
+      var rows = CUENTAS.flatMap(function(c) {
+        return c.planes.map(function(p, i) {
+          return '<tr data-rank="' + c.rank + '">' +
+            (i === 0 ? '<td rowspan="' + c.planes.length + '" style="font-weight:600;vertical-align:middle">' + c.nombre + '</td>' : '') +
+            '<td>' + p[0] + '</td></tr>';
+        });
+      }).join('');
+      var tbody = document.querySelector('#tabla-planes tbody');
+      tbody.innerHTML = rows;
+      var cur = null;
+      tbody.addEventListener('mouseover', function(e) {
+        var tr = e.target.closest('tr[data-rank]');
+        if (!tr) return;
+        var rank = tr.dataset.rank;
+        if (rank === cur) return;
+        if (cur) tbody.querySelectorAll('tr[data-rank="' + cur + '"]').forEach(function(r) { r.classList.remove('row-hover'); });
+        cur = rank;
+        tbody.querySelectorAll('tr[data-rank="' + rank + '"]').forEach(function(r) { r.classList.add('row-hover'); });
+      });
+      tbody.addEventListener('mouseleave', function() {
+        tbody.querySelectorAll('tr.row-hover').forEach(function(r) { r.classList.remove('row-hover'); });
+        cur = null;
+      });
+    })();
     </script>
     </div>
     </div><!-- /cuentas-body -->
@@ -1158,77 +1207,54 @@ const TOTAL_ASIST = 1642;
     <div class="section-body-wrap" id="proveedores-body">
     <div class="section-body-inner">
     <p class="section-subtitle">Red activa — grúas, farmacias y servicios médicos · Top 15 por volumen</p>
+    <a href="https://docs.google.com/spreadsheets/d/18Dw6BeayHla0QbNSO79SLW31zEpOVpo4kBlbPGRdHnw/edit?gid=800791952#gid=800791952"
+       target="_blank" rel="noopener"
+       style="display:inline-flex; align-items:center; gap:8px; margin-bottom:24px;
+              background:var(--accent); color:#fff; font-size:0.85rem; font-weight:700;
+              padding:10px 20px; border-radius:var(--radius-sm); text-decoration:none;
+              transition:opacity 0.15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Base completa de proveedores
+    </a>
 
-    <!-- Full Assistance destacada -->
-    <h3 class="subsection-title" style="margin-bottom:10px">Full Assistance — Proveedor principal de grúas</h3>
-    <div class="grid-2" style="gap:14px; margin-bottom:24px">
-      <div class="card" style="padding:14px 16px">
-        <div style="font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:12px">Protocolo de contacto</div>
-        <div style="font-size:0.81rem; color:var(--text-muted); margin-bottom:6px">Canal exclusivo: <strong style="color:var(--text)">WhatsApp</strong></div>
-        <div style="font-size:0.81rem; color:var(--text-muted); margin-bottom:6px">Cobertura urbana mínima: <strong style="color:var(--text)">30 km de recorrido</strong></div>
-        <div style="font-size:0.81rem; color:var(--text-muted)">De 30 a 150 km: <strong style="color:var(--text)">cuadro cotizador</strong> para calcular el excedente</div>
-      </div>
-      <div class="card" style="padding:14px 16px">
-        <div style="font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:12px">Tarifas — Remolque</div>
-        <table style="width:100%; font-size:0.79rem; border-collapse:collapse">
-          <tbody>
-            <tr style="border-bottom:1px solid var(--border)">
-              <td style="padding:5px 0; color:var(--text-muted)">Hasta 10 km</td>
-              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 230</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border)">
-              <td style="padding:5px 0; color:var(--text-muted)">10 – 30 km</td>
-              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 300</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border)">
-              <td style="padding:5px 0; color:var(--text-muted)">Km excedente (30–150 km, según cotizador)</td>
-              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 16 / km</td>
-            </tr>
-            <tr>
-              <td style="padding:5px 0; color:var(--text-muted)">Maniobra especial</td>
-              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 150</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- Paso a paso: asignación vial -->
+    <h3 class="subsection-title" style="margin-bottom:12px">¿Cómo asignar servicios viales?</h3>
+    <div class="steps" style="margin-bottom:16px">
+      <div class="step"><div>
+        <div class="step-title">Verificar coberturas en SOA</div>
+        <div class="step-body">Confirmar plan, cuenta y que el servicio solicitado esté cubierto antes de continuar.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Recabar datos del afiliado y el vehículo</div>
+        <div class="step-body">Número de caso · Nombre y celular del afiliado · Placa · Marca, modelo exacto y color del vehículo.<br><strong>Formato de placa:</strong> <code style="font-size:0.85em; background:var(--surface-2); padding:1px 5px; border-radius:4px">1234-ABC</code> — números, guión, letras. Sin excepciones.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Registrar ubicación GPS</div>
+        <div class="step-body">Coordenadas de origen y de destino. Si el afiliado no las tiene, pedirlas por WhatsApp/Callbell.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Revisar estado del vehículo</div>
+        <div class="step-body">¿Giran libremente las 4 ruedas? ¿Pasa a neutro? Preguntar si hay sótano, garaje estrecho o si el vehículo está siniestrado.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Calcular distancia y excedente</div>
+        <div class="step-body">Cobertura urbana mínima: <strong>30 km incluido</strong>. De 30 a 150 km: calcular el excedente con el cuadro cotizador antes de despachar.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Mandar datos por el grupo de WhatsApp</div>
+        <div class="step-body">Enviar datos completos de la asistencia al grupo oficial. Se puede sacar captura del SOA con toda la información.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Confirmar TEA al afiliado</div>
+        <div class="step-body">Informar tiempo de arribo al afiliado.</div>
+      </div></div>
     </div>
 
-    <!-- Despacho de grúas (pptx: Full Assistance — alcance, canal oficial, registro técnico) -->
-    <h3 class="subsection-title" style="margin-bottom:10px">Despacho de grúas — Full Assistance</h3>
-    <div class="grid-2" style="gap:12px; margin-bottom:12px; align-items:start">
-      <div>
-        <div class="card-title" style="margin-bottom:8px">Registro técnico obligatorio en cada asignación</div>
-        <div class="steps">
-          <div class="step"><div><div class="step-title">Caso y afiliado</div><div class="step-body">Número de caso, datos del asegurado, celular y placa</div></div></div>
-          <div class="step"><div><div class="step-title">Vehículo</div><div class="step-body">Marca, modelo exacto y color</div></div></div>
-          <div class="step"><div><div class="step-title">Ubicación</div><div class="step-body">Coordenadas GPS de origen y de destino</div></div></div>
-          <div class="step"><div><div class="step-title">Estado del auto</div><div class="step-body">¿Giran libremente las 4 ruedas? ¿Pasa a neutro?</div></div></div>
-        </div>
-      </div>
-      <div style="display:grid; gap:12px">
-        <div class="card" style="padding:12px 14px">
-          <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:6px">Canal oficial: grupo de WhatsApp</div>
-          <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:4px">
-            <div>· Lo integran supervisores de Call Center, coordinadores y directores operativos de Addiuva y Full Assistance.</div>
-            <div>· Cada mensaje identifica el <strong style="color:var(--text)">número de asistencia y la placa</strong>.</div>
-            <div>· Reportar en tiempo real clima, tráfico o demoras de llegada.</div>
-          </div>
-        </div>
-        <div class="card" style="padding:12px 14px">
-          <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:6px">Tiempos</div>
-          <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:4px">
-            <div>· Full Assistance confirma el despacho y la hora de llegada en <strong style="color:var(--text)">menos de 10 min</strong>.</div>
-            <div>· La cabina confirma el TEA al afiliado en <strong style="color:var(--text)">15 min</strong> (BISA: 10 min).</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card-title" style="margin-bottom:8px">Condiciones especiales de rescate</div>
-    <div class="grid-3" style="gap:12px; margin-bottom:12px">
+    <div class="card-title" style="margin-bottom:8px">Condiciones especiales — avisar antes de despachar</div>
+    <div class="grid-3" style="gap:12px; margin-bottom:24px">
       <div class="card" style="padding:12px 14px; border-left:3px solid var(--red)">
         <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Vehículo siniestrado</div>
-        <div style="font-size:0.77rem; color:var(--text-muted)">Solo con aval de la cuenta. Enviar al proveedor fotos del estado previo si están disponibles.</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Preguntar al afiliado si ya reportó el siniestro y si el inspector confirmó que se puede proceder con el remolque. Sin esa confirmación no avanzar.</div>
       </div>
       <div class="card" style="padding:12px 14px; border-left:3px solid var(--gold)">
         <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Dependencia policial</div>
@@ -1236,29 +1262,48 @@ const TOTAL_ASIST = 1642;
       </div>
       <div class="card" style="padding:12px 14px; border-left:3px solid var(--gold)">
         <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Sótano o garaje estrecho</div>
-        <div style="font-size:0.77rem; color:var(--text-muted)">Avisar al proveedor antes de despachar. Aplica maniobra especial (Bs. 150).</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Avisar al proveedor antes de despachar y confirmar la cotización con él. Puede aplicar maniobra especial.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--red)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Vehículo con carga</div>
+        <ul style="font-size:0.77rem; color:var(--text-muted); margin:0; padding-left:14px; line-height:1.7">
+          <li>No remolcamos con carga: riesgo de daños a la mercancía y al vehículo.</li>
+          <li>Solicitar foto de la carga.</li>
+          <li>Consultar si puede descargarla y cuánto tarda.</li>
+          <li>Si quiere que la traslademos con carga: cotizar con el proveedor, informar el monto al cliente y esperar confirmación antes de despachar.</li>
+        </ul>
       </div>
     </div>
 
-    <div class="grid-2" style="gap:12px; margin-bottom:24px">
-      <div class="card" style="padding:12px 14px">
-        <div class="card-title">Responsabilidades Addiuva</div>
-        <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:3px">
-          <div>· Recibir la solicitud y verificar coberturas</div>
-          <div>· Recabar el diagnóstico y la ubicación GPS</div>
-          <div>· Remitir la solicitud a Full Assistance a tiempo</div>
-          <div>· Auditar y autorizar la conciliación mensual</div>
+    <!-- Validación Nacional Seguros -->
+    <h3 class="subsection-title" style="margin-bottom:12px">Validación Nacional Seguros — servicios viales</h3>
+    <div class="steps" style="margin-bottom:10px">
+      <div class="step"><div>
+        <div class="step-title">Validar en el validador de Nacional — <a href="https://appmovil.nacionalseguros.com.bo:57576/#/" target="_blank" rel="noopener" style="font-weight:400; font-size:0.78rem">abrir ↗</a></div>
+        <div class="step-body" style="display:grid; gap:8px; margin-top:6px">
+          <div class="card" style="padding:10px 12px; border-left:3px solid var(--green, #22c55e)">
+            <div style="font-weight:700; font-size:0.8rem; color:var(--text); margin-bottom:3px">✓ Valida</div>
+            <div style="font-size:0.77rem; color:var(--text-muted)">Pegar la información en bitácora. Verificar que coincidan <strong>marca, modelo, año y tipo</strong> del vehículo antes de continuar.</div>
+          </div>
+          <div class="card" style="padding:10px 12px; border-left:3px solid var(--gold)">
+            <div style="font-weight:700; font-size:0.8rem; color:var(--text); margin-bottom:3px">✗ No valida</div>
+            <div style="font-size:0.77rem; color:var(--text-muted)">Verificar la placa en <strong>RUAT</strong> y luego mandar el caso al grupo de Nacional.</div>
+          </div>
         </div>
-      </div>
-      <div class="card" style="padding:12px 14px">
-        <div class="card-title">Responsabilidades Full Assistance</div>
-        <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:3px">
-          <div>· Verificar datos y asignar la grúa adecuada</div>
-          <div>· Remolcar de forma segura hasta el destino</div>
-          <div>· Reportar hitos y ETA puntualmente</div>
-          <div>· Presentar la planilla operativa mensual</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Esperar respuesta del grupo de Nacional</div>
+        <div class="step-body" style="display:grid; gap:8px; margin-top:6px">
+          <div class="card" style="padding:10px 12px; border-left:3px solid var(--red)">
+            <div style="font-weight:700; font-size:0.8rem; color:var(--text); margin-bottom:3px">Sin respuesta en 5 min</div>
+            <div style="font-size:0.77rem; color:var(--text-muted)">Mandar el servicio a <strong>Riesgo</strong>.</div>
+          </div>
+          <div class="card" style="padding:10px 12px; border-left:3px solid var(--gold)">
+            <div style="font-weight:700; font-size:0.8rem; color:var(--text); margin-bottom:3px">Responden: Deuda o Vencimiento</div>
+            <div style="font-size:0.77rem; color:var(--text-muted)">Informar al cliente. Si tiene comprobante de pago, solicitar foto y enviarlo a Nacional para que confirmen.</div>
+          </div>
         </div>
-      </div>
+      </div></div>
     </div>
 
     <!-- Farmacias principales -->
@@ -1363,16 +1408,11 @@ const TOTAL_ASIST = 1642;
         <div style="font-size:0.77rem; color:var(--text-muted)">Titular, cónyuge e hijos. Ninguna decisión fuera de esto sin autorización.</div>
       </div>
     </div>
-    <div class="alert alert-red" style="margin-bottom:24px">
-      <span class="alert-icon">!</span>
-      <div><strong>Sin validación SOA o sin ubicación clara, no se agenda el servicio.</strong> Siniestros: no somos cabina de siniestros. Un servicio derivado de un siniestro solo se coordina con el aval de la cuenta.</div>
-    </div>
-
     <h3 class="subsection-title" style="margin-bottom:10px">Servicios técnicos de hogar</h3>
     <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px">Alcance: plomería, electricidad, aire acondicionado, heladeras, lavadoras, calefones y Maestro Express.</p>
     <div class="grid-3" style="gap:12px; margin-bottom:24px">
       <div class="card" style="padding:12px 14px; border-top:3px solid var(--fam-hogar)">
-        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Video-validación obligatoria</div>
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Foto o video obligatorio para coordinar</div>
         <div style="font-size:0.77rem; color:var(--text-muted)">Plomería, fugas y Maestro Express. Sin video no se coordina.</div>
       </div>
       <div class="card" style="padding:12px 14px; border-top:3px solid var(--fam-hogar)">
@@ -1803,55 +1843,6 @@ const TOTAL_ASIST = 1642;
       </div>
     </div>
 
-    <!-- Simulador -->
-    <h3 class="subsection-title">Simulador para practicar</h3>
-    <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 10px">Reproduce los cálculos del cuadro. Sirve para practicar; la cotización real se hace siempre en la hoja.</p>
-    <div class="card cz-sim" style="padding:14px 16px; margin-bottom:22px">
-      <div class="cz-form">
-        <label>Pestaña
-          <select data-f="cuenta">
-            <option value="nacional">Nacional 1 · 2 · 3</option>
-            <option value="vip">VIP Banco Prodem</option>
-            <option value="bisa">BISA 1504</option>
-          </select>
-        </label>
-        <label>Ciudad <select data-f="ciudad"></select></label>
-        <label class="cz-servicio">Servicio por
-          <select data-f="servicio"><option value="averia">Avería</option><option value="siniestro">Siniestro</option></select>
-        </label>
-        <label class="cz-categoria" hidden>Categoría (BISA)
-          <select data-f="categoria"><option value="M2">M2</option><option value="M3" selected>M3</option></select>
-        </label>
-        <label>Km de asfalto <input data-f="asf" type="number" min="0" step="1" value="175"></label>
-        <label>Km de ripio <input data-f="rip" type="number" min="0" step="1" value="0"></label>
-        <label>Cotización del proveedor (Bs) <input data-f="cot" type="number" min="0" step="10" value="0"></label>
-        <label>Maniobra cotizada (Bs) <input data-f="man" type="number" min="0" step="10" value="0"></label>
-      </div>
-      <div class="cz-bar" aria-hidden="true">
-        <span class="cz-b-aa" style="background:var(--code-aa)"></span>
-        <span class="cz-b-cc" style="background:var(--accent)"></span>
-        <span class="cz-b-na" style="background:var(--gold)"></span>
-      </div>
-      <div class="cz-out" aria-live="polite">
-        <div>Costo total del traslado<strong class="cz-o-total"></strong></div>
-        <div>Cubre la cuenta<strong class="cz-o-cob"></strong></div>
-        <div><span style="color:var(--code-aa); font-weight:800">AA</span> · Addiuva<strong class="cz-o-aa"></strong></div>
-        <div><span style="color:var(--accent); font-weight:800">CC</span> · Compañía<strong class="cz-o-cc"></strong></div>
-        <div><span style="color:var(--gold); font-weight:800">NA</span> · Cliente<strong class="cz-o-na"></strong></div>
-        <div>Maniobra (aparte)<strong class="cz-o-man"></strong></div>
-      </div>
-      <div class="cz-o-how" style="font-size:0.76rem; color:var(--text-muted); margin-top:10px; line-height:1.5"></div>
-    </div>
-
-    <!-- Tarifas -->
-    <h3 class="subsection-title">Tarifas por km (vehículos hasta 3 t)</h3>
-    <div class="table-container" style="margin-bottom:8px">
-      <table>
-        <thead><tr><th>Ciudad</th><th>Nacional<br><span style="font-weight:500">asfalto · ripio</span></th><th>VIP Prodem<br><span style="font-weight:500">asfalto · ripio</span></th><th>BISA<br><span style="font-weight:500">asfalto · ripio</span></th></tr></thead>
-        <tbody class="cz-tarifas"></tbody>
-      </table>
-    </div>
-    <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:22px">Montos en Bs por km. "A cotizar": se usa la cotización del proveedor + 15 %. Las tarifas varían por cuenta.</p>
 
     <!-- Errores -->
     <h3 class="subsection-title">Errores frecuentes</h3>
@@ -2158,6 +2149,76 @@ const TOTAL_ASIST = 1642;
     </div><!-- /errores-body -->
   </section>
 
+  <div class="group-band" data-group="Documentación">
+    <span class="group-band-name">Documentación</span>
+  </div>
+  <section class="section" id="documentacion">
+    <h2 class="section-title section-toggle" data-target="documentacion-body" aria-expanded="false">
+      <span><span class="section-num">11</span> Documentación y Archivos</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Carpeta compartida con formularios, protocolos y materiales de referencia</p>
+    <div class="section-body-wrap" id="documentacion-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Carpeta compartida con formularios, protocolos y materiales de referencia</p>
+
+    <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:24px">
+
+    <div class="card" style="padding:14px 16px; display:flex; flex-direction:column; gap:10px; max-width:360px">
+      <div style="display:flex; align-items:center; gap:10px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z" fill="var(--accent)" opacity="0.18"/>
+          <path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div style="font-weight:700; font-size:0.85rem; color:var(--text); margin-bottom:1px">Carpeta Bolivia — Google Drive</div>
+          <div style="font-size:0.72rem; color:var(--text-muted)">Formularios, protocolos y archivos operativos</div>
+        </div>
+      </div>
+      <a href="https://drive.google.com/drive/folders/1Qqjwlpic0z15l96jiN8eOOAC4Prl2xq7"
+         target="_blank" rel="noopener noreferrer"
+         style="display:inline-flex; align-items:center; gap:6px; align-self:flex-start;
+                background:var(--accent); color:#fff; font-size:0.78rem; font-weight:700;
+                padding:6px 14px; border-radius:var(--radius-sm); text-decoration:none;
+                transition:background 0.15s;">
+        Abrir carpeta
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+      <div class="alert alert-gold" style="margin:0; font-size:0.72rem">
+        <span class="alert-icon">!</span>
+        <div>Usá el <strong>correo de Bolivia</strong> o solicitá acceso a <strong>filial Bo</strong>.</div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:14px 16px; display:flex; flex-direction:column; gap:10px; max-width:360px">
+      <div style="display:flex; align-items:center; gap:10px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" fill="var(--accent)" opacity="0.18"/>
+          <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M8 12h8M12 8v8" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div style="font-weight:700; font-size:0.85rem; color:var(--text); margin-bottom:1px">Manual DOKKA — App de siniestros</div>
+          <div style="font-size:0.72rem; color:var(--text-muted)">Guía de uso de la aplicación para gestión de siniestros</div>
+        </div>
+      </div>
+      <a href="https://drive.google.com/drive/folders/1dkHCNqCAQSWMGpufjd7bhT8b7IqOu5SM"
+         target="_blank" rel="noopener noreferrer"
+         style="display:inline-flex; align-items:center; gap:6px; align-self:flex-start;
+                background:var(--accent); color:#fff; font-size:0.78rem; font-weight:700;
+                padding:6px 14px; border-radius:var(--radius-sm); text-decoration:none;
+                transition:background 0.15s;">
+        Abrir manual
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+
+    </div><!-- /flex row -->
+
+    </div>
+    </div><!-- /documentacion-body -->
+  </section>
+
 </main>
 
 <script>
@@ -2322,6 +2383,15 @@ document.querySelectorAll('.section-toggle').forEach(toggle => {
 // Click en .section-peek también abre la sección
 document.querySelectorAll('.section-peek').forEach(peek => {
   peek.addEventListener('click', () => peek.previousElementSibling.click());
+});
+
+// Click en cualquier parte de la sección colapsada la abre
+document.querySelectorAll('.section').forEach(sec => {
+  sec.addEventListener('click', e => {
+    if (e.target.closest('.section-toggle, .section-peek')) return;
+    const toggle = sec.querySelector('.section-toggle');
+    if (toggle && toggle.getAttribute('aria-expanded') === 'false') toggle.click();
+  });
 });
 
 // ── Expandir / Colapsar todo ─────────────────────────────
