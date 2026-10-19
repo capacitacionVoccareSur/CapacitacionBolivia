@@ -1,0 +1,8 @@
+# Datos personales y fuentes internas — no subir al repo
+*.xlsx
+*.xls
+
+# Configuración local de Claude Code
+.claude/
+.agents/
+skills-lock.json

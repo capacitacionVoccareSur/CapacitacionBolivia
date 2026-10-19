@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<!--
+  SANDBOX — Bolivia Redesign
+  ─────────────────────────────────────────────────────────────────────
+  TECH STACK ACTUAL (capacitacion-bolivia.html)
+  • HTML + CSS custom properties + vanilla JS
+  • Chart.js 4.4.0 EMBEBIDO (~300 kb minificado)
+  • System fonts: -apple-system / Segoe UI / Helvetica
+  • Sin build, sin npm, un solo archivo
+  • Restricción: no CDN en runtime (funciona offline)
+
+  TECH STACK SANDBOX (este archivo — solo para explorar)
+  • CDN permitido: Inter via Google Fonts, Chart.js via jsDelivr
+  • Sin restricciones de tamaño ni offline
+
+  SKILLS DISPONIBLES
+  • agent-skills:frontend-ui-engineering  → componentes, layout, a11y
+  • three-best-practices / r3f            → 3D/WebGL (descartado: overkill para doc operativo)
+  • ponytail (activo)                     → la solución más pequeña que funciona
+
+  OPCIONES DE TECH PARA EL REDISEÑO FINAL
+  ┌─────────────────────────────────────────────────────────────────┐
+  │  Fuente        │ Inter subset base64 WOFF2 (~14 kb Latin)       │
+  │                │ → embed directo, sin CDN, +14 kb al HTML       │
+  ├─────────────────────────────────────────────────────────────────┤
+  │  Charts        │ Mantener Chart.js (ya embebido, sin costo      │
+  │                │ adicional). Alternativa: SVG inline para los   │
+  │                │ donuts (menos deps, más control de color).     │
+  ├─────────────────────────────────────────────────────────────────┤
+  │  CSS           │ CSS Grid / subgrid ya disponible en el proyecto│
+  │                │ No necesitamos Tailwind ni ningún framework.   │
+  ├─────────────────────────────────────────────────────────────────┤
+  │  JS            │ Vanilla. Sin React ni Alpine. Un archivo HTML  │
+  │                │ es la restricción correcta para este contexto. │
+  └─────────────────────────────────────────────────────────────────┘
+
+  DIRECCIÓN DE DISEÑO: "Operations Dashboard"
+  El objetivo no es parecer un SaaS bonito sino una herramienta
+  que coordinadores usan todos los días. Referentes:
+  — Linear (densidad de información + tipografía precisa)
+  — Bloomberg Terminal lite (datos primero, decoración después)
+  — Documentación de Stripe (jerarquía editorial)
+  Lo que la aleja de "hecho con IA":
+  — Número de sección como elemento gráfico, no etiqueta
+  — Grid de 6 columnas asimétrico (no todo en 2 o 3 columnas)
+  — Una sola fuente con muchos pesos y tamaños (no 3 fuentes distintas)
+  — Color solo donde tiene significado semántico
+  ─────────────────────────────────────────────────────────────────────
+-->
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sandbox · Bolivia Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<style>
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Tokens ────────────────────────────────────────────── */
+
+/* Modo claro */
+:root {
+  --bg:          #F4F7F4;
+  --surface:     #FFFFFF;
+  --surface-2:   #EDF2ED;
+  --surface-3:   #E4EBE4;
+  --border:      rgba(0,0,0,0.08);
+  --border-2:    rgba(0,0,0,0.14);
+
+  --text:        #0D1F10;
+  --text-2:      #3B5640;
+  --text-muted:  #718F77;
+
+  /* Acento verde Bolivia */
+  --green:       #1B6B3A;
+  --green-dim:   rgba(27,107,58,0.08);
+  --green-mid:   rgba(27,107,58,0.15);
+
+  /* Semánticos */
+  --red:         #DC2626;
+  --red-dim:     rgba(220,38,38,0.07);
+  --amber:       #B45309;
+  --amber-dim:   rgba(180,83,9,0.08);
+  --blue:        #1D4ED8;
+  --blue-dim:    rgba(29,78,216,0.08);
+
+  /* Layout */
+  --nav-w:       216px;
+  --radius:      14px;
+  --radius-sm:   9px;
+  --font:        'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+  --bg:          #0B0F0C;
+  --surface:     #111614;
+  --surface-2:   #161C18;
+  --surface-3:   #1C241F;
+  --border:      rgba(255,255,255,0.07);
+  --border-2:    rgba(255,255,255,0.12);
+
+  --text:        #E2EDE4;
+  --text-2:      #98B89E;
+  --text-muted:  #5C7A62;
+
+  --green:       #2ECC6E;
+  --green-dim:   rgba(46,204,110,0.10);
+  --green-mid:   rgba(46,204,110,0.20);
+
+  --red:         #F87171;
+  --red-dim:     rgba(248,113,113,0.10);
+  --amber:       #FBBF24;
+  --amber-dim:   rgba(251,191,36,0.10);
+  --blue:        #60A5FA;
+  --blue-dim:    rgba(96,165,250,0.10);
+}
+
+/* ── Base ──────────────────────────────────────────────── */
+html { font-size: 14px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Sidebar ───────────────────────────────────────────── */
+#sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--nav-w);
+  background: #132B18;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  display: flex; flex-direction: column;
+  z-index: 100; overflow: hidden;
+
+  /* Tokens fijos del sidebar — igual que main */
+  --border:     rgba(255,255,255,0.08);
+  --border-2:   rgba(255,255,255,0.13);
+  --text:       #DCF0E1;
+  --text-2:     #9DC4A3;
+  --text-muted: #7AAF82;
+  --green:      #5EDB8A;
+  --green-dim:  rgba(94,219,138,0.14);
+}
+
+/* Franja bandera Bolivia — más delgada, más elegante */
+.flag-strip { display: flex; height: 2px; flex-shrink: 0; }
+.flag-strip .f-red    { flex: 1; background: #D52B1E; }
+.flag-strip .f-yellow { flex: 1; background: #F4C300; }
+.flag-strip .f-green  { flex: 1; background: #007A3D; }
+
+/* Brand */
+.sidebar-brand {
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-brand .name {
+  font-size: 0.78rem; font-weight: 700;
+  color: var(--green); letter-spacing: -0.01em;
+}
+.sidebar-brand .sub {
+  font-size: 0.62rem; color: var(--text-muted); margin-top: 2px;
+}
+
+/* Search */
+.sidebar-search {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-search input {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.72rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.sidebar-search input:focus { border-color: var(--green); }
+.sidebar-search input::placeholder { color: var(--text-muted); }
+
+/* Nav */
+#sidebar nav { flex: 1; padding: 6px 0; overflow-y: auto; }
+.section-group { margin-bottom: 4px; }
+.group-label {
+  display: block;
+  padding: 7px 16px 3px;
+  font-size: 0.56rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.4px;
+  color: var(--text-muted);
+}
+.nav-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 10px; margin: 1px 7px;
+  border-radius: var(--radius-sm);
+  font-size: 0.74rem; color: var(--text-muted);
+  text-decoration: none; line-height: 1.3;
+  transition: color 0.1s, background 0.1s;
+}
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.nav-link.active {
+  color: var(--green);
+  background: var(--green-dim);
+  font-weight: 600;
+}
+.nav-link .icon {
+  font-size: 0.6rem; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.4; flex-shrink: 0;
+  min-width: 16px;
+}
+.nav-link.active .icon { opacity: 0.7; }
+
+/* Sidebar footer */
+.sidebar-footer {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 0.6rem; color: var(--text-muted);
+  line-height: 1.6;
+}
+.sidebar-footer strong { color: var(--text-2); font-weight: 600; }
+
+/* ── Main ──────────────────────────────────────────────── */
+#main {
+  margin-left: var(--nav-w);
+  padding: 44px 52px 80px;
+}
+
+/* ── Section header — editorial ────────────────────────── */
+.section-head {
+  position: relative;
+  margin-bottom: 32px;
+}
+/* Número gigante como marca de agua */
+.section-head .watermark {
+  position: absolute;
+  right: -8px; top: -20px;
+  font-size: 7rem; font-weight: 900;
+  color: var(--text); opacity: 0.025;
+  line-height: 1; pointer-events: none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.06em;
+  user-select: none;
+}
+.section-head .eyebrow {
+  font-size: 0.58rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 2px;
+  color: var(--green); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-head .eyebrow::after {
+  content: '';
+  flex: 1; height: 1px; background: var(--border-2);
+  max-width: 120px;
+}
+.section-head h2 {
+  font-size: 1.45rem; font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.15;
+  color: var(--text);
+}
+.section-head .sub {
+  font-size: 0.77rem; color: var(--text-muted);
+  margin-top: 5px;
+}
+
+/* ── Bento grid: 6 columnas ────────────────────────────── */
+/*
+  Cada celda declara cuántas columnas ocupa.
+  El contenido dicta el tamaño — no el grid.
+  c1..c6 = span 1..6
+*/
+.bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+.c1 { grid-column: span 1; }
+.c2 { grid-column: span 2; }
+.c3 { grid-column: span 3; }
+.c4 { grid-column: span 4; }
+.c6 { grid-column: span 6; }
+
+/* ── Cards ─────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Accent line en la parte superior de cards especiales */
+.card-accent { border-top: 2px solid var(--green); }
+.card-accent-red { border-top: 2px solid var(--red); }
+.card-accent-amber { border-top: 2px solid var(--amber); }
+
+/* KPI dentro de card */
+.card-eyebrow {
+  font-size: 0.57rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+.kpi {
+  font-size: 1.85rem; font-weight: 800;
+  letter-spacing: -0.05em; line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.kpi.green  { color: var(--green); }
+.kpi.red    { color: var(--red); }
+.kpi.amber  { color: var(--amber); }
+.kpi.blue   { color: var(--blue); }
+.kpi-note {
+  font-size: 0.65rem; color: var(--text-muted);
+  margin-top: 4px; line-height: 1.4;
+}
+
+/* Carta de gráfico */
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.chart-label {
+  font-size: 0.58rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--text-muted); margin-bottom: 10px;
+}
+
+/* Alerta */
+.alert-band {
+  background: var(--amber-dim);
+  border: 1px solid rgba(251,191,36,0.18);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 0.75rem; color: var(--amber);
+  display: flex; gap: 10px; align-items: flex-start;
+  line-height: 1.5;
+}
+.alert-band .ico { flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+
+/* ── Sections — card frame ─────────────────────────────── */
+.section {
+  border: 1px solid var(--border-2);
+  border-radius: calc(var(--radius) + 2px);
+  background: var(--surface);
+  padding: 28px 32px 32px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+/* Toggle header */
+.section-toggle {
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0;
+}
+.section-toggle h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.toggle-chevron {
+  font-size: 0.8rem;
+  font-weight: 300;
+  opacity: 0.35;
+  transition: transform 0.32s ease, opacity 0.15s;
+  flex-shrink: 0;
+}
+.section-toggle[aria-expanded="false"] .toggle-chevron { transform: rotate(-90deg); }
+.section-toggle:hover .toggle-chevron { opacity: 0.7; }
+
+/* Smooth expand/collapse — grid-row trick */
+.section-body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.section-body-wrap.open { grid-template-rows: 1fr; }
+.section-body-inner {
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 22px;
+}
+
+/* Card stagger al abrir */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card.stagger, .chart-card.stagger {
+  animation: cardIn 0.28s ease both;
+  animation-delay: calc(var(--i, 0) * 50ms);
+}
+
+/* Watermark — más visible y preparado para parallax */
+.section-head .watermark {
+  opacity: 0.07;
+  font-size: 10rem;
+  will-change: transform;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Sidebar ──────────────────────────────────────────── -->
+<aside id="sidebar">
+  <div class="flag-strip">
+    <span class="f-red"></span>
+    <span class="f-yellow"></span>
+    <span class="f-green"></span>
+  </div>
+  <div class="sidebar-brand">
+    <div class="name">Bolivia 2026</div>
+    <div class="sub">Addiuva · Manual operativo</div>
+  </div>
+  <div class="sidebar-search">
+    <input type="search" placeholder="Buscar sección...">
+  </div>
+  <nav>
+    <div class="section-group">
+      <span class="group-label">Operación</span>
+      <a href="#panorama" class="nav-link active"><span class="icon">01</span> Panorama Bolivia</a>
+      <a href="#soa" class="nav-link"><span class="icon">02</span> Validación SOA</a>
+    </div>
+    <div class="section-group">
+      <span class="group-label">Cuentas y Red</span>
+      <a href="#cuentas" class="nav-link"><span class="icon">03</span> Top 10 Cuentas</a>
+      <a href="#proveedores" class="nav-link"><span class="icon">04</span> Proveedores</a>
+    </div>
+    <div class="section-group">
+      <span class="group-label">Gestión</span>
+      <a href="#no-vial" class="nav-link"><span class="icon">05</span> Servicios No Viales</a>
+      <a href="#plataformas" class="nav-link"><span class="icon">06</span> Plataformas</a>
+      <a href="#tipificacion" class="nav-link"><span class="icon">07</span> Tipificación AA / CC / NA</a>
+      <a href="#reembolsos" class="nav-link"><span class="icon">08</span> Reembolsos y Farmacias</a>
+    </div>
+    <div class="section-group">
+      <span class="group-label">Referencia</span>
+      <a href="#errores" class="nav-link"><span class="icon">09</span> Errores y Terminología</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <strong>Base:</strong> 1 ago – 12 oct 2026<br>
+    1.642 asistencias · 17 cuentas · 93 proveedores<br><br>
+    <button id="theme-btn" style="
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; color: #9DC4A3; font-family: var(--font);
+      font-size: 0.65rem; font-weight: 600; padding: 5px 10px; cursor: pointer;
+      width: 100%; transition: background 0.15s;
+    ">☾ Oscuro</button>
+  </div>
+</aside>
+
+<!-- ── Contenido ────────────────────────────────────────── -->
+<main id="main">
+
+  <!-- 01 — Panorama -->
+  <section id="panorama" class="section">
+    <div class="section-head section-toggle" role="button" aria-expanded="true" data-target="panorama-body">
+      <span class="watermark" aria-hidden="true">01</span>
+      <div class="eyebrow">01 · Panorama</div>
+      <h2>Panorama de la Operación <span class="toggle-chevron">▾</span></h2>
+      <p class="sub">Volumen real · agosto a octubre 2026</p>
+    </div>
+
+    <div class="section-body-wrap open" id="panorama-body">
+      <div class="section-body-inner">
+
+        <div class="bento" style="margin-bottom:10px">
+          <div class="card c1 card-accent">
+            <div class="card-eyebrow">Total</div>
+            <div class="kpi">1.642</div>
+            <div class="kpi-note">ago – oct 2026</div>
+          </div>
+          <div class="card c1">
+            <div class="card-eyebrow">Concluidas</div>
+            <div class="kpi green">804</div>
+            <div class="kpi-note">49,0 %</div>
+          </div>
+          <div class="card c1 card-accent-red">
+            <div class="card-eyebrow">Canceladas</div>
+            <div class="kpi red">726</div>
+            <div class="kpi-note">44,2 %</div>
+          </div>
+          <div class="card c1 card-accent-amber">
+            <div class="card-eyebrow">En proceso</div>
+            <div class="kpi amber">112</div>
+            <div class="kpi-note">6,8 %</div>
+          </div>
+          <div class="card c1">
+            <div class="card-eyebrow">Cuentas</div>
+            <div class="kpi">17</div>
+            <div class="kpi-note">activas</div>
+          </div>
+          <div class="card c1">
+            <div class="card-eyebrow">Proveedores</div>
+            <div class="kpi blue">93</div>
+            <div class="kpi-note">en red</div>
+          </div>
+        </div>
+
+        <div class="bento" style="margin-bottom:10px">
+          <div class="chart-card c2">
+            <div class="chart-label">Familia de servicio</div>
+            <div id="chart-familias" style="height:175px"></div>
+          </div>
+          <div class="chart-card c4">
+            <div class="chart-label">Top 10 planes más usados</div>
+            <div id="chart-planes" style="height:175px"></div>
+          </div>
+        </div>
+
+        <div class="alert-band">
+          <span class="ico">!</span>
+          <div>El descuento en medicamentos se cierra como <strong>Cancelado posterior</strong>: es su cierre normal, no una cancelación real. Sin farmacia, la cancelación es del <strong>27,3 %</strong> (344 de 1.259 asistencias).</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Validación SOA -->
+  <section id="soa" class="section">
+    <div class="section-head section-toggle" role="button" aria-expanded="false" data-target="soa-body">
+      <span class="watermark" aria-hidden="true">02</span>
+      <div class="eyebrow">02 · Validación</div>
+      <h2>Validación SOA <span class="toggle-chevron">▾</span></h2>
+      <p class="sub">Verificación de vigencia · obligatoria antes de coordinar cualquier asistencia</p>
+    </div>
+
+    <div class="section-body-wrap" id="soa-body">
+      <div class="section-body-inner">
+
+        <div class="bento" style="margin-bottom:10px">
+          <div class="card c2 card-accent">
+            <div class="card-eyebrow">Cuándo validar</div>
+            <p style="font-size:0.8rem; line-height:1.6; color:var(--text-2); margin-top:6px">
+              Antes de coordinar <strong>cualquier</strong> asistencia. La vigencia del plan determina si el servicio procede.
+            </p>
+          </div>
+          <div class="card c2">
+            <div class="card-eyebrow">Ruta de acceso</div>
+            <p style="font-size:0.8rem; line-height:1.7; color:var(--text-2); margin-top:6px">
+              Operaciones → Validaciones → Asistencias<br>
+              <span style="color:var(--text-muted)">Ingresar Nº afiliado o Nº póliza</span>
+            </p>
+          </div>
+          <div class="card c2">
+            <div class="card-eyebrow">Datos requeridos</div>
+            <p style="font-size:0.8rem; line-height:1.7; color:var(--text-2); margin-top:6px">
+              Nº afiliado · Nº póliza<br>Fecha de solicitud
+            </p>
+          </div>
+        </div>
+
+        <div class="bento">
+          <div class="card c2">
+            <div class="card-eyebrow" style="color:var(--green)">Vigente</div>
+            <p style="font-size:0.8rem; line-height:1.5; color:var(--text-2); margin-top:6px">
+              Coordinar normalmente. Registrar en CallBell y continuar en Vicidial.
+            </p>
+          </div>
+          <div class="card c2 card-accent-red">
+            <div class="card-eyebrow">No vigente</div>
+            <p style="font-size:0.8rem; line-height:1.5; color:var(--text-2); margin-top:6px">
+              No coordinar. Informar al afiliado y tipificar como NA.
+            </p>
+          </div>
+          <div class="card c2 card-accent-amber">
+            <div class="card-eyebrow">Sin respuesta SOA</div>
+            <p style="font-size:0.8rem; line-height:1.5; color:var(--text-2); margin-top:6px">
+              Escalar al supervisor. No coordinar sin validación confirmada.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const FAMILIAS = [
+  { name: 'Vehicular',    value: 761, color: '#60A5FA' },
+  { name: 'Médica',       value: 658, color: '#34D399' },
+  { name: 'Hogar',        value: 101, color: '#FBBF24' },
+  { name: 'Mascota',      value:  70, color: '#A78BFA' },
+  { name: 'Telemedicina', value:  34, color: '#22D3EE' },
+  { name: 'Otros',        value:  18, color: '#94A3B8' }
+];
+
+
+function isDark() {
+  return document.documentElement.getAttribute('data-theme') === 'dark';
+}
+
+function tc() {
+  return isDark()
+    ? { text: '#D8EDD9', muted: '#5C7A62', tipBg: '#161C18', tipBorder: 'rgba(255,255,255,0.12)' }
+    : { text: '#0D1F10', muted: '#718F77', tipBg: '#FFFFFF',  tipBorder: 'rgba(0,0,0,0.1)' };
+}
+
+// Shared floating tooltip
+const tipEl = document.createElement('div');
+Object.assign(tipEl.style, {
+  position: 'fixed', pointerEvents: 'none', padding: '6px 10px',
+  borderRadius: '6px', fontSize: '11px', fontFamily: 'Inter, sans-serif',
+  opacity: '0', zIndex: '9999', transition: 'opacity 0.12s', lineHeight: '1.4'
+});
+document.body.appendChild(tipEl);
+
+function showTip(event, html) {
+  const t = tc();
+  Object.assign(tipEl.style, {
+    background: t.tipBg, color: t.text,
+    border: `1px solid ${t.tipBorder}`, opacity: '1',
+    left: (event.clientX + 14) + 'px', top: (event.clientY - 32) + 'px'
+  });
+  tipEl.innerHTML = html;
+}
+function moveTip(event) {
+  tipEl.style.left = (event.clientX + 14) + 'px';
+  tipEl.style.top  = (event.clientY - 32) + 'px';
+}
+function hideTip() { tipEl.style.opacity = '0'; }
+
+// ── Barras horizontales — familia de servicio ──────────────────
+function drawFamiliaBar(containerId, data) {
+  const el = document.getElementById(containerId);
+  d3.select(el).selectAll('*').remove();
+
+  const H  = el.clientHeight || 155;
+  const W  = el.clientWidth  || 500;
+  const t  = tc();
+  const ml = 110, mr = 80, mt = 4, mb = 4;
+  const innerW = W - ml - mr;
+  const rowH = (H - mt - mb) / data.length;
+  const barH = Math.min(rowH * 0.42, 11);
+  const x = d3.scaleLinear().domain([0, data[0].value]).range([0, innerW]);
+
+  const svg = d3.select(el).append('svg')
+    .attr('width', W).attr('height', H)
+    .style('font-family', 'Inter, sans-serif');
+
+  const g = svg.append('g').attr('transform', `translate(${ml},${mt})`);
+
+  data.forEach((d, i) => {
+    const midY = i * rowH + rowH / 2;
+
+    // Track
+    g.append('rect')
+      .attr('x', 0).attr('y', midY - barH / 2)
+      .attr('width', innerW).attr('height', barH).attr('rx', 3)
+      .attr('fill', isDark() ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)');
+
+    // Bar (color semántico de la familia)
+    const bar = g.append('rect')
+      .attr('x', 0).attr('y', midY - barH / 2)
+      .attr('width', x(d.value)).attr('height', barH).attr('rx', 3)
+      .attr('fill', d.color).attr('opacity', 0.85)
+      .style('cursor', 'pointer');
+
+    bar.on('mouseover', function(event) {
+        d3.select(this).attr('opacity', 1);
+        showTip(event, `<strong>${d.name}</strong>: ${d.value.toLocaleString('es-BO')} <span style="opacity:.6">(${((d.value/1642)*100).toFixed(1)} %)</span>`);
+      })
+      .on('mousemove', moveTip)
+      .on('mouseout', function() { d3.select(this).attr('opacity', 0.85); hideTip(); });
+
+    // Nombre
+    g.append('text')
+      .attr('x', -8).attr('y', midY)
+      .attr('text-anchor', 'end').attr('dominant-baseline', 'middle')
+      .attr('fill', t.text).attr('font-size', 10.5)
+      .text(d.name);
+
+    // Valor + %
+    g.append('text')
+      .attr('x', x(d.value) + 6).attr('y', midY)
+      .attr('dominant-baseline', 'middle')
+      .attr('fill', t.muted).attr('font-size', 9.5)
+      .text(`${d.value.toLocaleString('es-BO')}  ${((d.value/1642)*100).toFixed(1)} %`);
+  });
+}
+
+
+const PLANES = [
+  { name: 'Asistencia Vial Nacional',    cuenta: 'Nacional Seguros',        value: 719 },
+  { name: 'Tu Familia',                  cuenta: 'Alianza Seguros',         value: 165 },
+  { name: 'PRODEM Servicios Médicos',    cuenta: 'Asist. Nacional V&S',     value: 113 },
+  { name: 'Medicamentos Banco FIE',      cuenta: 'Asistencia Banco FIE',    value: 58  },
+  { name: 'EcoHogar',                    cuenta: 'Banco Económico',         value: 58  },
+  { name: 'Sol Integral (Banco Sol)',    cuenta: 'La Boliviana Ciacruz',    value: 55  },
+  { name: 'Medicamentos Banco Sol CSGS', cuenta: 'La Boliviana Ciacruz',    value: 49  },
+  { name: 'Mascotas Ecommerce',          cuenta: 'Asist. Nacional V&S',     value: 43  },
+  { name: 'Asistencias p/ Motocicletas', cuenta: 'BISA Seguros',            value: 40  },
+  { name: 'Familia Protegida JGP',       cuenta: 'Asist. Nacional V&S',     value: 34  }
+];
+
+function drawBarH(containerId, data) {
+  const el = document.getElementById(containerId);
+  d3.select(el).selectAll('*').remove();
+
+  const H  = el.clientHeight || 250;
+  const W  = el.clientWidth  || 600;
+  const t  = tc();
+  const ml = 210, mr = 56, mt = 6, mb = 6;
+  const innerW = W - ml - mr;
+  const rowH   = (H - mt - mb) / data.length;
+  const barH   = Math.min(rowH * 0.38, 10);
+  const x      = d3.scaleLinear().domain([0, data[0].value]).range([0, innerW]);
+  const barColor = isDark() ? '#2ECC6E' : '#1B6B3A';
+
+  const svg = d3.select(el).append('svg')
+    .attr('width', W).attr('height', H)
+    .style('font-family', 'Inter, sans-serif');
+
+  const g = svg.append('g').attr('transform', `translate(${ml},${mt})`);
+
+  data.forEach((d, i) => {
+    const midY = i * rowH + rowH / 2;
+    const op   = Math.max(0.88 - i * 0.05, 0.45);
+
+    // Track
+    g.append('rect')
+      .attr('x', 0).attr('y', midY - barH / 2)
+      .attr('width', innerW).attr('height', barH).attr('rx', 3)
+      .attr('fill', isDark() ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)');
+
+    // Bar
+    const bar = g.append('rect')
+      .attr('x', 0).attr('y', midY - barH / 2)
+      .attr('width', x(d.value)).attr('height', barH).attr('rx', 3)
+      .attr('fill', barColor).attr('opacity', op)
+      .style('cursor', 'pointer');
+
+    bar.on('mouseover', function(event) {
+        d3.select(this).attr('opacity', 1);
+        showTip(event, `<strong>${d.name}</strong><br><span style="opacity:.6">${d.cuenta}</span><br>${d.value.toLocaleString('es-BO')} <span style="opacity:.6">(${((d.value/1642)*100).toFixed(1)} %)</span>`);
+      })
+      .on('mousemove', moveTip)
+      .on('mouseout', function() { d3.select(this).attr('opacity', op); hideTip(); });
+
+    // Plan name (right-aligned, before bar)
+    g.append('text')
+      .attr('x', -8).attr('y', midY)
+      .attr('text-anchor', 'end').attr('dominant-baseline', 'middle')
+      .attr('fill', t.text).attr('font-size', 10.5)
+      .text(d.name);
+
+    // Value after bar
+    g.append('text')
+      .attr('x', x(d.value) + 6).attr('y', midY)
+      .attr('dominant-baseline', 'middle')
+      .attr('fill', t.muted).attr('font-size', 9.5)
+      .text(d.value.toLocaleString('es-BO'));
+  });
+}
+
+function renderCharts() {
+  drawFamiliaBar('chart-familias', FAMILIAS);
+  drawBarH('chart-planes', PLANES);
+}
+
+renderCharts();
+
+document.getElementById('theme-btn').addEventListener('click', () => {
+  const dark = !isDark();
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('theme-btn').textContent = dark ? '☀ Claro' : '☾ Oscuro';
+  renderCharts();
+});
+
+// ── Collapsible sections ──────────────────────────────────
+document.querySelectorAll('.section-toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    const wrap = document.getElementById(toggle.dataset.target);
+    wrap.classList.toggle('open', !isOpen);
+
+    if (!isOpen) {
+      // Stagger: asigna --i a cada card al abrir
+      wrap.querySelectorAll('.card, .chart-card').forEach((c, i) => {
+        c.style.setProperty('--i', i);
+        c.classList.remove('stagger');
+        void c.offsetWidth; // fuerza reflow para reiniciar la animación
+        c.classList.add('stagger');
+      });
+      // Re-renderizar charts si estaban en una sección cerrada
+      if (toggle.dataset.target === 'panorama-body') renderCharts();
+    }
+  });
+});
+
+// ── Parallax en los watermarks ────────────────────────────
+const watermarks = document.querySelectorAll('.section .watermark');
+function parallax() {
+  watermarks.forEach(wm => {
+    const top = wm.closest('.section').getBoundingClientRect().top;
+    wm.style.transform = `translateY(${top * 0.35}px)`;
+  });
+}
+window.addEventListener('scroll', parallax, { passive: true });
+parallax();
+</script>
+</body>
+</html>

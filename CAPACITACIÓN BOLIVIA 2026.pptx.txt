@@ -1,0 +1,397 @@
+By Cecilia Izumigawa
+Inducción Operativa y Gestión de Asistencias
+Recibir llamadas, entender al cliente boliviano y validar coberturas.
+
+Datos y Coberturas Obligatorias
+DIAPOSITIVA 03
+Datos Obligatorios a Solicitar
+No podemos avanzar en la gestión sin validar primero:
+Códigos de Área (Prefijos Locales)
+Nombre completo del titular
+Carnet de Identidad (CI)
+Teléfono de contacto actual
+Placa / Patente del vehículo
+Dirección exacta + Referencias
++591 
+Tip: Validar el prefijo local otorga una ventaja de ubicación inmediata antes de despachar el servicio.
+Filtros Obligatorios y Códigos de Área
+ Entidad 1: Departamento
+
+Sistema Central SOA
+DIAPOSITIVA 05
+El buscador del Sistema SOA
+En general el estado del afiliado se debe realizar en el soa con la clave de afiliado
+Lectura de Estados del Afiliado:
+ACTIVO
+Cuenta habilitada. Proceder con el servicio.
+INACTIVO
+Póliza de baja. No se autoriza ninguna asistencia.
+BLOQUEADO
+Alerta administrativa. Revisar notas internas antes de actuar.
+Navegación y Validación de Identidad
+
+Estructura Operativa SOA
+DIAPOSITIVA 06
+Criterio de Seguridad Obligatorio: Las asistencias cambian radicalmente según el plan de la subcuenta. Nunca asumas coberturas completas solo por identificar al Sponsor principal.
+Sponsor (La Cuenta)
+Es la empresa o entidad matriz bancaria o aseguradora que contrata a Addiuva para sus clientes.
+Plan / Producto (La Subcuenta)
+Determina el tipo específico de contrato y coberturas con los límites del cliente.
+Identificación Correcta del Producto
+
+
+
+Matriz de Cobertura de Productos
+DIAPOSITIVA 07
+Asistencia Vial
+Servicios de grúas, auxilio de batería, cerrajería vial y mecánica de emergencia.
+Asistencia Hogar
+Plomería de urgencia, electricidad hogareña, cerrajería de accesos y vidriería.
+Asistencia Médica
+Telemedicina preliminar, ambulancia de traslados y consultas primarias.
+¿Qué verificar antes de coordinar?: Valida el tipo de asistencia habilitada del afiliado y asegúrate de chequear las exclusiones del producto (por ejemplo, en Nacional Seguros existe una diferencia de póliza clave entre el Plan Vial y el Plan Vagoneta).
+Vinculación de Planes y Servicios
+
+Protocolos y Rutas de Validación
+DIAPOSITIVA 08
+Cuenta / Sponsor
+Ruta de Validación Autorizada
+Notas Críticas de Gestión
+Bisa Motos
+Canal directo de WhatsApp del Sponsor
+No se valida vigencia tradicional. Revisar historial de reincidencias en el día.
+Alianza Seguros
+Portal Web Alianza (Búsqueda por CI)
+Si la web falla: Escalar de inmediato al Grupo Filial WhatsApp de Alianza.
+Nacional Seguros
+Plan Vial: App "Mi Seguro"          Plan Vagoneta: SOA + Correo de soporte
+Cruzar los datos específicos para cerciorarse de la cobertura habilitada.
+Resto de Cuentas
+Directo por buscador en Sistema SOA
+Uso e ingreso estándar del sistema core de la compañía.
+Descuento Farmacia
+Consulta directa de beneficios en SOA
+Si el registro falla: Escalar con supervisor detallando antigüedad del afiliado.
+Canales de Validación por Cuenta
+
+
+
+
+
+
+
+Nueva Ticketera DOKKA
+Guía de inducción y protocolo para la correcta derivación y gestión ordenada de solicitudes.
+
+01. Introducción y Uso
+Comprendiendo los objetivos principales de la ticketera DOKKA para una atención de cara al cliente rápida y fluida.
+
+Gestión y Orden
+Establecer el procedimiento sistemático y obligatorio para derivar llamadas que ingresen de forma incorrecta a tu área.
+¿Cuándo registrar en DOKKA?
+Cuando recibas una llamada que no sea competencia de tu área y debas derivar el contacto al Call Center corporativo de Nacional Seguros.
+OBJETIVO DEL PROTOCOLO
+
+Al identificar que la llamada no corresponde a tu área, solicita activamente los siguientes datos:
+"Sus datos han sido registrados. A la brevedad, un ejecutivo de Nacional Seguros se pondrá en contacto para asistirle."
+1. Ubicación
+Solicitar la ciudad desde la cual se está comunicando el cliente.
+2. Identificación
+Nombre completo y número de C.I. o NIT.
+3. Contacto
+Número de teléfono celular activo para contacto posterior.
+4. Requerimiento
+Detalle específico de la solicitud o consulta que realiza.
+INFORMACIÓN DEL CLIENTE
+
+Ruta de Registro
+Dentro del sistema DOKKA, navega directamente al menú lateral y haz clic en la sección: Tickets -> Registrar nuevo ticket.
+Completa con datos verídicos y sin faltas de ortografía.
+Mantén una redacción concisa y clara de la solicitud.
+El estado de prioridad asegura la urgencia correcta.
+REGISTRO EN LA TICKETERA
+
+02. Seguimiento y Gestión
+Todo ticket generado requiere un monitoreo continuo. Conoce las responsabilidades del creador y de los prestadores.
+
+Tu Responsabilidad
+Todo colaborador que registre o genere un ticket en la plataforma DOKKA se convierte en el responsable de su seguimiento activo hasta la resolución.
+¿Cómo registrar observaciones?
+Si existen comentarios adicionales o necesitas corregir información:
+1. Ingresa al apartado de Tickets.
+2. Registra la corrección o detalle en el campo Nota.
+3. Selecciona el botón Enviar.
+Verifica periódicamente que el ticket sea atendido.
+Agrega aclaraciones en tiempo real para agilizar el proceso.
+SEGUIMIENTO DEL TICKET
+
+
+Nacional Seguros
+El cierre definitivo del ticket general es responsabilidad exclusiva del ejecutivo de Nacional Seguros.
+Los ejecutivos verifican la calidad de la resolución antes de dar de baja el ticket de la plataforma.
+Colaboradores Addiuva
+Los colaboradores de Addiuva únicamente deben encargarse de cerrar la etapa de las asistencias.
+No deben realizar el cierre total del ticket principal en DOKKA bajo ninguna circunstancia.
+POLÍTICAS DE CIERRE
+
+01
+REGISTRO CORRECTO
+Toda solicitud debe ingresarse sin errores y con datos fidedignos desde el primer contacto.
+02
+SEGUIMIENTO OBLIGATORIO
+El creador es el guardián del ticket. El seguimiento periódico asegura que el cliente no quede desatendido.
+03
+IMPACTO DIRECTO
+La calidad de la información recopilada se traduce directamente en la velocidad y excelencia del servicio.
+REGLAS DE ORO EN DOKKA
+
+
+
+
+LA BOLIVIANA CIA CRUZ DE SEGUROS Y REASEGUROS
+
+LA BOLIVIANA CIA CRUZ DE SEGUROS Y REASEGUROS
+
+
+
+
+LA PROMOTORA IFV
+
+PARQUE DE LAS MEMORIAS
+
+
+
+DIAPOSITIVA 09
+ CallBell
+Canal único y exclusivo para la atención escrita y derivación por chat de WhatsApp con el afiliado y proveedores (excepción FIXO)
+Uso de Plantillas
+Uso estrictamente obligatorio de los speechs y respuestas precargadas del sistema oficial.
+Ubicación Digital
+Gestión de posición 100% por call bell
+Cierre Operativo
+Tipificación final en Vicidial
+Plataformas de Gestión y Calidad
+
+Tiempos de Respuesta TEA
+15 Minutos Máximo /10 minutos (bisa)
+Control de Tiempos Operativos
+DIAPOSITIVA 10
+Definición de Meta Crítica TEA
+TEA (Tiempo Estimado de Arribo): Es una regla obligatoria confirmar el TEA exacto al usuario antes de que transcurran 15 minutos desde que se recibe y corta la llamada en la cabina de atención.
+
+
+
+
+
+
+
+
+
+
+Responsabilidades Addiuva
+Responsabilidades Full Assistance
+Recibir solicitudes de asistencia y verificar coberturas del usuario.
+Recabar información obligatoria de diagnóstico y locación GPS.
+Remitir oportunamente las solicitudes al proveedor Full Assistance.
+Auditar, validar y autorizar la conciliación de asistencias mensuales.
+Verificar datos del servicio y coordinar la grúa adecuada.
+Ejecutar la operación de remolque de forma segura hasta el destino.
+Reportar hitos operativos clave y tiempos estimados (ETA) puntualmente.
+Presentar de forma transparente la consolidación y planilla operativa mensual.
+•
+•
+•
+•
+•
+•
+•
+•
+ FULL ASISTANCE - ALCANCE DEL PROVEEDOR
+
+Protocolo estricto de mensajería para coordinación de casos:
+Canal Único WhatsApp: Integrado por supervisores de Call Center, coordinadores y directores operativos de ambas compañías.
+Identificación Obligatoria: Cada interacción o hito compartido en el canal debe identificar expresamente el número de asistencia y la placa.
+Reporte de Eventos: Obligación de notificar en tiempo real incidentes climatológicos, de tráfico o demoras de llegada.
+•
+•
+•
+CANAL OFICIAL DE DESPACHO
+
+Toda asignación debe acompañarse de estos datos:
+Número de caso, datos del asegurado, celular y placa.
+Detalles del vehículo (marca, modelo exacto, color).
+Coordenadas GPS detalladas tanto de origen como de destino.
+Estado del auto (¿giran libremente las 4 ruedas? ¿pasa a neutro?).
+Condiciones Especiales de Rescate
+Vehículos Siniestrados: Addiuva debe proveer fotos del estado previo siempre que estén disponibles.
+Dependencias Policiales: Confirmar autorización legal del retiro del vehículo antes del despacho.
+Accesos Restringidos: Notificar previamente si el auto se encuentra en sótanos o garajes estrechos.
+•
+•
+•
+•
+REGISTRO TÉCNICO OBLIGATORIO
+
+Bs. 16
+KM ADICIONAL
+Tarifa flat por kilómetro excedido del radio de cobertura estándar urbana.
+< 10m
+RESPUESTA ETA
+Límite para que Full Assistance confirme el despacho e informe la hora de llegada.
+Bs. 150
+MANIOBRA ESPECIAL
+Adicional por extracciones complejas en sótanos, parqueos reducidos o subsuelos.
+50
+VOLUMEN BASE
+Servicios referenciales garantizados de remolque para grúas plancha de hasta 3T.
+CONDICIONES ECONÓMICAS Y MÉTRICAS
+Nota: solo le brindaremos servicios de hasta un radio de 30 km.
+COSTO FIJO: 230 BS HASTA 10 KM // si es mas de 10 km 300 BS HASTA 30 KM.
+ Proveedor Factura
+
+
+
+COORDINACIÓN DE SERVICIOS NO VIALES
+Protocolos de Validación y Gestión SOA
+Validación en SOA
+Verificar expediente, cuenta/plan, vigencia de pagos y tope de cobertura en Bs.
+Datos Críticos
+Nombre, Teléfono, CI/Placa, Dirección exacta con referencias y foto de fachada.
+Siniestros
+Si es siniestro: NO coordinar. Derivar a aseguradora o ticketera (Nacional Seguros).
+
+Alcance: Plomería, Electricidad, AA, Heladeras, Lavadoras, Calefones y Maestro Express.
+Video-Validación (Obligatoria): Plomería, Fugas y Maestro Express.
+Protocolo Medidor: Grifos cerrados. Si manivelas giran → Procede. Si no → Cooperativa.
+Aire Acondicionado: Consultar Marca, BTU, ubicación y altura del equipo.
+Servicios Técnicos y Video-Validación
+
+Categoría
+Servicios Incluidos
+Requisitos Clave
+Personales
+Masajes, Manicure (sencillo), Pedicure, Barbería.
+Anticipación 2 días. Consultar detalle del servicio (ej. corte+barba).
+Eventos
+Garzón y Maestro Parrillero.
+Cant. personas, fecha, carnes. Requiere consulta previa para reembolso.
+Especiales
+Mascotas y Videoasistencias Médicas.
+Mascotas: Edad, raza, peso y foto. Médicas: Edad y correo.
+* Beneficiarios: Titular, cónyuge e hijos. Toda decisión sin autorización está prohibida.
+Servicios Especiales y Personales
+
+SIN VALIDACIÓN SOA O UBICACIÓN CLARA: NO SE AGENDA EL SERVICIO.
+Rutina Operativa Diaria
+AM: Recordatorio al Call Center para confirmar servicios programados.
+Pagos: Coordinar método de pago antes de enviar al proveedor.
+Cierre: Confirmar ejecución, registrar cierre y reportar novedades.
+Gestión de Cierre y Escalamiento
+
+Cotizador Provincial Drive
+DIAPOSITIVA 11
+Acción Comercial: Informar transparentemente los montos de costos excedentes calculados al cliente antes de despachar formalmente la grúa o asistencia al lugar.
+Radio Urbano (Capitales)
+Se aplica la tarifa plana estándar que ya se encuentra negociada y fija para cada capital de departamento dentro del territorio de Bolivia.
+Radio Rural (Provincias)
+Es de uso estrictamente obligatorio el Cotizador en Drive para realizar el cálculo exacto de distancias en kilómetros, rutas y costo logístico de la grúa.
+Logística Geográfica y Presupuesto
+
+Tipificación Financiera SOA / SOAN
+DIAPOSITIVA 12
+Validación Crítica: Asignar correctamente el código de pago financiero correspondiente en SOA previene desvíos de auditoría de cuentas.
+AA
+Asistencia Filial
+El costo total del servicio coordinado es asumido de manera íntegra por nuestra filial local.
+CC
+Compañía / Sponsor
+El costo es cubierto y facturado directamente a la Compañía de Seguros o Sponsor contratante.
+NA
+Asegurado Particular
+Costo excedente o no cubierto por límites que debe abonar el cliente directamente al proveedor.
+Asignación de Costos de Asistencia
+
+
+
+
+
+
+
+
+
+
+Reembolsos y Marco Legal Tributario
+DIAPOSITIVA 13
+Facturación de Reembolso Obligatoria
+Deberá ser emitida bajo los estrictos requerimientos de facturación bolivianos:
+16% Retención Legal de Recibos
+De acuerdo con el Decreto Supremo D.S. 4850, se aplicará obligatoriamente la retención fiscal del 16% sobre recibos que provengan de particulares no registrados en impuestos.
+Razón Social: ADDIUVA ENTERPRISES BOLIVIA S.A.
+NIT de Factura: Entregar el código NIT correcto del sponsor.
+Concepto: Detalle explícito de la asistencia brindada.
+¡Alerta! Un error en el NIT por parte del cliente genera el rechazo contable inmediato del reembolso.
+Promesa de Tiempo de Pago
+Los desembolsos se procesarán en un periodo de 3 a 7 días hábiles posteriores a la aprobación.
+Normativa de Reembolsos y Ley Fiscal
+
+Control de Calidad de Cabina
+DIAPOSITIVA 14
+GESTIÓN DE SINIESTROS: Recuerda que nosotros ya no gestionamos siniestros directamente en cabina. Si un usuario se contacta para reportar un siniestro, se debe derivar directamente por medio de la ticketera de Nacional Seguros de manera inmediata.
+Prácticas de Casos de Éxito
+Desvíos y Errores Frecuentes
+Aplicar fluidamente los filtros mandatorios de seguridad de datos.
+Trato empático e incorporación natural de modismos de Bolivia.
+Optimización presupuestaria calculando el excedente provincial por Drive.
+Omitir la validación de identidad inicial mediante Carnet (CI).
+Confundir la carga de códigos financieros requeridos (AA / CC / NA).
+Fallar en el cálculo de distancia exacta de kilómetros para provincias.
+Evaluación del Desempeño Operativo
+
+Sección Puente - Manual PDF
+DIAPOSITIVA 15
+Descuentos en Medicamentos: Módulo Farmacias
+El flujo de validaciones de medicamentos conlleva reglas fiscales estrictas y contacto directo con cajeros. Para garantizar una precisión absoluta en cada banco sponsor, haremos una breve pausa aquí.
+Parámetros de Medicación:
+Cerramos este PowerPoint momentáneamente y abrimos el PDF de su Manual de Medicamentos.
+Validación en Sistema: Verificar vigencia de cobertura de medicamentos ingresando por SOA.
+Control de Receta Física: Verificación de validez de firma, fecha de emisión y saldos disponibles.
+Saldos Acumulados: Seguimiento del límite de consumo mensual asignado a cada usuario.
+
+Laboratorio Práctico de Audio
+DIAPOSITIVA 16
+Escucha de Casos Reales
+Reproducción en vivo de llamadas gestionadas anteriormente en la operación de Bolivia para analizar el flujo completo:
+Debate de Calidad de Llamada
+Discusión grupal enfocada en identificar oportunidades de mejora y de eficiencia:
+Evaluación del Speech institucional de entrada.
+Análisis de la recolección de los 5 datos obligatorios.
+Validación del semáforo SOA y de subcuenta específica.
+¿Identificó el operador el término local 'surtidor' o 'trancadera' correctamente?
+¿La tipificación financiera final fue precisa?
+¿Se respetó el límite crítico de 10 minutos de TEA?
+Laboratorio de Escucha Activa
+
+DIAPOSITIVA 17
+CORREO:
+Email: cabinabo@voccae.global
+Contraseña: siniestroscabinabo25*
+VALIDADOR DE NACIONAL:
+Página: https://miseguro.nacionalseguros.com.bo/ingreso_invitado
+Correo: cabinabo@voccare.global
+Numero de celular de contacto: 76896498
+APP NACIONAL SEGUROS:
+Página: https://appmovil.nacionalseguros.com.bo:57576/#/
+Usuario: kverdecio
+Contraseña: 9392085
+TICKETERA DE NACIONAL:
+Página: https://novafollownacional.conecta.com.bo/index
+ User: addiuva
+Password: a12345678*
+VALIDADOR DE ALIANZA SEGUROS:
+https://www.alianza.com.bo/SingleUserR2/Home/index
+Checklist de Habilitación Técnica
+Credenciales de ingreso al Sistema SOA validadas y activas.
+Acceso directo guardado al Cotizador de Provincias en Drive.
+Plataforma CallBell abierta y configurada con sus plantillas.
+Ruta de derivación por ticketera Nacional Seguros memorizada.
+Conexión e Inicio de Operación

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Asistencias de Seguros Bolivia</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+
+  header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 24px 32px;
+    border-bottom: 1px solid #1e3a5f;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  header h1 { font-size: 1.4rem; font-weight: 700; color: #f1f5f9; letter-spacing: 0.5px; }
+  header span { font-size: 0.8rem; color: #64748b; }
+  .badge { background: #1e40af; color: #bfdbfe; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+
+  .kpi-row {
+    display: flex; gap: 16px; padding: 24px 32px 8px;
+    flex-wrap: wrap;
+  }
+  .kpi {
+    flex: 1; min-width: 140px;
+    background: #1e293b; border: 1px solid #1e3a5f;
+    border-radius: 12px; padding: 16px 20px;
+  }
+  .kpi .label { font-size: 0.72rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .kpi .value { font-size: 1.9rem; font-weight: 700; color: #38bdf8; }
+  .kpi .sub { font-size: 0.72rem; color: #475569; margin-top: 2px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 16px 32px 32px;
+  }
+  .card {
+    background: #1e293b; border: 1px solid #1e3a5f;
+    border-radius: 14px; padding: 20px 24px;
+  }
+  .card.full { grid-column: 1 / -1; }
+  .card h2 { font-size: 0.85rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
+
+  canvas { max-height: 320px; }
+
+  /* Tabla de servicios por cuenta */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab {
+    padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+    cursor: pointer; border: 1px solid #334155; background: #0f172a; color: #64748b;
+    transition: all 0.15s;
+  }
+  .tab.active { background: #1e40af; border-color: #3b82f6; color: #bfdbfe; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { text-align: left; padding: 8px 10px; color: #475569; font-weight: 600; border-bottom: 1px solid #1e3a5f; font-size: 0.72rem; text-transform: uppercase; }
+  td { padding: 9px 10px; border-bottom: 1px solid #0f172a; color: #cbd5e1; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #0f172a; }
+  .bar-cell { display: flex; align-items: center; gap: 8px; }
+  .bar-bg { flex: 1; background: #0f172a; border-radius: 4px; height: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+  .num { color: #38bdf8; font-weight: 600; min-width: 30px; text-align: right; }
+  .pct { color: #475569; font-size: 0.72rem; min-width: 36px; text-align: right; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Dashboard Asistencias de Seguros — Bolivia</h1>
+    <span>Periodo: Agosto – Octubre 2026 &nbsp;|&nbsp; Fuente: transference_12-10-2026</span>
+  </div>
+  <span class="badge">1,661 registros</span>
+</header>
+
+<!-- KPIs -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="label">Total Asistencias</div>
+    <div class="value">1,661</div>
+    <div class="sub">registros procesados</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Concluidas</div>
+    <div class="value">805</div>
+    <div class="sub">48.5% del total</div>
+  </div>
+  <div class="kpi">
+    <div class="label">En Proceso</div>
+    <div class="value">112</div>
+    <div class="sub">6.7% del total</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Canceladas</div>
+    <div class="value">744</div>
+    <div class="sub">44.8% del total</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Cuentas Activas</div>
+    <div class="value">10</div>
+    <div class="sub">clientes seguros</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Proveedores</div>
+    <div class="value">15+</div>
+    <div class="sub">activos en red</div>
+  </div>
+</div>
+
+<!-- Grid principal -->
+<div class="grid">
+
+  <!-- Top 10 Cuentas - horizontal bar -->
+  <div class="card">
+    <h2>Top 10 Cuentas por Volumen</h2>
+    <canvas id="chartCuentas"></canvas>
+  </div>
+
+  <!-- Familia de servicios - donut -->
+  <div class="card">
+    <h2>Distribucion por Familia de Servicio</h2>
+    <canvas id="chartFamilia"></canvas>
+  </div>
+
+  <!-- Top Proveedores - bar -->
+  <div class="card">
+    <h2>Top 15 Proveedores Mas Utilizados</h2>
+    <canvas id="chartProveedores"></canvas>
+  </div>
+
+  <!-- Estados - donut -->
+  <div class="card">
+    <h2>Estado de Asistencias</h2>
+    <canvas id="chartEstados"></canvas>
+  </div>
+
+  <!-- Servicios por cuenta - tabla interactiva -->
+  <div class="card full">
+    <h2>Servicios por Cuenta (Top 5 servicios)</h2>
+    <div class="tabs" id="tabs"></div>
+    <table id="tablaServicios">
+      <thead><tr><th>#</th><th>Servicio</th><th>Asistencias</th><th>Participacion</th></tr></thead>
+      <tbody id="tbodyServicios"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const COLORS = [
+  '#3b82f6','#06b6d4','#8b5cf6','#10b981','#f59e0b',
+  '#ef4444','#ec4899','#14b8a6','#a855f7','#f97316'
+];
+const GRID = { color: '#1e3a5f' };
+const FONT = { color: '#94a3b8', size: 11 };
+
+// ── Chart 1: Top 10 Cuentas ──────────────────────────────
+const cuentas = [
+  ['NACIONAL SEGUROS PATR. Y FIANZAS', 769],
+  ['ASIST. NACIONAL SEGUROS VIDA Y SALUD', 253],
+  ['ALIANZA SEGUROS', 183],
+  ['LA BOLIVIANA CIACRUZ', 131],
+  ['ASISTENCIA BANCO FIE', 81],
+  ['ASISTENCIA BANCO ECOFUTURO', 62],
+  ['BANCO ECONOMICO', 58],
+  ['BISA SEGUROS', 50],
+  ['CREDINFORM INTERNATIONAL S.A.', 15],
+  ['CUENTA IKATECH', 14],
+];
+new Chart(document.getElementById('chartCuentas'), {
+  type: 'bar',
+  data: {
+    labels: cuentas.map(x => x[0]),
+    datasets: [{ data: cuentas.map(x => x[1]), backgroundColor: COLORS, borderRadius: 6, borderSkipped: false }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} asistencias` } } },
+    scales: {
+      x: { grid: GRID, ticks: FONT },
+      y: { grid: { display: false }, ticks: { ...FONT, color: '#cbd5e1' } }
+    }
+  }
+});
+
+// ── Chart 2: Familia Servicio (donut) ────────────────────
+const familias = [
+  ['VEHICULAR', 765], ['MEDICA', 659], ['HOGAR', 101],
+  ['MASCOTA', 70], ['TELEMEDICINA', 34], ['PRUEBA', 13],
+  ['REFERENCIAS', 7], ['VIAJES', 7], ['VARIOS', 3], ['SINIESTRO', 2]
+];
+new Chart(document.getElementById('chartFamilia'), {
+  type: 'doughnut',
+  data: {
+    labels: familias.map(x => x[0]),
+    datasets: [{ data: familias.map(x => x[1]), backgroundColor: COLORS, borderWidth: 2, borderColor: '#1e293b' }]
+  },
+  options: {
+    responsive: true,
+    cutout: '60%',
+    plugins: {
+      legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 11 }, padding: 12, boxWidth: 14 } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} (${((ctx.raw/1661)*100).toFixed(1)}%)` } }
+    }
+  }
+});
+
+// ── Chart 3: Top Proveedores ─────────────────────────────
+const proveedores = [
+  ['FULL ASSISTANCE', 138], ['FULL AUTO', 99], ['CBBA - GRUA MERIDA', 81],
+  ['FARMACORP', 70], ['SCZ - GRUAS MERIDA', 64], ['AUXILIO VIAL - C.A. CHAVEZ', 59],
+  ['AUTO RUEDA', 56], ['V.H. CRONENBOLD G.', 51], ['PROV. REEMBOLSOS', 48],
+  ['FARMACIA ECONOMICA', 47], ['MULTICONSULTORIO SIEMPRESALUD', 44], ['CLINICA SIHA SRL', 44],
+  ['FARMACIAS CHAVEZ', 42], ['ARCE MOTORS', 32], ['GRUAS SALVATIERRA', 28],
+];
+new Chart(document.getElementById('chartProveedores'), {
+  type: 'bar',
+  data: {
+    labels: proveedores.map(x => x[0]),
+    datasets: [{ data: proveedores.map(x => x[1]), backgroundColor: COLORS.concat(COLORS), borderRadius: 5, borderSkipped: false }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} asignaciones` } } },
+    scales: {
+      x: { grid: GRID, ticks: FONT },
+      y: { grid: { display: false }, ticks: { ...FONT, color: '#cbd5e1' } }
+    }
+  }
+});
+
+// ── Chart 4: Estados ─────────────────────────────────────
+const estados = [
+  ['Concluida', 805], ['Cancelado Posterior', 498],
+  ['Cancelado al Momento', 246], ['En Proceso', 112]
+];
+new Chart(document.getElementById('chartEstados'), {
+  type: 'doughnut',
+  data: {
+    labels: estados.map(x => x[0]),
+    datasets: [{ data: estados.map(x => x[1]), backgroundColor: ['#10b981','#ef4444','#f59e0b','#3b82f6'], borderWidth: 2, borderColor: '#1e293b' }]
+  },
+  options: {
+    responsive: true,
+    cutout: '60%',
+    plugins: {
+      legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 11 }, padding: 14, boxWidth: 14 } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} (${((ctx.raw/1661)*100).toFixed(1)}%)` } }
+    }
+  }
+});
+
+// ── Tabla interactiva: Servicios por Cuenta ──────────────
+const serviciosPorCuenta = {
+  'NACIONAL SEGUROS': [
+    ['VEHICULAR - REMOLQUE VEHICULAR', 545],
+    ['VEHICULAR - AUXILIO VIAL', 123],
+    ['VEHICULAR - VARIOS VIAL', 50],
+    ['HOGAR - GASFITERIA', 11],
+    ['HOGAR - TECNICO A DOMICILIO', 10],
+  ],
+  'ASIST. NAC. VIDA Y SALUD': [
+    ['MEDICA - DESCUENTO MEDICAMENTOS', 85],
+    ['ASISTENCIA DENTAL', 45],
+    ['MASCOTA - ASIST. VETERINARIA', 42],
+    ['MEDICA - PRESTACION EN CONSULTORIO', 39],
+    ['MEDICO EN LINEA (TELEMEDICINA)', 18],
+  ],
+  'ALIANZA SEGUROS': [
+    ['MEDICA - PRESTACION EN CONSULTORIO', 148],
+    ['ASISTENCIA DENTAL', 14],
+    ['MEDICO EN LINEA (TELEMEDICINA)', 14],
+    ['MASCOTA - ASIST. VETERINARIA', 3],
+    ['VARIOS - FUNERARIA', 2],
+  ],
+  'LA BOLIVIANA CIACRUZ': [
+    ['MEDICA - DESCUENTO MEDICAMENTOS', 116],
+    ['HOGAR - GASFITERIA', 12],
+    ['HOGAR - ELECTRICIDAD', 2],
+    ['HOGAR - CERRAJERIA', 1],
+  ],
+  'BANCO FIE': [
+    ['MEDICA - DESCUENTO MEDICAMENTOS', 78],
+    ['REFERENCIA Y COORD. TELEFONICA', 3],
+  ],
+  'BANCO ECOFUTURO': [
+    ['MEDICA - DESCUENTO MEDICAMENTOS', 62],
+  ],
+  'BANCO ECONOMICO': [
+    ['MASCOTA - ASIST. VETERINARIA', 20],
+    ['HOGAR - GASFITERIA', 15],
+    ['HOGAR - ELECTRICIDAD', 7],
+    ['HOGAR TEC. ELECTRODOMESTICOS', 6],
+    ['HOGAR - TECNICO A DOMICILIO', 5],
+  ],
+  'BISA SEGUROS': [
+    ['VEHICULAR - REMOLQUE VEHICULAR', 37],
+    ['MEDICA - DESCUENTO MEDICAMENTOS', 10],
+    ['VEHICULAR - AUXILIO VIAL', 2],
+    ['VEHICULAR - VARIOS VIAL', 1],
+  ],
+  'CREDINFORM': [
+    ['TRASLADO DE OCUPANTES', 6],
+    ['MEDICA - DESCUENTO MEDICAMENTOS', 3],
+    ['MEDICO EN LINEA (TELEMEDICINA)', 2],
+    ['MEDICA - PRESTACION EN CONSULTORIO', 1],
+    ['ANALISIS CLINICO', 1],
+  ],
+  'IKATECH': [
+    ['HOGAR IKATECH', 13],
+    ['SINIESTROS', 1],
+  ],
+};
+
+const keys = Object.keys(serviciosPorCuenta);
+const tabsEl = document.getElementById('tabs');
+const tbodyEl = document.getElementById('tbodyServicios');
+
+function renderTabla(key) {
+  const rows = serviciosPorCuenta[key];
+  const max = rows[0][1];
+  const total = rows.reduce((s, r) => s + r[1], 0);
+  tbodyEl.innerHTML = rows.map((r, i) => `
+    <tr>
+      <td style="color:#475569">${i+1}</td>
+      <td>${r[0]}</td>
+      <td>
+        <div class="bar-cell">
+          <div class="bar-bg"><div class="bar-fill" style="width:${(r[1]/max*100).toFixed(0)}%"></div></div>
+          <span class="num">${r[1]}</span>
+        </div>
+      </td>
+      <td class="pct">${((r[1]/total)*100).toFixed(1)}%</td>
+    </tr>`).join('');
+}
+
+keys.forEach((k, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (i === 0 ? ' active' : '');
+  btn.textContent = k;
+  btn.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderTabla(k);
+  };
+  tabsEl.appendChild(btn);
+});
+renderTabla(keys[0]);
+</script>
+</body>
+</html>

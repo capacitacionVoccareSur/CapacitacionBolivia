@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Operativo — Bolivia 2026</title>
+<style>
+/* ── Variables por tema ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Modo claro — default */
+:root {
+  --bg:           #F3F6F3;
+  --surface:      #FFFFFF;
+  --surface-2:    #EBF2EB;
+  --border:       #CED9CE;
+  --text:         #192B1B;
+  --text-muted:   #4C6850;
+  --accent:       #1B6B3A;
+  --accent-bg:    #E3F2EA;
+  --accent-hover: #145230;
+  --gold:         #8A6200;
+  --gold-bg:      #FFF8E0;
+  --red:          #B91C1C;
+  --red-bg:       #FEF2F2;
+  --yellow:       #D97706;
+  /* Sidebar — glass flotante */
+  --nav-bg:       rgba(255,255,255,0.82);
+  --nav-surface:  rgba(255,255,255,0.95);
+  --nav-text:     #192B1B;
+  --nav-muted:    #5B7D62;
+  --nav-border:   rgba(27,107,58,0.18);
+  --nav-active:   rgba(27,107,58,0.10);
+  --nav-input-bg: rgba(0,0,0,0.06);
+  --nav-w:        208px;
+  --header-h:     44px;
+  --radius:       12px;
+  --radius-sm:    8px;
+  --shadow:       0 1px 3px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+  /* Familias de servicio — mismos colores en gráficos y badges */
+  --fam-vehicular:    #1D4ED8;  --fam-vehicular-bg:    #EFF6FF;
+  --fam-medica:       #047857;  --fam-medica-bg:       #ECFDF5;
+  --fam-hogar:        #9A3412;  --fam-hogar-bg:        #FFF7ED;
+  --fam-mascota:      #6D28D9;  --fam-mascota-bg:      #F5F3FF;
+  --fam-telemedicina: #0E7490;
+  --fam-mixta:        #475569;  --fam-mixta-bg:        #F1F5F9;
+  --fam-otros:        #94A3B8;
+  /* Estados — rojo/ámbar/verde reservados para esto */
+  --st-concluida:     #15803D;
+  --st-canc-post:     #B91C1C;
+  --st-canc-mom:      #F87171;
+  --st-proceso:       #D97706;
+  --code-aa:          #1D4ED8;  --code-aa-bg:          rgba(29,78,216,0.08);
+  /* Textura de marca: empapelado de rombos andinos, muy tenue */
+  --motif: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpolygon points='28,0 56,28 28,56 0,28' fill='none' stroke='%231B6B3A' stroke-opacity='0.10' stroke-width='0.8'/%3E%3Cpolygon points='28,8 48,28 28,48 8,28' fill='none' stroke='%231B6B3A' stroke-opacity='0.10' stroke-width='0.8'/%3E%3Cpolygon points='28,16 40,28 28,40 16,28' fill='none' stroke='%231B6B3A' stroke-opacity='0.10' stroke-width='0.8'/%3E%3C/svg%3E");
+  color-scheme: light;
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+  --bg:           #0E1A10;
+  --surface:      #162018;
+  --surface-2:    #1C2B1F;
+  --border:       #243A28;
+  --text:         #C6E8CB;
+  --text-muted:   #8FB394;
+  --accent:       #3DBF6A;
+  --accent-bg:    #182E1E;
+  --accent-hover: #4ED07A;
+  --gold:         #EAB800;
+  --gold-bg:      rgba(234,184,0,0.10);
+  --red:          #F07060;
+  --red-bg:       rgba(240,112,96,0.10);
+  --yellow:       #FBBF24;
+  --nav-bg:       rgba(10,19,12,0.84);
+  --nav-surface:  rgba(22,32,24,0.92);
+  --nav-text:     #DCF0E1;
+  --nav-muted:    #8BB892;
+  --nav-border:   rgba(255,255,255,0.10);
+  --nav-active:   rgba(61,191,106,0.12);
+  --nav-input-bg: rgba(0,0,0,0.30);
+  --shadow:       0 1px 4px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.2);
+  --fam-vehicular:    #60A5FA;  --fam-vehicular-bg:    rgba(96,165,250,0.15);
+  --fam-medica:       #34D399;  --fam-medica-bg:       rgba(52,211,153,0.15);
+  --fam-hogar:        #FB923C;  --fam-hogar-bg:        rgba(251,146,60,0.15);
+  --fam-mascota:      #A78BFA;  --fam-mascota-bg:      rgba(167,139,250,0.15);
+  --fam-telemedicina: #22D3EE;
+  --fam-mixta:        #CBD5E1;  --fam-mixta-bg:        rgba(203,213,225,0.12);
+  --fam-otros:        #64748B;
+  --st-concluida:     #4ADE80;
+  --st-canc-post:     #F87171;
+  --st-canc-mom:      #FCA5A5;
+  --st-proceso:       #FBBF24;
+  --code-aa:          #93C5FD;  --code-aa-bg:          rgba(147,197,253,0.12);
+  --motif: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpolygon points='28,0 56,28 28,56 0,28' fill='none' stroke='%233DBF6A' stroke-opacity='0.12' stroke-width='0.8'/%3E%3Cpolygon points='28,8 48,28 28,48 8,28' fill='none' stroke='%233DBF6A' stroke-opacity='0.12' stroke-width='0.8'/%3E%3Cpolygon points='28,16 40,28 28,40 16,28' fill='none' stroke='%233DBF6A' stroke-opacity='0.12' stroke-width='0.8'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; font-size: 14px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  transition: background 0.2s, color 0.2s;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Header ──────────────────────────────────────────────── */
+#top-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--header-h);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px 0 calc(var(--nav-w) + 24px);
+  transition: background 0.2s, padding-left 0.25s cubic-bezier(0.4,0,0.2,1);
+  gap: 16px;
+}
+#top-header .flag-strip {
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+}
+.header-brand { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.header-brand .brand { font-size: 0.88rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+.header-brand .sub { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+
+#theme-toggle {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  width: 32px; height: 32px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1.05rem;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text-muted);
+}
+#theme-toggle:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+#sidebar {
+  position: fixed;
+  top: calc(var(--header-h) + 10px); left: 0; bottom: 10px;
+  width: 196px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--nav-border); border-left: none;
+  border-radius: 0 16px 16px 0;
+  display: flex; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden; z-index: 200;
+  padding-bottom: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.05);
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.2s;
+}
+#sidebar.sidebar-hidden {
+  transform: translateX(-100%);
+  pointer-events: none; opacity: 0;
+}
+
+/* Franja bandera Bolivia */
+.flag-strip { display: flex; height: 5px; flex-shrink: 0; }
+.flag-strip .f-red    { flex: 1; background: #D52B1E; }
+.flag-strip .f-yellow { flex: 1; background: #F4C300; }
+.flag-strip .f-green  { flex: 1; background: #007A3D; }
+
+#sidebar-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--nav-border);
+  flex-shrink: 0;
+}
+#sidebar-header .brand {
+  font-size: 0.88rem; font-weight: 700; color: var(--accent);
+  letter-spacing: 0.2px; line-height: 1.3;
+}
+#sidebar-header .sub {
+  font-size: 0.7rem; color: var(--nav-muted); margin-top: 2px;
+}
+
+#search-wrap { position: relative; flex-shrink: 0; width: 220px; }
+#search {
+  width: 100%; background: var(--nav-input-bg); border: 1px solid var(--nav-border);
+  border-radius: var(--radius-sm); padding: 5px 10px; color: var(--text);
+  font-size: 0.78rem; outline: none; transition: border-color 0.15s;
+}
+#search:focus { border-color: var(--accent); }
+#search::placeholder { color: var(--text-muted); }
+
+#sidebar nav { flex: 1; padding: 4px 0; }
+#sidebar nav .section-group { margin-bottom: 2px; }
+#sidebar nav .group-label {
+  display: block; padding: 8px 14px 2px;
+  font-size: 0.63rem; font-weight: 700; color: var(--nav-muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+#sidebar nav a {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 10px; margin: 1px 6px;
+  border-radius: 7px;
+  font-size: 0.78rem; color: var(--nav-muted);
+  transition: color 0.12s, background 0.12s;
+  line-height: 1.3;
+}
+#sidebar nav a:hover { color: var(--nav-text); background: rgba(255,255,255,0.07); text-decoration: none; }
+#sidebar nav a.active {
+  color: var(--accent); background: var(--nav-active);
+  font-weight: 600;
+}
+#sidebar nav a .icon { font-size: 0.71rem; font-weight: 700; opacity: 0.5; flex-shrink: 0; }
+
+/* ── Sidebar close / reveal ───────────────────────────────── */
+#sidebar-top {
+  display: flex; justify-content: flex-end; padding: 6px 8px;
+  position: sticky; top: 0; z-index: 1; flex-shrink: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+#sidebar-close {
+  background: none; border: none; cursor: pointer; padding: 3px 6px;
+  color: var(--nav-muted); font-size: 1.1rem; border-radius: 6px; line-height: 1;
+  transition: color 0.12s, background 0.12s;
+}
+#sidebar-close:hover { color: var(--nav-text); background: var(--nav-active); }
+#sidebar-reveal {
+  position: fixed; top: 50%; left: 0; transform: translateY(-50%);
+  background: var(--accent); border: none;
+  border-radius: 0 10px 10px 0; padding: 18px 7px;
+  cursor: pointer; color: #fff;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.13em;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  z-index: 199; opacity: 0; pointer-events: none;
+  transition: opacity 0.2s, background 0.15s;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.18);
+  user-select: none;
+}
+#sidebar-reveal:hover { background: var(--accent-hover); }
+body.sidebar-hidden #sidebar-reveal { opacity: 1; pointer-events: auto; }
+body.sidebar-hidden #main  { margin-left: 0; }
+body.sidebar-hidden #top-header { padding-left: 20px; }
+@media (max-width: 900px) { #sidebar-reveal, #sidebar-close { display: none !important; } }
+
+/* ── Controles secciones ─────────────────────────────────── */
+#section-controls {
+  position: fixed; right: 8px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 6px; z-index: 150;
+}
+.ctrl-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 7px 12px;
+  font-size: 0.68rem; font-weight: 600; color: var(--text-muted);
+  cursor: pointer; white-space: nowrap; font-family: inherit;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.ctrl-btn:hover { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+@media (max-width: 900px) { #section-controls { display: none; } }
+
+/* ── Feedback panel ──────────────────────────────────────── */
+#feedback-panel {
+  margin-top: auto; padding: 10px 10px 4px;
+  border-top: 1px solid var(--nav-border);
+  flex-shrink: 0;
+}
+.feedback-btn {
+  width: 100%; background: var(--gold-bg); border: 1px solid rgba(138,98,0,0.22);
+  border-radius: 8px; color: var(--gold); padding: 7px 10px;
+  font-size: 0.71rem; font-weight: 600; cursor: pointer;
+  text-align: left; line-height: 1.35; transition: filter 0.15s; font-family: inherit;
+}
+[data-theme="dark"] .feedback-btn { background: rgba(234,184,0,0.08); border-color: rgba(234,184,0,0.20); }
+.feedback-btn:hover { filter: brightness(0.93); }
+#feedback-form { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+#feedback-form input, #feedback-form textarea {
+  width: 100%; background: var(--nav-input-bg); border: 1px solid var(--nav-border);
+  border-radius: 6px; padding: 5px 7px; font-size: 0.71rem; color: var(--nav-text);
+  font-family: inherit; resize: none; outline: none;
+}
+#feedback-form input:focus, #feedback-form textarea:focus { border-color: var(--accent); }
+#fb-send {
+  background: var(--accent); color: #fff; border: none; border-radius: 6px;
+  padding: 5px 8px; font-size: 0.71rem; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+#fb-send:hover { background: var(--accent-hover); }
+#fb-ok { font-size: 0.7rem; color: var(--accent); text-align: center; padding: 2px 0; }
+
+/* ── Área de contenido ───────────────────────────────────── */
+#main {
+  margin-left: var(--nav-w);
+  margin-top: var(--header-h);
+  padding-top: 16px;
+  min-height: calc(100vh - var(--header-h));
+  transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Secciones ───────────────────────────────────────────── */
+.section {
+  max-width: 960px; margin: 0 auto 6px;
+  padding: 0 32px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background-image: linear-gradient(to bottom, transparent 0%, var(--surface) 32%), var(--motif);
+  background-color: var(--surface);
+  background-repeat: no-repeat, repeat;
+  background-size: 100% 100%, 56px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Bento grid ──────────────────────────────────────────── */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.bento .c1 { grid-column: span 1; }
+.bento .c2 { grid-column: span 2; }
+.bento .c3 { grid-column: span 3; }
+.bento .c4 { grid-column: span 4; }
+.bento .c5 { grid-column: span 5; }
+.bento .c6 { grid-column: span 6; }
+.chart-card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px;
+}
+.chart-label {
+  font-size: 0.68rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 10px;
+}
+
+/* ── Sección colapsable (transición suave) ───────────────── */
+.section-body-wrap { display: grid; grid-template-rows: 0fr; overflow: hidden; transition: grid-template-rows 0.38s cubic-bezier(0.4,0,0.2,1); }
+.section-body-wrap.open { grid-template-rows: 1fr; }
+.section-body-inner { min-height: 0; padding-top: 2px; }
+
+/* ── Card stagger al abrir ───────────────────────────────── */
+@keyframes cardIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.card.stagger { animation: cardIn 0.28s ease both; animation-delay: calc(var(--i,0) * 50ms); }
+
+/* ── Marcas de agua (estáticas) ──────────────────────────── */
+#main { counter-reset: section-counter; }
+.section { counter-increment: section-counter; }
+.section::before {
+  content: counter(section-counter);
+  position: absolute; right: 24px; top: 0;
+  font-size: 9rem; font-weight: 900; line-height: 1;
+  color: var(--text); opacity: 0.05;
+  pointer-events: none; user-select: none;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.06em;
+  z-index: 0;
+}
+
+/* ── Separadores de grupo ────────────────────────────────── */
+.group-band {
+  max-width: 960px; margin: 20px auto 0;
+  padding: 16px 32px 10px;
+  position: relative; overflow: hidden; isolation: isolate;
+}
+.group-band::before {
+  content: attr(data-group);
+  position: absolute; top: 0; left: 24px;
+  font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; line-height: 1;
+  color: var(--accent); opacity: 0.09; letter-spacing: -0.03em;
+  text-transform: uppercase; white-space: nowrap;
+  pointer-events: none; user-select: none; z-index: -1;
+}
+.group-band-name {
+  font-size: 0.78rem; font-weight: 700; color: var(--accent);
+  background: var(--accent-bg); border-radius: 20px;
+  padding: 4px 13px; display: inline-block; position: relative;
+}
+@media (max-width: 900px) {
+  .group-band { margin-top: 32px; padding: 16px 20px 10px; }
+}
+
+.section-title {
+  font-size: 1.12rem; font-weight: 700; color: var(--text);
+  margin-bottom: 4px; display: flex; align-items: center; gap: 10px;
+  letter-spacing: -0.4px;
+}
+.section-subtitle {
+  font-size: 0.72rem; color: var(--text-muted);
+  margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-peek {
+  font-size: 0.65rem; color: var(--text-muted);
+  margin-top: 0; padding-bottom: 12px;
+  line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.section-toggle { margin-bottom: 0; }
+.section-toggle[aria-expanded="true"] + .section-peek { display: none; }
+.section-num {
+  font-size: 0.6rem; font-weight: 700; color: var(--accent);
+  background: var(--accent-bg);
+  padding: 2px 7px; border-radius: 20px;
+  vertical-align: middle; opacity: 0.9;
+}
+
+/* ── Componentes ─────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+.card {
+  background: var(--surface); border: 1px solid transparent;
+  border-top: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px 14px;
+  box-shadow: var(--shadow);
+  transition: background 0.2s;
+}
+.card-title {
+  font-size: 0.68rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 5px;
+}
+.kpi-value { font-size: 1.6rem; font-weight: 700; color: var(--accent); line-height: 1; }
+.kpi-label { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+
+/* Alertas */
+.alert {
+  border-radius: 10px; padding: 9px 12px; font-size: 0.79rem;
+  display: flex; gap: 8px; align-items: flex-start; margin: 10px 0;
+}
+.alert-red   { background: var(--red-bg);    border: 1px solid rgba(185,28,28,0.3);   color: var(--red); }
+.alert-gold  { background: var(--gold-bg);   border: 1px solid rgba(138,98,0,0.3);    color: var(--gold); }
+.alert-green { background: var(--accent-bg); border: 1px solid rgba(27,107,58,0.3);   color: var(--accent); }
+[data-theme="dark"] .alert-red   { border-color: rgba(240,112,96,0.3); }
+[data-theme="dark"] .alert-gold  { border-color: rgba(234,184,0,0.3); color: var(--gold); }
+[data-theme="dark"] .alert-green { border-color: rgba(61,191,106,0.3); color: #3DBF6A; }
+.alert-icon { flex-shrink: 0; }
+
+/* Tablas */
+table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+th {
+  text-align: left; padding: 6px 10px;
+  font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px;
+  color: var(--text-muted); border-bottom: 2px solid var(--border);
+  background: var(--surface-2);
+}
+td { padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface-2); }
+.table-container { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+
+/* Pasos numerados */
+.steps { counter-reset: step; display: flex; flex-direction: column; gap: 6px; }
+.step {
+  counter-increment: step;
+  display: flex; gap: 10px; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 12px;
+}
+.step::before {
+  content: counter(step);
+  background: var(--accent-bg); color: var(--accent);
+  border: 1px solid rgba(27,107,58,0.3);
+  font-size: 0.68rem; font-weight: 700;
+  min-width: 20px; height: 20px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+[data-theme="dark"] .step::before { color: #3DBF6A; border-color: rgba(61,191,106,0.3); }
+.step-title { font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 1px; }
+.step-body  { font-size: 0.77rem; color: var(--text-muted); }
+
+/* Tabs */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.tab {
+  padding: 5px 14px; border-radius: 20px; font-size: 0.74rem; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border);
+  background: transparent; color: var(--text-muted);
+  transition: all 0.12s;
+}
+.tab:hover  { border-color: var(--accent); color: var(--accent); }
+.tab.active { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+[data-theme="dark"] .tab.active { color: #3DBF6A; border-color: #3DBF6A; }
+
+/* Barra de porcentaje */
+.bar-wrap { display: flex; align-items: center; gap: 8px; }
+.bar-bg   { flex: 1; background: var(--border); border-radius: 4px; height: 5px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; background: var(--accent); }
+
+/* Subtítulo de subsección */
+.subsection-title {
+  font-size: 0.84rem; font-weight: 700; color: var(--text);
+  margin-bottom: 10px; margin-top: 4px;
+  padding-left: 9px;
+  border-left: 3px solid var(--accent);
+}
+
+/* Placeholder */
+.placeholder {
+  border: 2px dashed var(--border); border-radius: var(--radius);
+  padding: 48px; text-align: center; color: var(--text-muted); font-size: 0.85rem;
+}
+
+/* Cuentas — familia badge */
+.familia-badge { font-size: 0.67rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; text-transform: uppercase; letter-spacing: .5px; }
+.familia-badge.vehicular { background: var(--fam-vehicular-bg); color: var(--fam-vehicular); }
+.familia-badge.medica    { background: var(--fam-medica-bg);    color: var(--fam-medica); }
+.familia-badge.hogar     { background: var(--fam-hogar-bg);     color: var(--fam-hogar); }
+.familia-badge.mascota   { background: var(--fam-mascota-bg);   color: var(--fam-mascota); }
+.familia-badge.mixta     { background: var(--fam-mixta-bg);     color: var(--fam-mixta); }
+/* mini service bars */
+.mini-bar-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 0.75rem; }
+.mini-bar-row .svc-name { flex: 1; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-bar-row .svc-bar  { width: 80px; flex-shrink: 0; background: var(--surface-2); border-radius: 3px; height: 4px; overflow: hidden; }
+.mini-bar-row .svc-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+.mini-bar-row .svc-num  { color: var(--text); font-weight: 600; min-width: 22px; text-align: right; }
+/* validation method tags */
+.ruta-tag { display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 5px; background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(27,107,58,0.25); }
+[data-theme="dark"] .ruta-tag { color: #3DBF6A; border-color: rgba(61,191,106,0.25); }
+/* critical note strip */
+.nota-critica { font-size: 0.74rem; color: var(--gold); background: var(--gold-bg); border-left: 3px solid var(--gold); padding: 5px 9px; border-radius: 0 5px 5px 0; margin-top: 9px; line-height: 1.4; }
+[data-theme="dark"] .nota-critica { background: rgba(138,98,0,0.10); }
+
+/* ── Resultados de búsqueda ─────────────────────────────── */
+#search-results {
+  position: absolute; top: calc(100% + 6px); right: 0; width: 340px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 300; max-height: 60vh; overflow-y: auto;
+}
+.search-hit {
+  display: block; padding: 8px 12px; color: var(--text);
+  text-decoration: none; border-bottom: 1px solid var(--border);
+  font-size: 0.78rem; font-weight: 600;
+}
+.search-hit:hover { background: var(--accent-bg); }
+.search-excerpt {
+  display: block; font-size: 0.68rem; font-weight: 400;
+  color: var(--text-muted); margin-top: 3px; line-height: 1.5;
+}
+.search-hit mark {
+  background: rgba(61,191,106,0.22); color: var(--accent);
+  border-radius: 2px; font-style: normal;
+}
+.search-noresult { padding: 12px; font-size: 0.75rem; color: var(--text-muted); text-align: center; }
+
+/* ── Sección colapsable ──────────────────────────────────── */
+.section-toggle {
+  cursor: pointer; user-select: none;
+  display: flex; justify-content: space-between; align-items: center;
+  /* Amplía el área clicable hasta los bordes laterales de .section */
+  margin: 0 -32px;
+  padding: 16px 32px 0;
+  border-radius: 20px 20px 0 0;
+  transition: background 0.15s;
+}
+.section-toggle:hover { background: var(--surface-2); }
+/* Comprimida: toda la tarjeta responde al hover */
+.section:has(.section-toggle[aria-expanded="false"]):hover {
+  background: var(--surface-3);
+  cursor: pointer;
+}
+/* El toggle no duplica el fondo cuando la sección ya lo maneja */
+.section:has(.section-toggle[aria-expanded="false"]):hover .section-toggle {
+  background: transparent;
+}
+.toggle-chevron { font-size: 0.72rem; opacity: 0.45; transition: transform 0.2s; flex-shrink: 0; }
+.section-toggle[aria-expanded="false"] .toggle-chevron { transform: rotate(180deg); }
+
+/* ── Mapa de departamentos ───────────────────────────────── */
+.bo-map .dep { fill-opacity: 0.3; cursor: pointer; outline: none; transition: fill-opacity 0.15s; }
+.bo-map.has-active .dep { fill-opacity: 0.1; }
+.bo-map .dep.active { fill-opacity: 0.6; }
+.bo-map .dep-outline { fill: none; stroke: var(--text); stroke-width: 1.4; stroke-linejoin: round; pointer-events: none; }
+.bo-map .bo-cities { pointer-events: none; }
+.bo-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c); margin-right: 5px; }
+.bo-reg { font: inherit; font-size: 0.72rem; font-weight: 600; color: var(--c); background: none; cursor: pointer;
+  border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; display: inline-flex; align-items: center; }
+.bo-reg.active { border-color: var(--c); background: var(--accent-bg); }
+.bo-info { min-height: 2.8em; margin-top: 10px; padding: 8px 10px; border-radius: var(--radius-sm);
+  background: var(--surface-2); font-size: 0.78rem; color: var(--text); line-height: 1.45; }
+.bo-deps tbody tr { cursor: pointer; transition: background 0.15s; }
+.bo-deps tbody tr.active { background: var(--accent-bg); }
+.bo-deps tbody tr:focus-visible, .bo-map .dep:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ── Cuadro cotizador ────────────────────────────────────── */
+.cz-in   { background: var(--gold-bg); }
+.cz-list { background: var(--code-aa-bg); }
+.cz-calc { background: var(--surface-2); color: var(--text-muted); }
+.cz-chip { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
+.cz-sheet td, .cz-sheet th { font-size: 0.76rem; padding: 5px 8px; }
+.cz-sheet th { text-transform: none; letter-spacing: 0; font-weight: 600; text-align: left; }
+.cz-sheet tbody tr { cursor: help; }
+.cz-sheet tbody tr.active td, .cz-sheet tbody tr.active th { box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); }
+.cz-sheet tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.cz-sheet tr.cz-group th { background: var(--accent-bg); color: var(--accent); font-weight: 700; cursor: default; }
+.cz-tip { position: sticky; top: 72px; }
+.cz-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.cz-form label { display: flex; flex-direction: column; gap: 3px; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); }
+.cz-form select, .cz-form input { font: inherit; font-size: 0.82rem; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
+.cz-form input:disabled { opacity: 0.45; }
+.cz-form [hidden] { display: none; }
+.cz-bar { display: flex; height: 26px; border-radius: var(--radius-sm); overflow: hidden; background: var(--surface-2); margin: 10px 0 6px; }
+.cz-bar span { display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #fff; min-width: 0; overflow: hidden; transition: width 0.25s; }
+.cz-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.cz-out div { padding: 8px 10px; border-radius: var(--radius-sm); background: var(--surface-2); font-size: 0.72rem; color: var(--text-muted); }
+.cz-out strong { display: block; font-size: 1.05rem; color: var(--text); }
+
+/* ── Print / PDF ─────────────────────────────────────────── */
+@media print {
+  #sidebar, #top-header { display: none !important; }
+  #main { margin: 0; }
+  html, body { background: #fff; color: #111; font-size: 13px; }
+  .section { page-break-inside: avoid; padding: 24px 32px; border-bottom: 1px solid #ccc; }
+  .card, .table-container { border: 1px solid #ccc; }
+  .flag-strip { display: none; }
+  .section { background-image: none !important; }
+}
+
+/* ── Responsivo ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  :root { --nav-w: 0px; }
+  #sidebar { transform: translateX(-200px); }
+  #top-header { padding-left: 16px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .bento { grid-template-columns: repeat(3, 1fr); }
+  .bento .c4, .bento .c5, .bento .c6 { grid-column: span 3; }
+}
+
+/* ── Mejoras UX: navegación, móvil y accesibilidad ────────── */
+/* Títulos ya no quedan tapados por el header fijo */
+.section { scroll-margin-top: calc(var(--header-h) + 16px); }
+#top-header h1.title { margin: 0; }
+
+/* Foco visible para teclado */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#search:focus-visible { outline-offset: 0; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* Tablas con scroll horizontal en vez de recortarse */
+.table-container { overflow-x: auto; }
+
+/* Pasos: el flujo horizontal también usa el contador */
+.steps.flow { flex-direction: row; gap: 0; }
+
+/* Contraste AA */
+#sidebar nav a .icon { opacity: 1; color: var(--nav-muted); }
+#sidebar nav a.active .icon { color: inherit; }
+
+/* Botón menú móvil */
+#menu-toggle {
+  display: none;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); width: 40px; height: 40px; flex-shrink: 0;
+  align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1.2rem; color: var(--text);
+}
+#nav-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 150;
+  background: rgba(0,0,0,0.45);
+}
+
+@media (max-width: 900px) {
+  #menu-toggle { display: flex; }
+  #theme-toggle { width: 40px; height: 40px; }
+  #sidebar { width: 260px; transform: translateX(-100%); transition: transform 0.2s; }
+  #sidebar.open { transform: none; }
+  #sidebar.open ~ #nav-backdrop { display: block; }
+  #sidebar nav a { padding: 10px 12px; font-size: 0.9rem; }
+  #search-wrap { flex: 1; min-width: 0; width: auto; max-width: 180px; }
+  #search { padding: 6px 8px; font-size: 0.8rem; }
+  #search-results { position: fixed; top: var(--header-h); left: 12px; right: 12px; width: auto; }
+  .header-brand { flex: 0 0 auto; }
+  #top-header { justify-content: flex-start; padding-right: 12px; }
+  .header-brand .sub { display: none; }
+  .section { padding: 0 16px; }
+  .section-toggle { margin: 0 -16px; padding: 5px 16px 0; }
+  .steps.flow { flex-direction: column; gap: 6px; }
+  .steps.flow .flow-arrow { display: none; }
+}
+@media (max-width: 600px) {
+  .bento { grid-template-columns: 1fr 1fr; }
+  .bento .c2, .bento .c3, .bento .c4, .bento .c5, .bento .c6 { grid-column: span 2; }
+}
+</style>
+<script>
+// Total del periodo 1-ago a 12-oct-2026, sin las cuentas IKATECH (prueba) ni Addiuva (interna)
+const TOTAL_ASIST = 1642;
+</script>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header id="top-header">
+  <div class="flag-strip" aria-hidden="true"><span class="f-red"></span><span class="f-yellow"></span><span class="f-green"></span></div>
+  <button id="menu-toggle" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">☰</button>
+  <div class="header-brand">
+    <span class="brand">Bolivia 2026</span>
+    <span class="sub">Manual Operativo</span>
+  </div>
+  <div id="search-wrap">
+    <label for="search" class="sr-only">Buscar en el manual</label>
+    <input id="search" type="search" placeholder="Buscar..." autocomplete="off">
+    <div id="search-results" hidden></div>
+  </div>
+  <button id="theme-toggle" title="Cambiar tema" aria-label="Activar modo oscuro">☾</button>
+</header>
+
+<!-- ── Sidebar ── -->
+<aside id="sidebar">
+  <div id="sidebar-top">
+    <button id="sidebar-close" aria-label="Ocultar panel">‹</button>
+  </div>
+  <nav>
+    <div class="section-group">
+      <span class="group-label">Operación</span>
+      <a href="#panorama" class="nav-link"><span class="icon">1</span> Panorama Bolivia</a>
+      <a href="#soa" class="nav-link"><span class="icon">2</span> Validación SOA</a>
+    </div>
+    <div class="section-group">
+      <span class="group-label">Cuentas y Red</span>
+      <a href="#cuentas" class="nav-link"><span class="icon">3</span> Top 10 Cuentas</a>
+      <a href="#proveedores" class="nav-link"><span class="icon">4</span> Proveedores</a>
+    </div>
+    <div class="section-group">
+      <span class="group-label">Gestión</span>
+      <a href="#no-vial" class="nav-link"><span class="icon">5</span> Servicios No Viales</a>
+      <a href="#plataformas" class="nav-link"><span class="icon">6</span> Plataformas</a>
+      <a href="#tipificacion" class="nav-link"><span class="icon">7</span> Tipificación AA / CC / NA</a>
+      <a href="#cotizador" class="nav-link"><span class="icon">8</span> Cuadro Cotizador</a>
+      <a href="#reembolsos" class="nav-link"><span class="icon">9</span> Reembolsos y Farmacias</a>
+    </div>
+    <div class="section-group">
+      <span class="group-label">Referencia</span>
+      <a href="#errores" class="nav-link"><span class="icon">10</span> Errores y Terminología</a>
+    </div>
+  </nav>
+  <div id="feedback-panel">
+    <button class="feedback-btn" id="feedback-toggle" type="button">¿Ves un error, actualización o sugerencia? ¡Avisame!</button>
+    <div id="feedback-form" hidden>
+      <input type="text" id="fb-name" placeholder="Tu nombre (opcional)" autocomplete="off">
+      <textarea id="fb-comment" rows="3" placeholder="Tu comentario..."></textarea>
+      <button type="button" id="fb-send">Enviar →</button>
+      <p id="fb-ok" hidden>✓ Listo, se abrió tu cliente de correo.</p>
+    </div>
+  </div>
+</aside>
+<div id="nav-backdrop"></div>
+<button id="sidebar-reveal" aria-label="Mostrar panel" title="Mostrar panel">MENÚ</button>
+
+<div id="section-controls">
+  <button class="ctrl-btn" id="expand-all" title="Expandir todas las secciones">↓ Expandir todo</button>
+  <button class="ctrl-btn" id="collapse-all" title="Contraer todas las secciones">↑ Colapsar todo</button>
+</div>
+
+<!-- ── Contenido principal ── -->
+<main id="main">
+
+  <div class="group-band" data-group="Operación" style="margin-top: 8px;">
+    <span class="group-band-name">Operación</span>
+  </div>
+  <section class="section" id="panorama">
+    <h2 class="section-title section-toggle" data-target="panorama-body" aria-expanded="false">
+      <span><span class="section-num">1</span> Panorama de la Operación</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Volumen real de asistencias — agosto a octubre 2026</p>
+    <div class="section-body-wrap" id="panorama-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Volumen real de asistencias — agosto a octubre 2026</p>
+    <!-- KPIs strip 6 cols -->
+    <div class="bento" style="margin-bottom:10px">
+      <div class="card c1">
+        <div class="card-title">Total</div>
+        <div class="kpi-value">1.642</div>
+        <div class="kpi-label">ago — oct 2026</div>
+      </div>
+      <div class="card c1">
+        <div class="card-title">Concluidas</div>
+        <div class="kpi-value" style="color:var(--accent)">804</div>
+        <div class="kpi-label">49,0 %</div>
+      </div>
+      <div class="card c1">
+        <div class="card-title">Canceladas</div>
+        <div class="kpi-value" style="color:var(--red)">726</div>
+        <div class="kpi-label">44,2 %</div>
+      </div>
+      <div class="card c1">
+        <div class="card-title">En proceso</div>
+        <div class="kpi-value" style="color:var(--gold)">112</div>
+        <div class="kpi-label">6,8 %</div>
+      </div>
+      <div class="card c1">
+        <div class="card-title">Cuentas</div>
+        <div class="kpi-value">17</div>
+        <div class="kpi-label">activas</div>
+      </div>
+      <div class="card c1">
+        <div class="card-title">Proveedores</div>
+        <div class="kpi-value">93</div>
+        <div class="kpi-label">en red</div>
+      </div>
+    </div>
+    <!-- Gráficos -->
+    <div class="bento" style="margin-bottom:12px">
+      <div class="chart-card c2">
+        <div class="chart-label">Familia de servicio</div>
+        <div id="chart-familias" style="height:175px"></div>
+      </div>
+      <div class="chart-card c4">
+        <div class="chart-label">Top 10 planes más usados</div>
+        <div id="chart-planes" style="height:175px"></div>
+      </div>
+    </div>
+    <div class="alert alert-gold">
+      <span class="alert-icon">!</span>
+      <div>El descuento en medicamentos se cierra como <strong>Cancelado posterior</strong> (costo de venta farmacia): es su cierre normal, no una cancelación real. Sin farmacia, la cancelación es del <strong>27,3 %</strong> (344 de 1.259 asistencias): 172 al momento y 172 después de iniciada la gestión.</div>
+    </div>
+    </div>
+    </div><!-- /panorama-body -->
+  </section>
+
+  <section class="section" id="soa">
+    <h2 class="section-title section-toggle" data-target="soa-body" aria-expanded="false">
+      <span><span class="section-num">2</span> Validación SOA y Datos Obligatorios</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Qué verificar antes de coordinar cualquier servicio</p>
+    <div class="section-body-wrap" id="soa-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Qué verificar antes de coordinar cualquier servicio</p>
+    <!-- Datos obligatorios + prefijos -->
+    <h3 class="subsection-title">Datos obligatorios antes de coordinar</h3>
+    <div style="margin-bottom:32px">
+      <div class="steps" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))">
+        <div class="step">
+          <div>
+            <div class="step-title">Nombre completo del titular</div>
+            <div class="step-body">Tal como figura en el carnet o la póliza.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <div class="step-title">Carnet de Identidad (C.I.)</div>
+            <div class="step-body">Número completo. Es la clave de búsqueda principal en SOA.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <div class="step-title">Teléfono de contacto activo</div>
+            <div class="step-body">Confirmar disponibilidad para devolución de llamada.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <div class="step-title">Placa del vehículo</div>
+            <div class="step-body">Para servicios viales. Verificar en SOA que coincida con la póliza.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <div class="step-title">Dirección exacta</div>
+            <div class="step-body">Para servicios no viales. Incluir referencias de ubicación.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mapa Bolivia -->
+    <h3 class="subsection-title">Departamentos y regiones</h3>
+    <p style="font-size:0.8rem;color:var(--text-muted);margin:-4px 0 12px">En Bolivia se habla de tres grandes regiones: <strong>occidente</strong>, <strong>valles</strong> y <strong>oriente</strong>. El código de área de la línea fija (+591) coincide con la región.</p>
+    <div class="grid-2 bo-mapa" style="margin-bottom:18px; align-items:start">
+      <div class="card" style="padding:14px 12px">
+        <svg class="bo-map" viewBox="-2 -2 240 272" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Mapa de Bolivia por departamento y región" style="width:100%;height:auto;display:block">
+          <!-- Límites: geoBoundaries BOL ADM1 (GeoBolivia, dominio público), simplificados -->
+          <g style="stroke:var(--surface);stroke-width:0.8;stroke-linejoin:round">
+            <path class="dep" data-dep="la-paz" data-reg="occ" tabindex="0" role="button" aria-label="La Paz, Occidente" d="M10.9,129.1L12.0,130.9L11.1,131.7L11.5,132.5L13.8,131.8L15.2,132.4L16.6,133.5L16.2,132.3ZM52.4,57.8L32.7,45.0L33.0,46.7L30.7,48.7L28.1,48.3L28.1,51.4L24.9,53.1L24.0,56.2L21.3,55.9L21.9,57.1L19.5,58.5L18.4,60.7L18.6,62.3L15.9,65.4L16.0,75.2L14.3,80.1L12.1,81.7L13.9,83.2L13.8,87.5L15.7,89.2L16.7,92.6L13.7,92.7L13.4,95.7L10.6,98.3L10.6,99.5L9.1,99.6L9.0,103.0L6.6,104.3L6.7,107.5L11.1,113.2L10.0,113.2L8.7,115.4L8.8,117.2L7.9,116.7L7.1,118.7L8.0,119.2L8.4,121.4L9.8,121.1L10.6,121.8L9.9,122.2L11.4,122.3L13.8,125.8L15.6,126.9L18.8,126.9L18.4,128.3L16.9,128.2L16.1,129.5L15.1,129.4L16.3,132.3L17.2,131.6L21.0,132.0L21.7,133.4L21.0,134.7L18.6,134.6L19.6,135.0L18.6,136.4L14.4,136.7L14.2,137.4L16.8,137.8L16.4,139.7L12.9,139.1L13.4,141.0L11.1,142.3L5.9,148.4L6.3,149.4L2.7,151.3L1.0,153.6L4.4,155.5L4.5,160.1L7.0,162.7L7.9,167.2L11.0,168.6L11.9,168.9L22.3,164.2L22.4,162.1L25.7,159.8L33.2,162.7L36.3,165.5L37.3,165.4L38.8,163.3L40.5,163.4L40.5,162.2L41.9,161.4L41.2,159.7L42.1,158.4L44.0,159.5L44.6,157.2L46.9,154.5L48.1,155.0L48.3,156.5L51.3,158.2L50.8,159.8L51.6,160.6L55.3,158.3L54.1,156.3L54.8,154.3L53.9,153.8L54.0,151.1L51.7,147.1L53.2,144.7L55.0,144.8L56.7,143.1L55.6,133.9L53.3,129.8L54.3,126.7L53.6,124.9L54.5,123.7L55.7,123.7L52.5,118.1L49.5,115.9L50.2,114.3L47.2,109.2L43.8,107.8L44.4,104.4L41.6,101.0L42.5,98.1L41.0,94.9L42.7,93.8L41.5,91.8L42.1,90.2L41.2,89.9L42.3,89.4L41.3,88.6L43.0,84.9L41.7,83.7L43.0,82.3L43.6,82.7L43.4,81.2L44.8,80.8L45.0,79.4L44.0,78.6L45.1,77.4L44.3,77.6L45.0,76.9L44.3,75.9L46.1,73.4L46.7,73.9L46.7,72.2L48.7,71.3L48.2,70.5L48.9,69.1L50.9,69.0L50.4,67.9L51.8,66.3L51.1,65.8L52.8,64.8L52.1,62.7L53.2,60.5L52.2,59.9L53.4,58.7Z" style="fill:#3b82f6"/>
+            <path class="dep" data-dep="oruro" data-reg="occ" tabindex="0" role="button" aria-label="Oruro, Occidente" d="M25.8,193.5L24.9,194.1L25.6,193.8L26.2,196.3L28.0,194.3L27.5,193.1ZM53.7,159.8L51.6,160.6L50.8,159.8L51.3,158.2L48.3,156.5L48.1,155.0L46.9,154.5L44.6,157.2L44.0,159.5L42.1,158.4L41.2,159.7L42.0,161.0L40.5,162.2L40.5,163.4L38.8,163.3L38.2,165.0L36.6,165.6L33.2,162.7L25.4,159.9L22.4,162.1L22.3,164.2L13.3,168.0L11.0,170.5L12.7,174.5L13.4,179.8L12.7,180.3L15.5,188.9L23.5,195.0L23.6,193.9L25.8,192.0L27.9,191.9L30.2,190.3L30.9,191.0L31.6,189.7L32.7,191.8L32.4,193.9L36.9,196.1L36.5,197.6L35.9,198.6L32.5,198.4L30.9,199.5L33.4,202.6L40.8,205.7L41.8,204.7L41.0,202.3L44.5,202.3L46.2,203.3L47.7,201.6L46.6,196.6L48.5,196.9L50.2,195.1L52.7,195.4L54.7,197.1L57.5,197.0L61.3,195.2L64.1,197.1L65.8,194.0L68.6,192.7L69.2,189.7L67.4,187.6L65.2,187.8L63.4,182.3L62.1,182.1L60.9,183.6L58.6,180.6L57.0,174.8L60.8,173.0L56.4,172.5L54.8,169.0L57.3,165.7L54.3,162.0Z" style="fill:#3b82f6"/>
+            <path class="dep" data-dep="potosi" data-reg="occ" tabindex="0" role="button" aria-label="Potosí, Occidente" d="M30.9,216.8L30.8,217.6L31.6,217.4ZM31.7,213.7L31.5,215.1L32.7,213.8L32.2,214.6ZM83.5,176.4L73.9,167.5L72.2,167.8L69.2,164.2L67.5,166.7L62.7,167.5L60.9,169.8L55.9,170.7L56.6,172.8L60.8,173.0L57.0,174.8L59.4,181.9L61.3,183.8L62.1,182.1L63.4,182.3L65.2,187.8L67.4,187.6L69.3,190.0L68.5,192.9L65.8,194.0L64.1,197.1L61.3,195.2L57.5,197.0L54.7,197.1L52.7,195.4L50.2,195.1L48.5,196.9L46.6,196.6L47.8,201.4L46.2,203.3L48.3,206.1L48.1,208.0L49.1,209.1L48.6,210.7L51.4,212.8L53.5,215.8L52.0,215.9L50.7,218.1L49.7,217.7L49.6,220.8L46.9,220.4L45.5,222.4L42.5,221.4L37.9,215.7L36.6,218.7L35.2,218.3L35.7,214.9L34.0,212.4L33.1,212.8L31.9,218.8L28.5,218.6L27.3,214.5L28.5,211.2L29.5,210.7L28.3,210.1L28.7,207.9L29.0,208.7L28.1,206.8L30.6,204.7L31.3,203.7L33.3,204.6L34.3,203.6L36.4,204.4L37.4,206.7L40.8,205.6L36.0,204.2L30.9,199.5L29.4,200.3L24.2,196.8L20.6,202.0L19.5,202.4L21.1,204.6L22.5,204.9L22.0,208.4L18.0,209.6L17.8,210.6L19.1,210.9L18.9,212.9L20.0,214.7L18.4,215.4L18.4,217.1L24.2,220.8L22.0,222.6L21.7,225.9L24.6,226.8L29.2,234.1L29.1,240.1L31.5,243.6L31.2,247.6L33.8,250.2L33.5,254.6L35.4,259.1L34.8,264.7L40.5,266.1L48.3,264.3L51.5,261.1L51.3,258.8L55.9,256.8L56.8,252.8L65.4,249.7L66.7,243.6L69.5,244.7L70.0,246.4L72.4,246.7L75.8,250.2L86.5,249.7L86.6,248.3L82.1,245.9L84.5,242.6L85.4,239.4L85.3,237.6L82.7,238.3L81.7,236.5L81.7,231.6L82.4,231.2L82.6,225.8L83.5,225.3L83.5,220.5L82.7,219.2L85.0,218.1L85.9,214.4L84.1,212.5L85.7,210.8L84.3,208.2L85.9,206.7L87.2,208.2L88.4,208.2L89.0,203.9L91.2,205.5L91.8,204.8L93.0,207.6L95.6,203.6L93.1,199.8L93.5,197.7L91.8,195.1L87.4,195.6L84.2,194.1L82.3,190.9L79.4,189.3L78.9,188.0L80.9,186.5L82.3,186.8L81.6,184.6L82.1,183.6L83.3,183.7L81.9,183.0L82.8,180.8L80.8,179.8L80.6,178.7L78.2,178.0L76.8,175.0Z" style="fill:#3b82f6"/>
+            <path class="dep" data-dep="cochabamba" data-reg="val" tabindex="0" role="button" aria-label="Cochabamba, Valles" d="M55.7,123.7L54.5,123.7L53.6,124.9L54.3,126.7L53.3,129.8L55.6,133.9L56.7,143.1L55.0,144.8L53.2,144.7L51.7,147.1L54.8,154.3L54.1,156.3L55.3,158.2L54.1,158.8L53.8,161.3L57.3,165.7L54.8,169.0L55.3,170.2L60.9,169.8L62.4,167.6L67.8,166.5L69.2,164.2L72.2,167.8L73.9,167.5L80.5,173.1L81.4,175.0L85.4,178.1L85.5,180.2L87.3,180.1L89.3,181.6L90.1,179.2L93.2,177.7L95.9,178.6L98.6,181.5L102.4,180.3L103.0,181.3L103.8,178.8L101.4,176.9L100.9,175.2L99.3,171.2L97.5,169.9L96.0,170.0L93.8,166.9L94.8,163.0L97.0,162.2L97.8,159.1L101.0,159.2L101.5,157.1L104.4,156.5L104.8,155.5L104.6,154.0L102.8,153.3L102.9,152.2L102.2,152.6L101.7,150.8L100.0,150.7L98.8,149.7L99.4,149.1L95.7,148.0L96.4,147.4L95.0,146.8L95.1,145.1L94.2,144.9L94.0,143.3L93.3,143.5L93.4,142.5L94.3,142.9L94.4,141.1L94.8,141.6L94.1,140.6L94.9,138.3L95.7,138.7L95.7,137.5L96.4,137.5L95.9,136.4L96.7,135.5L95.7,134.9L96.4,135.3L97.0,134.4L96.3,134.4L96.9,133.9L96.0,133.9L96.5,132.2L95.7,131.7L96.6,129.9L95.4,129.6L96.1,129.6L95.3,128.7L95.7,127.4L94.8,127.0L95.3,124.0L90.9,124.0L89.3,125.2L87.9,131.8L85.5,135.4L73.6,137.8L67.7,135.3L64.4,130.3L55.5,124.6Z" style="fill:#059669"/>
+            <path class="dep" data-dep="chuquisaca" data-reg="val" tabindex="0" role="button" aria-label="Chuquisaca, Valles" d="M83.5,176.4L76.8,175.0L78.2,178.0L80.6,178.7L80.8,179.8L82.8,180.8L81.9,183.0L83.3,183.7L82.1,183.6L81.6,184.6L82.3,186.8L80.9,186.5L78.9,188.0L79.4,189.3L82.3,190.9L84.2,194.1L87.4,195.6L91.8,195.1L93.5,197.7L93.1,199.8L95.6,203.6L93.0,207.6L91.8,204.8L91.2,205.5L89.0,203.9L88.4,208.2L87.2,208.2L85.9,206.7L84.3,208.2L85.7,210.8L84.1,212.5L85.9,214.4L85.0,218.1L82.7,219.2L83.5,220.5L83.5,225.3L82.6,225.8L82.4,231.2L81.7,231.6L81.7,236.5L82.7,238.3L85.4,237.6L86.6,227.2L88.8,227.2L89.2,228.2L91.4,228.5L93.3,230.1L95.9,226.6L99.2,230.0L104.9,231.0L106.0,225.7L109.2,226.9L109.3,228.1L142.6,227.9L142.5,219.3L144.2,216.9L121.6,217.2L121.6,215.9L119.6,217.1L115.4,217.3L115.4,212.2L114.4,208.5L115.2,199.9L114.2,191.5L115.0,188.9L111.2,188.6L110.9,191.7L109.1,191.6L108.0,188.1L105.8,187.2L103.7,184.5L102.4,180.3L98.6,181.5L95.9,178.6L93.2,177.7L90.1,179.2L89.3,181.6L87.3,180.1L85.5,180.2L85.4,178.1Z" style="fill:#059669"/>
+            <path class="dep" data-dep="tarija" data-reg="val" tabindex="0" role="button" aria-label="Tarija, Valles" d="M85.3,237.6L84.5,242.6L82.3,246.3L86.6,248.3L86.5,249.7L90.2,249.7L97.5,252.1L99.0,253.7L98.4,255.4L99.2,256.8L101.4,258.8L100.8,260.8L102.8,263.0L103.3,265.7L104.7,259.1L107.1,256.1L110.4,248.2L114.7,248.0L115.4,249.1L115.7,248.1L132.2,248.0L132.1,250.7L135.2,253.0L142.6,227.9L109.3,228.1L109.2,226.9L106.0,225.7L104.9,231.0L99.2,230.0L95.9,226.6L94.0,229.9L92.9,230.1L91.4,228.5L89.6,228.6L88.8,227.2L87.0,226.9Z" style="fill:#059669"/>
+            <path class="dep" data-dep="santa-cruz" data-reg="ori" tabindex="0" role="button" aria-label="Santa Cruz, Oriente" d="M95.3,124.0L94.8,127.0L95.7,127.4L95.3,128.7L96.1,129.6L95.4,129.6L96.6,129.9L95.7,131.7L96.5,132.2L96.0,133.9L96.9,133.9L96.3,134.4L97.0,134.4L96.4,135.3L95.7,134.9L96.7,135.5L95.9,136.4L96.4,137.5L95.7,137.5L95.7,138.7L94.9,138.3L94.1,140.6L94.8,141.6L94.4,141.1L94.3,142.9L93.4,142.5L93.3,143.5L94.0,143.3L94.2,144.9L95.1,145.1L95.0,146.8L96.4,147.4L95.7,148.0L99.4,149.1L98.8,149.7L100.0,150.7L101.7,150.8L102.2,152.6L102.9,152.2L102.8,153.3L104.6,154.0L104.8,155.5L104.4,156.5L101.5,157.1L101.0,159.2L97.8,159.1L97.0,162.2L94.8,163.0L93.8,166.9L96.0,170.0L97.5,169.9L99.3,171.2L101.1,176.4L103.8,178.8L103.0,181.3L103.7,184.5L105.8,187.2L108.0,188.1L109.0,191.5L110.9,191.7L111.2,188.6L115.0,188.9L114.2,191.5L115.2,199.9L114.7,202.6L114.4,208.8L115.7,217.5L119.6,217.1L121.6,215.9L121.6,217.2L144.2,216.9L149.1,209.8L152.7,200.7L174.5,197.1L186.5,193.9L203.0,194.9L221.2,204.5L220.3,207.0L221.7,210.4L221.1,211.3L225.2,208.5L226.2,208.9L227.1,207.4L221.8,203.2L228.5,188.7L230.3,188.2L229.8,186.0L228.8,186.0L232.8,172.8L234.8,172.6L232.4,170.4L229.7,164.6L230.4,164.2L228.5,160.8L229.4,159.2L226.5,157.1L224.4,158.3L222.1,157.0L216.7,151.7L215.2,144.5L216.0,139.9L217.9,138.3L218.2,133.3L216.9,133.3L216.1,134.4L182.7,133.3L181.5,117.5L175.0,109.9L181.3,109.9L180.8,100.5L179.8,100.2L176.8,91.6L178.2,88.2L177.2,84.0L171.4,81.7L168.4,78.9L166.7,79.0L167.0,77.8L166.0,77.5L164.8,78.6L161.8,77.9L157.8,79.1L156.7,78.6L117.7,93.9L109.8,102.6L110.7,103.4L110.9,108.7L110.0,109.4L113.3,116.6L115.4,117.9L115.2,119.6L118.7,121.3L121.2,125.7Z" style="fill:#d97706"/>
+            <path class="dep" data-dep="beni" data-reg="ori" tabindex="0" role="button" aria-label="Beni, Oriente" d="M156.7,78.6L155.8,77.7L150.4,78.8L149.6,76.5L145.5,73.2L145.4,71.2L144.4,70.3L144.0,71.1L143.5,70.2L142.4,71.1L139.7,70.6L138.6,69.2L136.0,68.9L135.2,67.3L132.7,68.2L130.5,65.1L128.3,64.7L127.3,61.7L125.5,60.3L123.9,61.8L121.4,61.2L120.1,59.3L113.4,56.6L111.5,56.9L110.2,58.6L106.7,57.6L106.2,58.3L104.9,57.1L103.7,58.0L103.6,57.2L101.5,56.9L99.6,55.2L99.5,52.5L95.8,51.6L95.7,49.7L94.8,51.1L94.4,49.8L93.2,50.2L93.3,48.3L89.4,47.9L89.8,45.9L88.7,45.3L88.5,42.3L86.6,42.4L86.6,43.1L85.2,42.3L86.0,38.5L84.2,37.8L83.7,34.8L84.6,34.4L83.5,34.0L83.2,32.5L84.1,31.9L83.2,30.9L84.7,29.8L84.4,28.6L85.3,27.7L84.9,25.5L83.2,23.8L83.4,21.4L82.3,20.7L81.9,17.6L82.6,15.6L80.4,17.9L76.2,19.3L76.1,22.1L74.4,22.9L73.3,21.9L72.8,22.8L73.8,24.7L71.4,23.9L69.5,25.0L70.7,25.3L69.2,29.0L68.2,28.9L68.5,30.4L67.2,29.5L67.4,31.6L65.8,32.3L66.6,34.8L65.0,34.3L64.8,35.2L62.5,35.5L61.5,36.8L57.4,36.9L56.9,37.7L58.0,39.2L56.3,39.8L57.3,40.2L57.3,41.6L56.0,42.9L56.2,41.9L55.3,41.9L54.8,43.3L53.5,42.9L54.5,44.5L52.2,46.1L53.6,47.1L54.2,50.1L53.2,51.2L53.9,53.0L52.8,54.1L53.7,55.4L52.4,56.4L53.4,58.7L52.2,59.9L53.2,60.5L52.3,61.1L52.9,61.7L52.1,62.7L52.5,64.7L51.1,65.8L51.8,66.3L50.4,67.9L50.9,69.0L48.9,69.1L48.2,70.5L48.7,71.3L46.7,72.2L46.7,73.9L46.1,73.4L44.3,75.9L45.0,76.9L44.3,77.6L45.1,77.4L44.0,78.6L45.0,79.4L44.8,80.8L43.4,81.2L43.6,82.7L43.0,82.3L41.7,83.7L43.0,84.9L41.3,88.6L42.3,89.3L41.2,89.9L42.1,90.2L41.5,91.8L42.7,93.8L41.0,94.9L42.5,98.1L41.6,101.0L44.2,103.9L43.8,107.8L47.2,109.2L50.2,114.3L49.5,115.9L52.5,118.1L55.5,124.6L64.4,130.3L67.7,135.3L73.6,137.8L85.5,135.4L87.9,131.8L88.8,126.1L90.9,124.0L121.2,125.7L118.7,121.3L115.2,119.6L115.4,117.9L113.4,116.7L112.0,112.5L110.4,111.2L110.7,103.4L109.8,102.6L117.7,93.9Z" style="fill:#d97706"/>
+            <path class="dep" data-dep="pando" data-reg="ori" tabindex="0" role="button" aria-label="Pando, Oriente" d="M82.6,15.6L84.5,12.5L83.7,6.7L84.6,5.1L81.7,1.4L79.4,4.9L77.3,3.7L76.5,4.2L76.9,3.0L75.8,3.7L75.3,2.8L74.8,3.9L74.7,3.2L73.5,4.0L72.4,3.1L71.3,4.2L68.1,3.8L62.8,6.0L62.6,5.3L59.0,5.9L58.7,7.0L54.2,9.6L51.5,13.2L48.5,14.7L45.7,14.4L45.0,15.9L44.0,15.5L43.1,17.3L40.9,17.9L38.8,20.1L38.2,22.2L35.2,20.8L32.7,21.0L30.6,22.3L30.5,23.6L27.3,27.8L18.9,30.9L17.9,29.4L18.3,28.2L17.4,27.8L15.1,28.5L9.0,26.8L2.4,26.9L20.1,58.0L21.9,57.1L21.4,55.9L23.5,56.5L24.6,55.6L24.9,53.1L28.1,51.4L28.1,48.3L30.7,48.7L33.0,46.7L32.7,45.0L52.4,57.8L53.1,57.4L52.4,56.4L53.7,55.4L52.8,54.1L53.9,53.0L53.2,51.2L54.2,50.1L53.6,47.1L52.2,46.0L54.5,44.5L53.5,42.9L54.8,43.3L55.3,41.9L56.2,41.9L56.0,42.9L57.3,41.6L57.3,40.2L56.3,39.8L58.0,39.2L57.2,37.2L58.7,37.5L58.7,36.5L60.3,36.3L61.5,36.8L62.5,35.5L64.8,35.2L65.0,34.3L66.6,34.8L65.8,32.3L67.4,31.6L67.2,29.5L68.5,30.4L68.2,28.9L69.2,29.0L70.7,25.3L69.5,25.0L71.4,23.9L73.8,24.7L72.8,22.8L73.3,21.9L74.4,22.9L76.1,22.1L76.2,19.3L80.4,17.9Z" style="fill:#d97706"/>
+          </g>
+          <path class="dep-outline" d=""/>
+          <g class="bo-cities">
+            <circle cx="30" cy="137.9" r="3.2" style="fill:#3b82f6;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="34.5" y="140.7" font-size="8.5" font-weight="700" style="fill:#3b82f6;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">La Paz</text>
+            <circle cx="49.5" cy="167.3" r="2.4" style="fill:#3b82f6;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="54.0" y="170.1" font-size="7.5" style="fill:#3b82f6;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Oruro</text>
+            <circle cx="75.7" cy="199.7" r="2.4" style="fill:#3b82f6;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="80.2" y="202.5" font-size="7.5" style="fill:#3b82f6;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Potosí</text>
+            <circle cx="67.9" cy="155.8" r="3.2" style="fill:#059669;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="72.4" y="158.6" font-size="8.5" font-weight="700" style="fill:#059669;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Cochabamba</text>
+            <circle cx="85.1" cy="188.7" r="2.4" style="fill:#059669;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="89.6" y="191.5" font-size="7.5" style="fill:#059669;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Sucre</text>
+            <circle cx="95.3" cy="238.7" r="2.4" style="fill:#059669;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="99.8" y="241.5" font-size="7.5" style="fill:#059669;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Tarija</text>
+            <circle cx="125" cy="163.7" r="3.2" style="fill:#d97706;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="129.5" y="166.5" font-size="8.5" font-weight="700" style="fill:#d97706;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Santa Cruz</text>
+            <circle cx="92" cy="104.7" r="2.4" style="fill:#d97706;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="96.5" y="107.5" font-size="7.5" style="fill:#d97706;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Trinidad</text>
+            <circle cx="17.8" cy="28.5" r="2.4" style="fill:#d97706;stroke:var(--surface);stroke-width:0.8"/>
+            <text x="22.3" y="31.3" font-size="7.5" style="fill:#d97706;font-family:system-ui,sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:2.2px">Cobija</text>
+          </g>
+        </svg>
+        <!-- Leyenda de regiones (también resalta en el mapa) -->
+        <div style="display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap">
+          <button type="button" class="bo-reg" data-reg="occ" data-name="Occidente (altiplano)" style="--c:#3b82f6"><span class="bo-dot"></span>Occidente <span style="opacity:.7;font-weight:500">· cód. 2</span></button>
+          <button type="button" class="bo-reg" data-reg="val" data-name="Valles (centro y sur)" style="--c:#059669"><span class="bo-dot"></span>Valles <span style="opacity:.7;font-weight:500">· cód. 4</span></button>
+          <button type="button" class="bo-reg" data-reg="ori" data-name="Oriente (llanos y Amazonía)" style="--c:#d97706"><span class="bo-dot"></span>Oriente <span style="opacity:.7;font-weight:500">· cód. 3</span></button>
+        </div>
+        <div class="bo-info" aria-live="polite">Pasa el mouse o toca un departamento.</div>
+      </div>
+      <div>
+        <div class="table-container">
+          <table class="bo-deps">
+            <thead><tr><th>Departamento</th><th>Capital</th><th>Otras ciudades</th><th>Región</th><th>Cód.</th></tr></thead>
+            <tbody>
+              <tr data-dep="la-paz" data-reg="occ" tabindex="0"><td><strong>La Paz</strong></td><td>La Paz</td><td style="color:var(--text-muted);font-size:0.75rem">El Alto, Viacha, Caranavi</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#3b82f6"></span>Occidente</td><td>2</td></tr>
+              <tr data-dep="oruro" data-reg="occ" tabindex="0"><td><strong>Oruro</strong></td><td>Oruro</td><td style="color:var(--text-muted);font-size:0.75rem">Huanuni, Challapata</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#3b82f6"></span>Occidente</td><td>2</td></tr>
+              <tr data-dep="potosi" data-reg="occ" tabindex="0"><td><strong>Potosí</strong></td><td>Potosí</td><td style="color:var(--text-muted);font-size:0.75rem">Uyuni, Villazón, Tupiza</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#3b82f6"></span>Occidente</td><td>2</td></tr>
+              <tr data-dep="cochabamba" data-reg="val" tabindex="0"><td><strong>Cochabamba</strong></td><td>Cochabamba</td><td style="color:var(--text-muted);font-size:0.75rem">Sacaba, Quillacollo</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#059669"></span>Valles</td><td>4</td></tr>
+              <tr data-dep="chuquisaca" data-reg="val" tabindex="0"><td><strong>Chuquisaca</strong></td><td>Sucre</td><td style="color:var(--text-muted);font-size:0.75rem">Monteagudo, Camargo</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#059669"></span>Valles</td><td>4</td></tr>
+              <tr data-dep="tarija" data-reg="val" tabindex="0"><td><strong>Tarija</strong></td><td>Tarija</td><td style="color:var(--text-muted);font-size:0.75rem">Yacuiba, Bermejo, Villamontes</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#059669"></span>Valles</td><td>4</td></tr>
+              <tr data-dep="santa-cruz" data-reg="ori" tabindex="0"><td><strong>Santa Cruz</strong></td><td>Santa Cruz de la Sierra</td><td style="color:var(--text-muted);font-size:0.75rem">Montero, Warnes, Camiri</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#d97706"></span>Oriente</td><td>3</td></tr>
+              <tr data-dep="beni" data-reg="ori" tabindex="0"><td><strong>Beni</strong></td><td>Trinidad</td><td style="color:var(--text-muted);font-size:0.75rem">Riberalta, Guayaramerín</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#d97706"></span>Oriente</td><td>3</td></tr>
+              <tr data-dep="pando" data-reg="ori" tabindex="0"><td><strong>Pando</strong></td><td>Cobija</td><td style="color:var(--text-muted);font-size:0.75rem">Porvenir</td><td style="white-space:nowrap"><span class="bo-dot" style="--c:#d97706"></span>Oriente</td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card" style="padding:12px 14px;margin-top:12px">
+          <div class="card-title" style="margin-bottom:6px">Cómo se habla de las regiones</div>
+          <ul style="font-size:0.78rem;color:var(--text);margin:0;padding-left:18px;line-height:1.55">
+            <li><strong style="color:#3b82f6">Occidente</strong> o <strong>altiplano</strong>: La Paz, Oruro y Potosí. También "la zona andina".</li>
+            <li><strong style="color:#059669">Valles</strong>: Cochabamba, Chuquisaca y Tarija. A Cochabamba se le dice "el centro"; a Tarija y al sur de Chuquisaca, "el sur".</li>
+            <li><strong style="color:#d97706">Oriente</strong> o <strong>llanos</strong>: Santa Cruz, Beni y Pando. Beni, Pando y el norte de La Paz forman "la Amazonía" o "el norte amazónico".</li>
+            <li><strong>Chaco</strong>: el sudeste, entre Tarija, Chuquisaca y Santa Cruz (Yacuiba, Villamontes, Camiri).</li>
+            <li><strong>Eje troncal</strong>: La Paz – Cochabamba – Santa Cruz, las tres ciudades con más población y más servicios.</li>
+          </ul>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:8px 0 0">Gentilicios: paceño, orureño, potosino, cochabambino (cochala), chuquisaqueño, tarijeño (chapaco), cruceño, beniano, pandino. "Colla" (occidente) y "camba" (oriente) son coloquiales: no usarlos con el afiliado.</p>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:6px 0 0">Celulares (6x / 7x) no identifican departamento por prefijo.</p>
+        </div>
+      </div>
+    </div>
+    <script>
+    (() => {
+      const root = document.querySelector('.bo-mapa');
+      const svg = root.querySelector('.bo-map'), info = root.querySelector('.bo-info'), outline = svg.querySelector('.dep-outline');
+      const deps = [...svg.querySelectorAll('.dep')], rows = [...root.querySelectorAll('tbody tr')], regs = [...root.querySelectorAll('.bo-reg')];
+      const INFO0 = info.textContent;
+
+      function show(sel) {
+        const on = el => sel && (sel.dep ? el.dataset.dep === sel.dep : el.dataset.reg === sel.reg);
+        svg.classList.toggle('has-active', !!sel);
+        deps.forEach(p => p.classList.toggle('active', !!on(p)));
+        rows.forEach(r => r.classList.toggle('active', !!on(r)));
+        regs.forEach(b => b.classList.toggle('active', !!sel && b.dataset.reg === (sel.reg || deps.find(on)?.dataset.reg)));
+        const p = sel && sel.dep && deps.find(on);
+        outline.setAttribute('d', p ? p.getAttribute('d') : '');
+        if (!sel) { info.textContent = INFO0; return; }
+        if (sel.dep) {
+          const c = rows.find(on).cells;
+          info.innerHTML = '<strong>' + c[0].textContent + '</strong> · ' + c[3].textContent + ' · cód. ' + c[4].textContent +
+            '<br>Capital: ' + c[1].textContent + ' · ' + c[2].textContent;
+        } else {
+          const b = regs.find(x => x.dataset.reg === sel.reg);
+          info.innerHTML = '<strong>' + b.dataset.name + '</strong>: ' + rows.filter(on).map(r => r.cells[0].textContent).join(', ');
+        }
+      }
+      for (const el of [...deps, ...rows]) {
+        const sel = { dep: el.dataset.dep };
+        el.addEventListener('pointerenter', () => show(sel));
+        el.addEventListener('pointerleave', () => show(null));
+        el.addEventListener('focus', () => show(sel));
+        el.addEventListener('blur', () => show(null));
+      }
+      for (const b of regs) {
+        const sel = { reg: b.dataset.reg };
+        b.addEventListener('pointerenter', () => show(sel));
+        b.addEventListener('pointerleave', () => show(null));
+        b.addEventListener('focus', () => show(sel));
+        b.addEventListener('blur', () => show(null));
+      }
+    })();
+    </script>
+
+    <!-- Jerarquía de validación -->
+    <h3 class="subsection-title">Jerarquía de validación en SOA</h3>
+    <div style="display:flex; gap:0; align-items:stretch; margin-bottom:16px">
+      <div class="card" style="flex:1; border-radius:12px 0 0 12px; border-right:none; box-shadow:none">
+        <div class="card-title">1 — Cuenta</div>
+        <div style="font-weight:600; font-size:0.86rem; color:var(--text); margin-bottom:5px">Cuenta</div>
+        <div style="font-size:0.79rem; color:var(--text-muted)">Ej. Nacional Seguros, Alianza, Banco FIE</div>
+      </div>
+      <div style="display:flex; align-items:center; padding:0 2px; background:var(--surface-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
+        <span style="color:var(--accent); font-size:1.2rem; font-weight:700; padding:0 6px">›</span>
+      </div>
+      <div class="card" style="flex:1; border-radius:0; border-left:none; border-right:none; box-shadow:none">
+        <div class="card-title">2 — Plan</div>
+        <div style="font-weight:600; font-size:0.86rem; color:var(--text); margin-bottom:5px">Define coberturas y límites</div>
+        <div style="font-size:0.79rem; color:var(--text-muted)">Ej. Plan Vial, Plan Vagoneta, Tu Familia</div>
+      </div>
+      <div style="display:flex; align-items:center; padding:0 2px; background:var(--surface-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
+        <span style="color:var(--accent); font-size:1.2rem; font-weight:700; padding:0 6px">›</span>
+      </div>
+      <div class="card" style="flex:1; border-radius:0 12px 12px 0; border-left:none; box-shadow:none">
+        <div class="card-title">3 — Servicios</div>
+        <div style="font-weight:600; font-size:0.86rem; color:var(--text); margin-bottom:5px">Lo que se puede coordinar</div>
+        <div style="font-size:0.79rem; color:var(--text-muted)">Ej. remolque, consulta médica, farmacia</div>
+      </div>
+    </div>
+    <div class="alert alert-red">
+      <span class="alert-icon">!</span>
+      <div>No asumir coberturas por identificar solo la cuenta. Un mismo titular puede tener planes con coberturas completamente distintas. <strong>Siempre validar el plan específico antes de coordinar.</strong></div>
+    </div>
+    </div>
+    </div><!-- /soa-body -->
+  </section>
+
+  <div class="group-band" data-group="Cuentas y Red">
+    <span class="group-band-name">Cuentas y Red</span>
+  </div>
+  <section class="section" id="cuentas">
+    <h2 class="section-title section-toggle" data-target="cuentas-body" aria-expanded="false">
+      <span><span class="section-num">3</span> Top 10 Cuentas</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Volumen, servicios principales y ruta de validación por cuenta</p>
+    <div class="section-body-wrap" id="cuentas-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Volumen, servicios principales y ruta de validación por cuenta</p>
+
+    <div class="tabs" id="filter-cuentas" style="margin-bottom:18px">
+      <button class="tab active" aria-pressed="true" data-fam="*">Todas</button>
+      <button class="tab" aria-pressed="false" data-fam="Vehicular">Vehicular</button>
+      <button class="tab" aria-pressed="false" data-fam="Médica">Médica</button>
+      <button class="tab" aria-pressed="false" data-fam="Hogar">Hogar</button>
+      <button class="tab" aria-pressed="false" data-fam="Mascota">Mascota</button>
+    </div>
+
+    <div id="grid-cuentas" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:14px"></div>
+
+    <script>
+    const FCLASS = {Vehicular:'vehicular', Médica:'medica', Hogar:'hogar', Mascota:'mascota', Mixta:'mixta'};
+    const CUENTAS = [
+      { rank:1, nombre:'Nacional Seguros Patr. y Fianzas', vol:769, pct:'46.8', familia:'Vehicular', familias:[['Vehicular',720],['Hogar',38],['Médica',5]],
+        planes:[['Asistencia Vial Nacional',719],['Vagoneta Segura',14],['Hogar Coop. Jesús Nazareno',12],['Casa Protegida Elite',11],['Casa Protegida Básico Plus',10],['Automotor Ecommerce',3]],
+        servicios:[['Remolque Vehicular',545],['Auxilio Vial',123],['Varios Vial',50],['Gasfitería',11],['Técnico a domicilio',10]],
+        metodo:['App','SOA'], ruta:'Plan Vial → App Mi Seguro · Plan Vagoneta → SOA + correo · Planes Hogar (Casa Protegida, Coop. Jesús Nazareno) → SOA',
+        nota:'Cruzar SIEMPRE plan Vial vs Vagoneta: son planes distintos con coberturas distintas. Siniestros por DOKKA.' },
+      { rank:2, nombre:'Asist. Nacional Seguros Vida y Salud', vol:253, pct:'15.4', familia:'Médica', familias:[['Médica',184],['Mascota',42],['Telemedicina',18],['Hogar',7]],
+        planes:[['PRODEM Servicios Médicos',113],['Mascotas Ecommerce (123 Asegúrate)',43],['Familia Protegida JGP',34],['Medicamentos Banco Ganadero 2.0 (40%)',26],['Medicamentos Banco Ganadero NAVI',16],['Dental Sonríe Seguro',12],['Hogar Nacional Seguros',7],['Telemedicina Periodistas NAVI',1],['Exequial NAVI Flexible',1]],
+        servicios:[['Descuento Medicamentos',85],['Asistencia Dental',45],['Asist. Veterinaria',42],['Prestación Consultorio',39],['Telemedicina',18]],
+        metodo:['SOA'], ruta:'SOA — validar el plan específico (PRODEM, Mascotas Ecommerce, Familia Protegida, Banco Ganadero, entre otros)',
+        nota:'Cuenta hermana de Nacional Seguros pero con coberturas completamente distintas.' },
+      { rank:3, nombre:'Alianza Seguros', vol:183, pct:'11.1', familia:'Médica', familias:[['Médica',163],['Telemedicina',14]],
+        planes:[['Tu Familia',165],['Tu Protección AP',6],['Voltx Rider Seguro',4],['Guau Mascotas',4],['Tu Recuerdo',2],['Tu Protección',1],['Tu Auto',1]],
+        servicios:[['Prestación Consultorio',148],['Asistencia Dental',14],['Telemedicina',14],['Asist. Veterinaria',3],['Funeraria',2]],
+        metodo:['Portal Web'], ruta:'Portal Alianza — validar por CI del afiliado',
+        nota:'Verificar CI en el portal antes de coordinar. Si el portal falla: escalar de inmediato al grupo filial de WhatsApp de Alianza.' },
+      { rank:4, nombre:'La Boliviana Ciacruz', vol:131, pct:'8.0', familia:'Médica', familias:[['Médica',116],['Hogar',15]],
+        planes:[['Sol Integral (Banco Sol)',55],['Medicamentos Banco Sol CSGS',49],['Asistencias Banco BNB',11],['Medicamentos Consultores (Banco Sol 30%)',10],['Medicamentos Coop. Catedral Tarija',6]],
+        servicios:[['Descuento Medicamentos',116],['Gasfitería',12],['Electricidad',2],['Cerrajería',1]],
+        metodo:['SOA'], ruta:'SOA + receta física (firma, fecha y saldos visibles)',
+        nota:'Sin receta física válida no se coordina farmacia. NIT incorrecto = rechazo contable.' },
+      { rank:5, nombre:'Asistencia Banco FIE', vol:81, pct:'4.9', familia:'Médica', familias:[['Médica',78]],
+        planes:[['Medicamentos Banco FIE',58],['Medicamentos Consultores (Banco FIE 30%)',23]],
+        servicios:[['Descuento Medicamentos',78],['Ref. y Coord. Telefónica',3]],
+        metodo:['SOA'], ruta:'SOA — confirmar límite mensual antes de coordinar',
+        nota:'Confirmar saldo disponible en SOA antes de autorizar descuento en farmacia.' },
+      { rank:6, nombre:'Asistencia Banco Ecofuturo', vol:62, pct:'3.8', familia:'Médica', familias:[['Médica',62]],
+        planes:[['Descuento en Farmacias Ecofuturo',30],['EcoResguardo 2.0',17],['EcoRiesgo',15]],
+        servicios:[['Descuento Medicamentos',62]],
+        metodo:['SOA'], ruta:'SOA — cuenta 100% farmacia',
+        nota:'Toda coordinación pasa por SOA. Cuenta 100% descuento en medicamentos.' },
+      { rank:7, nombre:'Banco Económico', vol:58, pct:'3.5', familia:'Mixta', familias:[['Hogar',37],['Mascota',21]],
+        planes:[['EcoHogar',58]],
+        servicios:[['Asist. Veterinaria',20],['Gasfitería',15],['Electricidad',7],['Electrodomésticos',6],['Técnico a domicilio',5]],
+        metodo:['SOA'], ruta:'SOA — servicios Hogar y Mascota',
+        nota:'Perfil mixto Hogar + Mascota. No tiene servicios vehiculares activos.' },
+      { rank:8, nombre:'BISA Seguros', vol:50, pct:'3.0', familia:'Mixta', familias:[['Vehicular',40],['Médica',10]],
+        planes:[['Asistencias para Motocicletas',40],['Medicamentos La Vitalicia',10]],
+        servicios:[['Remolque Vehicular',37],['Descuento Medicamentos',10],['Auxilio Vial',2],['Varios Vial',1]],
+        metodo:['WhatsApp'], ruta:'WhatsApp directo de BISA para servicios vehiculares (Motos)',
+        nota:'No se valida vigencia tradicional: revisar el historial de reincidencias del día. TEA máximo 10 min (el resto, 15 min).' },
+      { rank:9, nombre:'Credinform International S.A.', vol:15, pct:'0.9', familia:'Médica', familias:[['Médica',7],['Viajes',6]],
+        planes:[['Viajes Receptivos',11],['Protección Mujer',4]],
+        servicios:[['Traslado de Ocupantes',6],['Descuento Medicamentos',3],['Telemedicina',2],['Prestación Consultorio',1],['Análisis Clínico',1]],
+        metodo:['SOA'], ruta:'SOA — validar cobertura específica',
+        nota:'Servicio principal: traslado de ocupantes. Verificar cobertura antes de coordinar.' },
+      { rank:10, nombre:'Banco Fortaleza', vol:13, pct:'0.8', familia:'Médica', familias:[['Médica',13]],
+        planes:[['Medicamentos Banco Fortaleza',13]],
+        servicios:[['Descuento Medicamentos',13]],
+        metodo:['SOA'], ruta:'SOA — cuenta exclusiva de farmacia',
+        nota:'100% descuento en medicamentos. Validar receta física y límite mensual en SOA antes de coordinar.' }
+    ];
+
+    // Subtítulo de cada card: planes principales con volumen
+    function planesTexto(planes) {
+      const top = planes.slice(0, 3).map(([p, n]) => p + ' (' + n + ')').join(' · ');
+      return (planes.length > 1 ? 'Planes: ' : 'Plan: ') + top + (planes.length > 3 ? ' · +' + (planes.length - 3) + ' más' : '');
+    }
+
+    function renderCuentas(familia) {
+      // Una cuenta aparece en cada familia en la que tiene servicios (no solo en la principal)
+      const list = familia === '*' ? CUENTAS : CUENTAS.filter(c => c.familias.some(([f]) => f === familia));
+      document.getElementById('grid-cuentas').innerHTML = list.map(c => {
+        const max = c.servicios[0][1];
+        const bars = c.servicios.map(([nom,n]) =>
+          '<div class="mini-bar-row">' +
+            '<span class="svc-name">' + nom + '</span>' +
+            '<div class="svc-bar"><div class="svc-fill" style="width:' + (n/max*100).toFixed(0) + '%"></div></div>' +
+            '<span class="svc-num">' + n + '</span>' +
+          '</div>'
+        ).join('');
+        const tags = c.metodo.map(m => '<span class="ruta-tag">' + m + '</span>').join(' ');
+        return '<div class="card" style="padding:14px 16px">' +
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px">' +
+            '<div>' +
+              '<div style="font-size:0.69rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px">' +
+                '#' + c.rank + ' &nbsp;·&nbsp; ' + c.vol.toLocaleString('es-BO') + ' asist. &nbsp;·&nbsp; ' + c.pct + '%' +
+              '</div>' +
+              '<div style="font-weight:700;font-size:0.9rem;color:var(--text);line-height:1.3">' + c.nombre + '</div>' +
+              '<div style="font-size:0.74rem;color:var(--text-muted);line-height:1.4;margin-top:2px">' + planesTexto(c.planes) + '</div>' +
+            '</div>' +
+            '<span class="familia-badge ' + FCLASS[c.familia] + '">' + c.familia + '</span>' +
+          '</div>' +
+          '<div style="margin-bottom:11px">' + bars + '</div>' +
+          '<div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px">Familias: ' + c.familias.map(([f,n]) => f + ' ' + n).join(' · ') + '</div>' +
+          '<div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px">' +
+            '<span style="font-size:0.7rem;color:var(--text-muted)">Validación:</span>' + tags +
+          '</div>' +
+          '<div style="font-size:0.74rem;color:var(--text-muted);margin-bottom:2px">' + c.ruta + '</div>' +
+          '<div class="nota-critica">' + c.nota + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // Filtros con conteo de cuentas por familia
+    document.querySelectorAll('#filter-cuentas .tab').forEach(btn => {
+      const fam = btn.dataset.fam;
+      const n = fam === '*' ? CUENTAS.length : CUENTAS.filter(c => c.familias.some(([f]) => f === fam)).length;
+      btn.textContent += ' (' + n + ')';
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#filter-cuentas .tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed', 'false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        renderCuentas(fam);
+      });
+    });
+
+    renderCuentas('*');
+    </script>
+    </div>
+    </div><!-- /cuentas-body -->
+  </section>
+
+  <section class="section" id="proveedores">
+    <h2 class="section-title section-toggle" data-target="proveedores-body" aria-expanded="false">
+      <span><span class="section-num">4</span> Proveedores Clave</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Red activa — grúas, farmacias y servicios médicos · Top 15 por volumen</p>
+    <div class="section-body-wrap" id="proveedores-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Red activa — grúas, farmacias y servicios médicos · Top 15 por volumen</p>
+
+    <!-- Full Assistance destacada -->
+    <h3 class="subsection-title" style="margin-bottom:10px">Full Assistance — Proveedor principal de grúas</h3>
+    <div class="grid-2" style="gap:14px; margin-bottom:24px">
+      <div class="card" style="padding:14px 16px">
+        <div style="font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:12px">Protocolo de contacto</div>
+        <div style="font-size:0.81rem; color:var(--text-muted); margin-bottom:6px">Canal exclusivo: <strong style="color:var(--text)">WhatsApp</strong></div>
+        <div style="font-size:0.81rem; color:var(--text-muted); margin-bottom:6px">Cobertura urbana mínima: <strong style="color:var(--text)">30 km de recorrido</strong></div>
+        <div style="font-size:0.81rem; color:var(--text-muted)">De 30 a 150 km: <strong style="color:var(--text)">cuadro cotizador</strong> para calcular el excedente</div>
+      </div>
+      <div class="card" style="padding:14px 16px">
+        <div style="font-weight:700; font-size:0.88rem; color:var(--text); margin-bottom:12px">Tarifas — Remolque</div>
+        <table style="width:100%; font-size:0.79rem; border-collapse:collapse">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:5px 0; color:var(--text-muted)">Hasta 10 km</td>
+              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 230</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:5px 0; color:var(--text-muted)">10 – 30 km</td>
+              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 300</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:5px 0; color:var(--text-muted)">Km excedente (30–150 km, según cotizador)</td>
+              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 16 / km</td>
+            </tr>
+            <tr>
+              <td style="padding:5px 0; color:var(--text-muted)">Maniobra especial</td>
+              <td style="padding:5px 0; text-align:right; font-weight:700; color:var(--accent)">Bs. 150</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Despacho de grúas (pptx: Full Assistance — alcance, canal oficial, registro técnico) -->
+    <h3 class="subsection-title" style="margin-bottom:10px">Despacho de grúas — Full Assistance</h3>
+    <div class="grid-2" style="gap:12px; margin-bottom:12px; align-items:start">
+      <div>
+        <div class="card-title" style="margin-bottom:8px">Registro técnico obligatorio en cada asignación</div>
+        <div class="steps">
+          <div class="step"><div><div class="step-title">Caso y afiliado</div><div class="step-body">Número de caso, datos del asegurado, celular y placa</div></div></div>
+          <div class="step"><div><div class="step-title">Vehículo</div><div class="step-body">Marca, modelo exacto y color</div></div></div>
+          <div class="step"><div><div class="step-title">Ubicación</div><div class="step-body">Coordenadas GPS de origen y de destino</div></div></div>
+          <div class="step"><div><div class="step-title">Estado del auto</div><div class="step-body">¿Giran libremente las 4 ruedas? ¿Pasa a neutro?</div></div></div>
+        </div>
+      </div>
+      <div style="display:grid; gap:12px">
+        <div class="card" style="padding:12px 14px">
+          <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:6px">Canal oficial: grupo de WhatsApp</div>
+          <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:4px">
+            <div>· Lo integran supervisores de Call Center, coordinadores y directores operativos de Addiuva y Full Assistance.</div>
+            <div>· Cada mensaje identifica el <strong style="color:var(--text)">número de asistencia y la placa</strong>.</div>
+            <div>· Reportar en tiempo real clima, tráfico o demoras de llegada.</div>
+          </div>
+        </div>
+        <div class="card" style="padding:12px 14px">
+          <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:6px">Tiempos</div>
+          <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:4px">
+            <div>· Full Assistance confirma el despacho y la hora de llegada en <strong style="color:var(--text)">menos de 10 min</strong>.</div>
+            <div>· La cabina confirma el TEA al afiliado en <strong style="color:var(--text)">15 min</strong> (BISA: 10 min).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-title" style="margin-bottom:8px">Condiciones especiales de rescate</div>
+    <div class="grid-3" style="gap:12px; margin-bottom:12px">
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--red)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Vehículo siniestrado</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Solo con aval de la cuenta. Enviar al proveedor fotos del estado previo si están disponibles.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--gold)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Dependencia policial</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Confirmar la autorización legal del retiro del vehículo antes de despachar.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--gold)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Sótano o garaje estrecho</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Avisar al proveedor antes de despachar. Aplica maniobra especial (Bs. 150).</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap:12px; margin-bottom:24px">
+      <div class="card" style="padding:12px 14px">
+        <div class="card-title">Responsabilidades Addiuva</div>
+        <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:3px">
+          <div>· Recibir la solicitud y verificar coberturas</div>
+          <div>· Recabar el diagnóstico y la ubicación GPS</div>
+          <div>· Remitir la solicitud a Full Assistance a tiempo</div>
+          <div>· Auditar y autorizar la conciliación mensual</div>
+        </div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div class="card-title">Responsabilidades Full Assistance</div>
+        <div style="font-size:0.77rem; color:var(--text-muted); display:grid; gap:3px">
+          <div>· Verificar datos y asignar la grúa adecuada</div>
+          <div>· Remolcar de forma segura hasta el destino</div>
+          <div>· Reportar hitos y ETA puntualmente</div>
+          <div>· Presentar la planilla operativa mensual</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Farmacias principales -->
+    <h3 class="subsection-title" style="margin-bottom:10px">Farmacias principales</h3>
+    <div class="grid-3" style="gap:12px; margin-bottom:24px">
+      <div class="card" style="padding:12px 14px">
+        <div style="font-weight:700; font-size:0.86rem; color:var(--text); margin-bottom:4px">Farmacorp</div>
+        <div style="font-size:1.4rem; font-weight:700; color:var(--accent); margin-bottom:3px">70</div>
+        <div style="font-size:0.73rem; color:var(--text-muted)">asignaciones · Nacional red</div>
+        <div style="font-size:0.73rem; color:var(--text-muted); margin-top:5px">Receta con firma y fecha obligatoria</div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-weight:700; font-size:0.86rem; color:var(--text); margin-bottom:4px">Farmacia Económica</div>
+        <div style="font-size:1.4rem; font-weight:700; color:var(--accent); margin-bottom:3px">47</div>
+        <div style="font-size:0.73rem; color:var(--text-muted)">asignaciones · cobertura amplia</div>
+        <div style="font-size:0.73rem; color:var(--text-muted); margin-top:5px">Validar límite mensual en SOA antes de coordinar</div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-weight:700; font-size:0.86rem; color:var(--text); margin-bottom:4px">Farmacias Chávez</div>
+        <div style="font-size:1.4rem; font-weight:700; color:var(--accent); margin-bottom:3px">42</div>
+        <div style="font-size:0.73rem; color:var(--text-muted)">asignaciones · varias ciudades</div>
+        <div style="font-size:0.73rem; color:var(--text-muted); margin-top:5px">Receta con saldos visibles requerida</div>
+      </div>
+    </div>
+
+    <!-- Top 15 tabla -->
+    <h3 class="subsection-title" style="margin-bottom:10px">Top 15 proveedores por volumen</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:24px">#</th>
+            <th>Proveedor</th>
+            <th>Tipo</th>
+            <th>Asignaciones</th>
+            <th style="width:140px">Participación</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-proveedores"></tbody>
+      </table>
+    </div>
+
+    <script>
+    const PROVEEDORES = [
+      ['FULL ASSISTANCE',138,'Grúas'],['FULL AUTO',99,'Grúas'],['CBBA - GRÚA MÉRIDA',81,'Grúas'],
+      ['FARMACORP',70,'Farmacia'],['SCZ - GRÚAS MÉRIDA',64,'Grúas'],['AUXILIO VIAL - C.A. CHÁVEZ',59,'Grúas'],
+      ['AUTO RUEDA',56,'Grúas'],['V.H. CRONENBOLD G.',50,'Grúas'],['PROV. REEMBOLSOS',48,'Reembolso'],
+      ['FARMACIA ECONÓMICA',47,'Farmacia'],['MULTICONSULTORIO SIEMPRESALUD',44,'Médico'],['CLÍNICA SIHA SRL',44,'Médico'],
+      ['FARMACIAS CHÁVEZ',42,'Farmacia'],['ARCE MOTORS',31,'Grúas'],['GRÚAS SALVATIERRA',28,'Grúas']
+    ];
+    const TIPO_COLOR = {Grúas:'vehicular',Farmacia:'medica',Médico:'medica',Reembolso:'mixta'};
+    const maxProv = PROVEEDORES[0][1];
+    document.getElementById('tabla-proveedores').innerHTML = PROVEEDORES.map(([nom,n,tipo],i) =>
+      '<tr>' +
+        '<td style="color:var(--text-muted);font-size:0.75rem">' + (i+1) + '</td>' +
+        '<td style="font-weight:600">' + nom + '</td>' +
+        '<td><span class="familia-badge ' + (TIPO_COLOR[tipo]||'mixta') + '">' + tipo + '</span></td>' +
+        '<td style="font-weight:700;color:var(--accent)">' + n + '</td>' +
+        '<td>' +
+          '<div class="bar-wrap">' +
+            '<div class="bar-bg"><div class="bar-fill" style="width:' + (n/maxProv*100).toFixed(0) + '%"></div></div>' +
+            '<span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">' + (n/TOTAL_ASIST*100).toFixed(1) + '%</span>' +
+          '</div>' +
+        '</td>' +
+      '</tr>'
+    ).join('');
+    </script>
+
+    <div class="alert alert-gold" style="margin-top:16px">
+      <span class="alert-icon">!</span>
+      <div>Remolques de más de 30 km (hasta 150 km): completar el <strong>cuadro cotizador</strong> antes de confirmar con el proveedor. Los kilómetros tienen montos preestablecidos en Bs.; la suma indica cuánto paga el afiliado como excedente (NA). Informarle el monto antes de despachar.</div>
+    </div>
+    </div>
+    </div><!-- /proveedores-body -->
+  </section>
+
+  <div class="group-band" data-group="Gestión">
+    <span class="group-band-name">Gestión</span>
+  </div>
+  <section class="section" id="no-vial">
+    <h2 class="section-title section-toggle" data-target="no-vial-body" aria-expanded="false">
+      <span><span class="section-num">5</span> Servicios No Viales</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Hogar, servicios personales, mascotas y videoasistencias</p>
+    <div class="section-body-wrap" id="no-vial-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Hogar, servicios personales, eventos, mascotas y videoasistencias · 205 asistencias de Hogar, Mascota y Telemedicina en el periodo</p>
+
+    <h3 class="subsection-title" style="margin-bottom:10px">Antes de agendar</h3>
+    <div class="grid-3" style="gap:12px; margin-bottom:12px">
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Validar en SOA</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Expediente, cuenta y plan, vigencia de pagos y tope de cobertura en Bs.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Datos críticos</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Nombre, teléfono, CI, dirección exacta con referencias y <strong style="color:var(--text)">foto del daño reportado</strong>.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Beneficiarios</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Titular, cónyuge e hijos. Ninguna decisión fuera de esto sin autorización.</div>
+      </div>
+    </div>
+    <div class="alert alert-red" style="margin-bottom:24px">
+      <span class="alert-icon">!</span>
+      <div><strong>Sin validación SOA o sin ubicación clara, no se agenda el servicio.</strong> Siniestros: no somos cabina de siniestros. Un servicio derivado de un siniestro solo se coordina con el aval de la cuenta.</div>
+    </div>
+
+    <h3 class="subsection-title" style="margin-bottom:10px">Servicios técnicos de hogar</h3>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px">Alcance: plomería, electricidad, aire acondicionado, heladeras, lavadoras, calefones y Maestro Express.</p>
+    <div class="grid-3" style="gap:12px; margin-bottom:24px">
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--fam-hogar)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Video-validación obligatoria</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Plomería, fugas y Maestro Express. Sin video no se coordina.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--fam-hogar)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Protocolo medidor (fugas)</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Pedir que cierre todos los grifos. Si las manivelas del medidor giran → <strong style="color:var(--text)">procede</strong>. Si no giran → derivar a la <strong style="color:var(--text)">cooperativa</strong> de agua.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--fam-hogar)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">Aire acondicionado</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Consultar marca, BTU, ubicación del equipo y altura a la que está instalado.</div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title" style="margin-bottom:10px">Servicios personales, eventos y especiales</h3>
+    <div class="table-container" style="margin-bottom:24px">
+      <table>
+        <thead><tr><th>Categoría</th><th>Servicios</th><th>Requisitos</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Personales</strong></td><td>Masajes, manicure sencillo, pedicure, barbería</td><td>Agendar con <strong>2 días de anticipación</strong>. Confirmar el detalle (p. ej. corte + barba)</td></tr>
+          <tr><td><strong>Eventos</strong></td><td>Garzón, maestro parrillero</td><td>Cantidad de personas, fecha y tipo de carnes. Consultar antes si aplica reembolso</td></tr>
+          <tr><td><strong>Mascotas</strong></td><td>Asistencia veterinaria</td><td>Edad, raza, peso y foto de la mascota</td></tr>
+          <tr><td><strong>Videoasistencia médica</strong></td><td>Telemedicina</td><td>Edad del paciente y correo electrónico</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subsection-title" style="margin-bottom:10px">Rutina diaria</h3>
+    <div class="steps flow" style="align-items:stretch">
+      <div class="step" style="flex:1; min-width:160px"><div><div class="step-title">AM — Recordatorio</div><div class="step-body">Avisar al Call Center para confirmar los servicios programados del día</div></div></div>
+      <div class="flow-arrow" aria-hidden="true" style="display:flex;align-items:center;padding:0 4px;color:var(--accent);font-size:1.2rem;font-weight:700">›</div>
+      <div class="step" style="flex:1; min-width:160px"><div><div class="step-title">Pago</div><div class="step-body">Coordinar el método de pago antes de enviar al proveedor</div></div></div>
+      <div class="flow-arrow" aria-hidden="true" style="display:flex;align-items:center;padding:0 4px;color:var(--accent);font-size:1.2rem;font-weight:700">›</div>
+      <div class="step" style="flex:1; min-width:160px"><div><div class="step-title">Cierre</div><div class="step-body">Confirmar la ejecución, registrar el cierre y reportar novedades</div></div></div>
+    </div>
+    </div>
+    </div><!-- /no-vial-body -->
+  </section>
+  <section class="section" id="plataformas">
+    <h2 class="section-title section-toggle" data-target="plataformas-body" aria-expanded="false">
+      <span><span class="section-num">6</span> Plataformas y Sistemas</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">SOA, CallBell, DOKKA, Vicidial, Cotizador · TEA</p>
+    <div class="section-body-wrap" id="plataformas-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">SOA, CallBell, DOKKA, Vicidial, Cotizador · TEA</p>
+
+    <!-- Tabla de sistemas -->
+    <div class="table-container" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th>Sistema</th><th>Propósito</th><th>Cuándo usarlo</th><th>Nota clave</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SOA</strong></td>
+            <td>Validación de afiliado, expedientes, tipificación financiera</td>
+            <td><span class="ruta-tag">Siempre primero</span></td>
+            <td>Nunca coordinar sin validar el plan específico en SOA</td>
+          </tr>
+          <tr>
+            <td><strong>CallBell</strong></td>
+            <td>WhatsApp con afiliados y proveedores</td>
+            <td><span class="ruta-tag">Canal escrito único</span></td>
+            <td>Todo contacto escrito pasa por CallBell, no por WhatsApp personal</td>
+          </tr>
+          <tr>
+            <td><strong>Vicidial</strong></td>
+            <td>Tipificación final de llamada telefónica</td>
+            <td><span class="ruta-tag">Al cerrar llamada</span></td>
+            <td>Sin tipificación en Vicidial la llamada queda sin registro</td>
+          </tr>
+          <tr>
+            <td><strong>DOKKA</strong></td>
+            <td>Ticketera de Nacional Seguros: recibir solicitudes viales y derivar o escalar casos</td>
+            <td><span class="ruta-tag">Solicitud vial</span> <span class="ruta-tag">Fuera de área</span> <span class="ruta-tag">Siniestro</span></td>
+            <td>Solo para Nacional. Los siniestros de Nacional se derivan por DOKKA: no somos cabina de siniestros</td>
+          </tr>
+          <tr>
+            <td><strong>App Mi Seguro</strong></td>
+            <td>Validar afiliado Nacional Plan Vial</td>
+            <td><span class="ruta-tag">Solo Nacional Vial</span></td>
+            <td>Exclusivo para Plan Vial. Plan Vagoneta usa SOA + correo</td>
+          </tr>
+          <tr>
+            <td><strong>Portal Alianza</strong></td>
+            <td>Validar afiliado Alianza Seguros por CI</td>
+            <td><span class="ruta-tag">Solo Alianza</span></td>
+            <td>Sin validación en portal no se coordina consultorio</td>
+          </tr>
+          <tr>
+            <td><strong>Cotizador Drive</strong></td>
+            <td>Calcular el excedente de remolques de más de 30 km</td>
+            <td><span class="ruta-tag">Remolque 30–150 km</span></td>
+            <td>Obligatorio entre 30 y 150 km. Informar el excedente al afiliado antes de despachar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TEA -->
+    <h3 class="subsection-title" style="margin-bottom:10px">TEA — Tiempo Estimado de Arribo</h3>
+    <div class="grid-2" style="gap:12px; margin-bottom:24px">
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--accent)">
+        <div style="font-size:1.6rem; font-weight:800; color:var(--accent); line-height:1">15 min</div>
+        <div style="font-size:0.84rem; font-weight:700; color:var(--text); margin-top:4px">Todas las cuentas</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Confirmar al afiliado el TEA exacto antes de que pasen 15 minutos desde que se corta la llamada.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--red)">
+        <div style="font-size:1.6rem; font-weight:800; color:var(--red); line-height:1">10 min</div>
+        <div style="font-size:0.84rem; font-weight:700; color:var(--text); margin-top:4px">BISA Seguros</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Única excepción. Mismo protocolo, con 10 minutos como límite.</div>
+      </div>
+    </div>
+
+    <!-- Flujo de cierre operativo -->
+    <h3 class="subsection-title" style="margin-bottom:12px">Flujo de cierre operativo (orden obligatorio)</h3>
+    <div class="steps flow" style="align-items:stretch; margin-bottom:24px">
+      <div class="step" style="flex:1; min-width:160px">
+        
+        <div><div class="step-title">Coordinar en SOA</div>
+        <div class="step-body">Expediente abierto, proveedor asignado, tipificación preliminar cargada</div></div>
+      </div>
+      <div class="flow-arrow" aria-hidden="true" style="display:flex;align-items:center;padding:0 4px;color:var(--accent);font-size:1.2rem;font-weight:700">›</div>
+      <div class="step" style="flex:1; min-width:160px">
+        
+        <div><div class="step-title">Confirmar por CallBell</div>
+        <div class="step-body">Enviar confirmación escrita al afiliado y al proveedor por WhatsApp</div></div>
+      </div>
+      <div class="flow-arrow" aria-hidden="true" style="display:flex;align-items:center;padding:0 4px;color:var(--accent);font-size:1.2rem;font-weight:700">›</div>
+      <div class="step" style="flex:1; min-width:160px">
+        
+        <div><div class="step-title">Tipificar en Vicidial</div>
+        <div class="step-body">Registrar el cierre de la llamada. Sin esto la gestión queda incompleta</div></div>
+      </div>
+    </div>
+
+    <!-- DOKKA: recepción vial + derivación (pptx "Nueva Ticketera DOKKA") -->
+    <h3 class="subsection-title" style="margin-bottom:12px">DOKKA — Ticketera de Nacional Seguros</h3>
+    <div class="grid-2" style="gap:12px; margin-bottom:14px">
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">1. Recibir solicitudes viales</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Las solicitudes de asistencia vial de Nacional también ingresan como ticket en DOKKA (ninguna otra cuenta usa este canal). Revisar la plataforma y gestionarlas con el mismo protocolo vial: validación, datos de despacho, TEA y tipificación.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:4px">2. Derivar y escalar</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Llamadas que no son competencia de la cabina y siniestros de Nacional: registrar ticket para que el Call Center de Nacional contacte al cliente. No somos cabina de siniestros.</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap:12px; margin-bottom:14px; align-items:start">
+      <div>
+        <div class="card-title" style="margin-bottom:8px">Registrar un ticket</div>
+        <div class="steps">
+          <div class="step"><div><div class="step-title">Pedir los 4 datos</div><div class="step-body">Ciudad · Nombre completo y CI o NIT · Celular activo · Detalle del requerimiento</div></div></div>
+          <div class="step"><div><div class="step-title">Registrar</div><div class="step-body">Menú lateral: Tickets → Registrar nuevo ticket. Datos verídicos, sin faltas, redacción breve y prioridad correcta.</div></div></div>
+          <div class="step"><div><div class="step-title">Cerrar la llamada con el speech</div><div class="step-body">«Sus datos han sido registrados. A la brevedad, un ejecutivo de Nacional Seguros se pondrá en contacto para asistirle.»</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card-title" style="margin-bottom:8px">Seguimiento y cierre</div>
+        <div class="card" style="padding:12px 14px; font-size:0.77rem; color:var(--text-muted); display:grid; gap:6px">
+          <div><strong style="color:var(--text)">Quien crea el ticket es responsable de su seguimiento</strong> hasta la resolución.</div>
+          <div>Correcciones u observaciones: Tickets → campo <strong style="color:var(--text)">Nota</strong> → Enviar.</div>
+          <div>Addiuva cierra <strong style="color:var(--text)">solo la etapa de asistencia</strong>. El ticket principal lo cierra únicamente el ejecutivo de Nacional.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-red" style="margin-top:0">
+      <span class="alert-icon">!</span>
+      <div><strong>Siniestros:</strong> los de Nacional se derivan por DOKKA. Un servicio derivado de un siniestro (p. ej. remolque) solo se coordina con el aval de la cuenta.</div>
+    </div>
+    </div>
+    </div><!-- /plataformas-body -->
+  </section>
+
+  <section class="section" id="tipificacion">
+    <h2 class="section-title section-toggle" data-target="tipificacion-body" aria-expanded="false">
+      <span><span class="section-num">7</span> Tipificación Financiera — AA / CC / NA</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Asignación correcta del código de pago en SOA · Crítico para auditoría</p>
+    <div class="section-body-wrap" id="tipificacion-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Asignación correcta del código de pago en SOA · Crítico para auditoría</p>
+
+    <!-- 3 cards de código (definiciones validadas con operaciones, oct 2026) -->
+    <div class="grid-3" style="gap:14px; margin-bottom:24px">
+      <div class="card" style="padding:16px; border-top:3px solid var(--code-aa)">
+        <div style="font-size:1.6rem; font-weight:800; color:var(--code-aa); margin-bottom:6px">AA</div>
+        <div style="font-size:0.84rem; font-weight:700; color:var(--text); margin-bottom:6px">Asume Addiuva</div>
+        <div style="font-size:0.77rem; color:var(--text-muted); margin-bottom:10px">El costo lo paga Addiuva. Aplica cuando el servicio está dentro de cobertura, o cuando Addiuva lo asume por un error propio.</div>
+        <div style="font-size:0.72rem; font-weight:700; color:var(--code-aa); margin-bottom:4px; text-transform:uppercase; letter-spacing:.5px">Ejemplos</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Remolque vehicular dentro del plan contratado</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Consulta médica en red autorizada</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Descuento farmacia con receta válida y saldo disponible</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Servicio fuera de cobertura coordinado por error de validación de la cabina</div>
+      </div>
+      <div class="card" style="padding:16px; border-top:3px solid var(--accent)">
+        <div style="font-size:1.6rem; font-weight:800; color:var(--accent); margin-bottom:6px">CC</div>
+        <div style="font-size:0.84rem; font-weight:700; color:var(--text); margin-bottom:6px">Asume la Cuenta</div>
+        <div style="font-size:0.77rem; color:var(--text-muted); margin-bottom:10px">La solicitud está fuera de cobertura, pero la cuenta se hace cargo del costo y no lo traslada al afiliado. Es una excepción.</div>
+        <div style="font-size:0.72rem; font-weight:700; color:var(--accent); margin-bottom:4px; text-transform:uppercase; letter-spacing:.5px">Ejemplos</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Servicio no incluido en el plan que la cuenta autoriza como excepción</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Kilómetros excedentes que la cuenta decide cubrir</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:6px; padding:5px 8px; background:var(--accent-bg); border-radius:5px; border-left:2px solid var(--accent)">Solo con autorización explícita de la cuenta. Sin ella, el costo fuera de cobertura es NA.</div>
+      </div>
+      <div class="card" style="padding:16px; border-top:3px solid var(--gold)">
+        <div style="font-size:1.6rem; font-weight:800; color:var(--gold); margin-bottom:6px">NA</div>
+        <div style="font-size:0.84rem; font-weight:700; color:var(--text); margin-bottom:6px">Paga el Afiliado</div>
+        <div style="font-size:0.77rem; color:var(--text-muted); margin-bottom:10px">Excedente o servicio en conexión no cubierto por su póliza. El afiliado lo paga directamente.</div>
+        <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:4px; text-transform:uppercase; letter-spacing:.5px">Ejemplos</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Kilómetros excedentes del radio de cobertura</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Servicio en conexión no cubierto por la póliza</div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">· Maniobra especial no incluida en tarifa base</div>
+      </div>
+    </div>
+
+    <!-- Árbol de decisión: se recorre en orden, el primer "sí" define el código -->
+    <h3 class="subsection-title" style="margin-bottom:6px">Árbol de decisión — ¿Qué código asignar?</h3>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px">Responder en orden. El primer «sí» define el código.</p>
+    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:12px">
+      <div class="card" style="padding:12px 16px; display:flex; align-items:center; gap:12px">
+        <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted); background:var(--surface-2); border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; flex-shrink:0">1</div>
+        <div style="flex:1">
+          <span style="font-weight:700; font-size:0.83rem; color:var(--text)">¿El servicio está dentro del plan habilitado en SOA y de sus límites?</span>
+          <span style="font-size:0.78rem; color:var(--text-muted); margin-left:8px">Si SÍ → código</span>
+          <span style="font-size:0.82rem; font-weight:800; color:var(--code-aa); margin-left:4px">AA</span>
+        </div>
+      </div>
+      <div class="card" style="padding:12px 16px; display:flex; align-items:center; gap:12px">
+        <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted); background:var(--surface-2); border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; flex-shrink:0">2</div>
+        <div style="flex:1">
+          <span style="font-weight:700; font-size:0.83rem; color:var(--text)">¿El costo fuera de cobertura se originó por un error de la cabina?</span>
+          <span style="font-size:0.78rem; color:var(--text-muted); margin-left:8px">Si SÍ → código</span>
+          <span style="font-size:0.82rem; font-weight:800; color:var(--code-aa); margin-left:4px">AA</span>
+          <span style="font-size:0.78rem; color:var(--text-muted); margin-left:4px">+ escalar a supervisión</span>
+        </div>
+      </div>
+      <div class="card" style="padding:12px 16px; display:flex; align-items:center; gap:12px">
+        <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted); background:var(--surface-2); border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; flex-shrink:0">3</div>
+        <div style="flex:1">
+          <span style="font-weight:700; font-size:0.83rem; color:var(--text)">¿La cuenta autorizó asumir el costo como excepción?</span>
+          <span style="font-size:0.78rem; color:var(--text-muted); margin-left:8px">Si SÍ → código</span>
+          <span style="font-size:0.82rem; font-weight:800; color:var(--accent); margin-left:4px">CC</span>
+        </div>
+      </div>
+      <div class="card" style="padding:12px 16px; display:flex; align-items:center; gap:12px">
+        <div style="font-size:0.78rem; font-weight:700; color:var(--text-muted); background:var(--surface-2); border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; flex-shrink:0">4</div>
+        <div style="flex:1">
+          <span style="font-weight:700; font-size:0.83rem; color:var(--text)">En cualquier otro caso (excedente o servicio en conexión no cubierto)</span>
+          <span style="font-size:0.78rem; color:var(--text-muted); margin-left:8px">→ código</span>
+          <span style="font-size:0.82rem; font-weight:800; color:var(--gold); margin-left:4px">NA</span>
+          <span style="font-size:0.78rem; color:var(--text-muted); margin-left:4px">· paga el afiliado</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px">Un mismo servicio puede llevar dos códigos: la parte cubierta va como <strong style="color:var(--code-aa)">AA</strong> y el excedente como <strong style="color:var(--gold)">NA</strong> (o <strong style="color:var(--accent)">CC</strong> si la cuenta lo asume). Ver caso práctico.</p>
+
+    <!-- Caso práctico -->
+    <h3 class="subsection-title" style="margin-bottom:10px">Caso práctico — remolque con km excedente</h3>
+    <div class="grid-2" style="gap:12px">
+      <div class="card" style="padding:12px 14px">
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px">Situación: remolque urbano de 35 km; la cobertura incluye 30 km de recorrido</div>
+        <div style="font-size:0.79rem; color:var(--text); margin-bottom:4px">
+          <span style="font-weight:700; color:var(--code-aa)">AA</span> — los primeros 30 km (dentro de cobertura)
+        </div>
+        <div style="font-size:0.79rem; color:var(--text); margin-bottom:4px">
+          <span style="font-weight:700; color:var(--gold)">NA</span> — los 5 km excedentes (monto según cuadro cotizador; paga el afiliado)
+        </div>
+        <div style="font-size:0.75rem; color:var(--text-muted)">Si la cuenta autoriza cubrir esos 5 km → <span style="font-weight:700; color:var(--accent)">CC</span></div>
+      </div>
+      <div class="alert alert-red" style="margin:0">
+        <span class="alert-icon">!</span>
+        <div>Error frecuente: tipificar TODO como AA cuando hay excedente. Los km fuera de cobertura son <strong>NA</strong>, salvo que la cuenta autorice asumirlos (<strong>CC</strong>).</div>
+      </div>
+    </div>
+    </div>
+    </div><!-- /tipificacion-body -->
+  </section>
+
+  <!-- Fuente: "CUADRO COTIZADOR POR CUENTAS_2026" (Google Sheets). Precios y fórmulas tal como los calcula cada pestaña. -->
+  <section class="section" id="cotizador">
+    <h2 class="section-title section-toggle" data-target="cotizador-body" aria-expanded="false">
+      <span><span class="section-num">8</span> Cuadro Cotizador</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Cotizar traslados en grúa · distribución AA / CC / NA</p>
+    <div class="section-body-wrap" id="cotizador-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Cotizar un traslado en grúa y repartir el costo entre Addiuva (AA), la compañía (CC) y el cliente (NA)</p>
+
+    <div class="alert alert-gold" style="margin-bottom:18px">
+      <span class="alert-icon">!</span>
+      <div>La hoja está <strong>parcialmente bloqueada</strong>: solo se completan las celdas de entrada. Los precios, las coberturas y los montos se calculan solos. Para copiar datos desde SOA, pegar como valores con <strong>Ctrl + Mayús + V</strong> para no romper el formato.</div>
+    </div>
+
+    <!-- Paso 1: pestaña -->
+    <h3 class="subsection-title">1 · Elegir la pestaña según la cuenta</h3>
+    <div class="table-container" style="margin-bottom:10px">
+      <table>
+        <thead><tr><th>Pestaña</th><th>Cuándo</th><th>Cobertura de la cuenta</th></tr></thead>
+        <tbody>
+          <tr><td><strong>NACIONAL 1 · 2 · 3</strong></td><td>Nacional Seguros, plan estándar. Son tres copias iguales para que dos operadores no se pisen con solicitudes en paralelo: usar la que esté libre.</td><td>Eje troncal: 150 km · Resto del país: 1.500 Bs</td></tr>
+          <tr><td><strong>VIP BANCO PRODEM – NACIONAL</strong></td><td>Afiliados de Banco Prodem (cliente con cobertura especial).</td><td>3.500 Bs en cualquier ciudad</td></tr>
+          <tr><td><strong>BISA 1504</strong></td><td>BISA Seguros. Se elige la categoría M2 o M3.</td><td>M2: 1.000 Bs · M3: 3.000 Bs</td></tr>
+          <tr><td style="color:var(--text-muted)">BANCOS – NACIONAL</td><td colspan="2" style="color:var(--text-muted)">Solo consulta: bancos con póliza colectiva de Nacional y clientes con cobertura especial (abajo).</td></tr>
+          <tr><td style="color:var(--text-muted)">INSPECTORES NACIONAL</td><td colspan="2" style="color:var(--text-muted)">Solo consulta: directorio de inspectores de Santa Cruz.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid-2" style="margin-bottom:22px; align-items:start">
+      <div class="card" style="padding:12px 14px">
+        <div class="card-title" style="margin-bottom:6px">Bancos con póliza colectiva de Nacional (prestatarios)</div>
+        <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:6px">Si el afiliado dice que viene de uno de estos bancos, se procede con el servicio <strong style="color:var(--text)">a riesgo</strong>.</div>
+        <div style="font-size:0.76rem; color:var(--text); line-height:1.6">Banco Prodem · Banco Económico · Banco Solidario (Sol) · Banco Ecofuturo · Coop. Jesús Nazareno · Coop. La Promotora · IDEPRO · Catedral · Coop. Cristo Rey · Banco PyME de la Comunidad · Coop. San Martín · Banco Plan Crecer</div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div class="card-title" style="margin-bottom:6px">Clientes con cobertura especial (Nacional)</div>
+        <table style="font-size:0.76rem">
+          <tbody>
+            <tr><td><strong>Banco Prodem</strong></td><td>Tope de 3.500 Bs. Usar la pestaña VIP.</td></tr>
+            <tr><td><strong>YPFB</strong></td><td>Cobertura total: km, orden de traslado, maniobras, etc. Lo asume Nacional.</td></tr>
+            <tr><td><strong>Gas Transboliviano</strong></td><td>Cobertura total en km. La orden de traslado la asume el afiliado.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paso 2: columna -->
+    <h3 class="subsection-title">2 · Elegir la columna según la ciudad</h3>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 10px">Cada pestaña de Nacional tiene tres columnas con el mismo cuadro. La ciudad se elige de una lista y solo aparecen las de esa columna.</p>
+    <div class="grid-3" style="margin-bottom:22px">
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">Santa Cruz · La Paz · Cochabamba</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px">Eje troncal · La Paz se divide en Altiplano y Yungas</div>
+        <div style="font-size:0.78rem; color:var(--text)">Precio por km según la ciudad. La cuenta cubre los <strong>primeros 150 km</strong> (se cuentan primero los de asfalto).</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">Tarija · Sucre · Potosí</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px">Resto del país con tarifa</div>
+        <div style="font-size:0.78rem; color:var(--text)">Precio por km según la ciudad. La cuenta cubre hasta <strong>1.500 Bs</strong>.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--gold)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">Beni · Pando · Oruro</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px">A cotizar</div>
+        <div style="font-size:0.78rem; color:var(--text)">No hay tarifa: se ingresa la <strong>cotización del proveedor</strong> y el cuadro le suma un 15 %. La cuenta cubre hasta <strong>1.500 Bs</strong>.</div>
+      </div>
+    </div>
+
+    <!-- Paso 3: anatomía -->
+    <h3 class="subsection-title">3 · Completar el cuadro</h3>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 8px">Ejemplo ficticio de Nacional, columna eje troncal. Pasa el mouse o toca cada fila para ver qué hacer.</p>
+    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px">
+      <span class="cz-chip cz-list">Eliges de la lista</span>
+      <span class="cz-chip cz-in">Escribes</span>
+      <span class="cz-chip cz-calc">Se calcula solo: no tocar</span>
+    </div>
+    <div class="grid-2 cz-anat" style="margin-bottom:22px; align-items:start">
+      <div class="table-container">
+        <table class="cz-sheet">
+          <tbody>
+            <tr class="cz-group"><th colspan="2">COBRO EXCEDENTE · Nacional Seguros Patrimoniales y Fianzas</th></tr>
+            <tr tabindex="0" data-tip="Lista: AVERÍA o SINIESTRO. Define la cobertura de Addiuva: 700 Bs por avería y 1.500 Bs por siniestro. En un siniestro, el traslado solo se coordina con el aval de la cuenta (el inspector)."><th>Servicio por</th><td class="cz-list">AVERÍA</td></tr>
+            <tr tabindex="0" data-tip="Números de expediente y de asistencia de SOA, y la fecha. Pegar como valores (Ctrl + Mayús + V)."><th>Expediente · Asistencia · Fecha</th><td class="cz-in">00000 · 00000 · 15/10/2026</td></tr>
+            <tr tabindex="0" data-tip="Nombre del asegurado tal como figura en SOA."><th>Asegurado</th><td class="cz-in">Nombre del asegurado</td></tr>
+            <tr tabindex="0" data-tip="La ciudad sale de una lista y define el precio por km. Solo aparecen las ciudades de la columna elegida. La placa se escribe."><th>Ciudad · Placa</th><td><span class="cz-chip cz-list">SANTA CRUZ</span> <span class="cz-chip cz-in">1234-ABC</span></td></tr>
+            <tr tabindex="0" data-tip="Lugar donde está el vehículo y lugar adonde se lo lleva."><th>Dirección del evento · Destino</th><td class="cz-in">Origen → destino</td></tr>
+            <tr tabindex="0" data-tip="Nombre del inspector de la compañía que autoriza el traslado. Directorio en la pestaña INSPECTORES NACIONAL."><th>Inspector que autoriza el traslado</th><td class="cz-in">Nombre del inspector</td></tr>
+            <tr tabindex="0" data-tip="Kilómetros del recorrido, separados por tipo de camino. El total se suma solo."><th>Km de asfalto · Km de ripio</th><td class="cz-in">175 · 0</td></tr>
+            <tr tabindex="0" data-tip="Suma de km de asfalto y de ripio."><th>Total km recorridos</th><td class="cz-calc">175</td></tr>
+            <tr tabindex="0" data-tip="Precio por km de asfalto y de tierra o ripio. Sale de la tabla de tarifas según la ciudad elegida."><th>P. unitario asfalto · ripio (Bs)</th><td class="cz-calc">18 · 20</td></tr>
+            <tr tabindex="0" data-tip="Solo si hace falta rescate o maniobra: se cotiza con el proveedor a partir de una foto del vehículo. Si el vehículo pesa más de 3 toneladas, se carga aparte el valor cotizado del vehículo pesado."><th>Rescate o maniobra · Vehículo pesado (cotizados)</th><td class="cz-in">0 · 0</td></tr>
+            <tr tabindex="0" data-tip="Valor cotizado + 30 %. Se cobra aparte: no entra en el costo total del traslado ni en el excedente."><th>Valor oficial de rescate o maniobra</th><td class="cz-calc">0</td></tr>
+            <tr tabindex="0" data-tip="Km de asfalto × precio de asfalto + km de ripio × precio de ripio. En Beni, Pando y Oruro: cotización del proveedor + 15 %."><th>Costo total del traslado (hasta 3 t)</th><td class="cz-calc">3.150</td></tr>
+            <tr tabindex="0" data-tip="Lo que cubre la cuenta. Eje troncal: el costo de los primeros 150 km. Resto del país: hasta 1.500 Bs. Si el vehículo excede pesos y dimensiones, Addiuva no aplica esta cobertura y se deja vacía."><th>Cobertura eje troncal 150 km</th><td class="cz-calc">2.700</td></tr>
+            <tr tabindex="0" data-tip="Tope de Addiuva: 700 Bs por avería, 1.500 Bs por siniestro. Esta parte se tipifica AA."><th>Cobertura Addiuva <span style="color:var(--code-aa); font-weight:800">AA</span></th><td class="cz-calc">700</td></tr>
+            <tr tabindex="0" data-tip="Solo si el cliente tiene una cobertura especial adicional. Normalmente queda vacía."><th>Cobertura especial VIP</th><td class="cz-in"></td></tr>
+            <tr tabindex="0" data-tip="Cobertura de la cuenta − cobertura de Addiuva. Lo paga la compañía: se tipifica CC."><th>Cobertura de la compañía a pagar <span style="color:var(--accent); font-weight:800">CC</span></th><td class="cz-calc">2.000</td></tr>
+            <tr tabindex="0" data-tip="Costo total − cobertura de la cuenta. Lo paga el cliente: se tipifica NA."><th>Excedente a pagar por el cliente <span style="color:var(--gold); font-weight:800">NA</span></th><td class="cz-calc">450</td></tr>
+            <tr tabindex="0" data-tip="Costo aproximado de la orden de traslado: 30 a 50 Bs si la gestiona el cliente, 80 Bs si la gestiona el proveedor."><th>Orden de traslado (cliente · proveedor)</th><td class="cz-calc">30–50 · 80</td></tr>
+            <tr tabindex="0" data-tip="Marcar SÍ o NO según cómo se le informó al cliente: por correo, por teléfono o ambos."><th>Informado al cliente por correo · teléfono</th><td><span class="cz-chip cz-list">NO</span> <span class="cz-chip cz-list">SÍ</span></td></tr>
+            <tr tabindex="0" data-tip="Nombre del operador que hizo la cotización."><th>Operador</th><td class="cz-in">Nombre del operador</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card cz-tip" style="padding:14px">
+        <div class="card-title" style="margin-bottom:6px">Qué hacer en esta fila</div>
+        <div class="cz-tip-text" aria-live="polite" style="font-size:0.82rem; color:var(--text); line-height:1.5">Pasa el mouse o toca una fila del cuadro.</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:12px; padding-top:10px; border-top:1px solid var(--border)">Con los datos del ejemplo: el traslado cuesta 3.150 Bs. Addiuva cubre 700 (AA), la compañía 2.000 (CC) y el cliente paga 450 de excedente (NA). 700 + 2.000 + 450 = 3.150.</div>
+      </div>
+    </div>
+
+    <!-- Paso 4: destino de cada cuadro -->
+    <h3 class="subsection-title">4 · Enviar cada cuadro a quien corresponde</h3>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 10px">Lo que se completa arriba se copia solo en tres cuadros. Cada uno tiene un destino distinto.</p>
+    <div class="grid-3" style="margin-bottom:12px">
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--st-canc-mom, #c0392b)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">1 · Cobro excedente interno</div>
+        <div style="font-size:0.72rem; font-weight:700; color:var(--st-canc-mom, #c0392b); margin:2px 0 6px">NO ENVIAR AL CLIENTE</div>
+        <div style="font-size:0.78rem; color:var(--text)">Solo para coordinación, para pedir la autorización de la filial.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">2 · Cobro excedente cliente</div>
+        <div style="font-size:0.72rem; font-weight:700; color:var(--accent); margin:2px 0 6px">ENVIAR AL CLIENTE</div>
+        <div style="font-size:0.78rem; color:var(--text)">Al afiliado o al inspector por <strong>CallBell</strong>, y por correo a la filial (avería o siniestro). Validez de <strong>48 h</strong>. Precios solo con nuestra red: no aplica para reembolsos.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--gold)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">3 · Cobro excedente compañía</div>
+        <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin:2px 0 6px">SOLO POR CORREO INTERNO</div>
+        <div style="font-size:0.78rem; color:var(--text)">Para informar a la compañía. Va solo al grupo <strong>Notificación de excedente</strong> (nadie más).</div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:22px; align-items:start">
+      <div class="card" style="padding:12px 14px">
+        <div class="card-title" style="margin-bottom:6px">El correo de notificación de excedente lleva</div>
+        <ol style="font-size:0.78rem; color:var(--text); margin:0; padding-left:18px; line-height:1.6">
+          <li>Captura de los 3 cuadros</li>
+          <li>Quién asume el excedente y el comprobante de pago</li>
+          <li>Quién asume el costo de la orden de traslado</li>
+          <li>A quién se le hizo el pago</li>
+          <li>Nombre y NIT para la facturación</li>
+        </ol>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div class="card-title" style="margin-bottom:6px">BISA: dos cuadros</div>
+        <div style="font-size:0.78rem; color:var(--text); line-height:1.6">· Se comparte en coordinación para la autorización.<br>· Al afiliado por CallBell, solo si lo pide.<br>· Por correo al inspector, como respaldo.</div>
+      </div>
+    </div>
+
+    <!-- Simulador -->
+    <h3 class="subsection-title">Simulador para practicar</h3>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 10px">Reproduce los cálculos del cuadro. Sirve para practicar; la cotización real se hace siempre en la hoja.</p>
+    <div class="card cz-sim" style="padding:14px 16px; margin-bottom:22px">
+      <div class="cz-form">
+        <label>Pestaña
+          <select data-f="cuenta">
+            <option value="nacional">Nacional 1 · 2 · 3</option>
+            <option value="vip">VIP Banco Prodem</option>
+            <option value="bisa">BISA 1504</option>
+          </select>
+        </label>
+        <label>Ciudad <select data-f="ciudad"></select></label>
+        <label class="cz-servicio">Servicio por
+          <select data-f="servicio"><option value="averia">Avería</option><option value="siniestro">Siniestro</option></select>
+        </label>
+        <label class="cz-categoria" hidden>Categoría (BISA)
+          <select data-f="categoria"><option value="M2">M2</option><option value="M3" selected>M3</option></select>
+        </label>
+        <label>Km de asfalto <input data-f="asf" type="number" min="0" step="1" value="175"></label>
+        <label>Km de ripio <input data-f="rip" type="number" min="0" step="1" value="0"></label>
+        <label>Cotización del proveedor (Bs) <input data-f="cot" type="number" min="0" step="10" value="0"></label>
+        <label>Maniobra cotizada (Bs) <input data-f="man" type="number" min="0" step="10" value="0"></label>
+      </div>
+      <div class="cz-bar" aria-hidden="true">
+        <span class="cz-b-aa" style="background:var(--code-aa)"></span>
+        <span class="cz-b-cc" style="background:var(--accent)"></span>
+        <span class="cz-b-na" style="background:var(--gold)"></span>
+      </div>
+      <div class="cz-out" aria-live="polite">
+        <div>Costo total del traslado<strong class="cz-o-total"></strong></div>
+        <div>Cubre la cuenta<strong class="cz-o-cob"></strong></div>
+        <div><span style="color:var(--code-aa); font-weight:800">AA</span> · Addiuva<strong class="cz-o-aa"></strong></div>
+        <div><span style="color:var(--accent); font-weight:800">CC</span> · Compañía<strong class="cz-o-cc"></strong></div>
+        <div><span style="color:var(--gold); font-weight:800">NA</span> · Cliente<strong class="cz-o-na"></strong></div>
+        <div>Maniobra (aparte)<strong class="cz-o-man"></strong></div>
+      </div>
+      <div class="cz-o-how" style="font-size:0.76rem; color:var(--text-muted); margin-top:10px; line-height:1.5"></div>
+    </div>
+
+    <!-- Tarifas -->
+    <h3 class="subsection-title">Tarifas por km (vehículos hasta 3 t)</h3>
+    <div class="table-container" style="margin-bottom:8px">
+      <table>
+        <thead><tr><th>Ciudad</th><th>Nacional<br><span style="font-weight:500">asfalto · ripio</span></th><th>VIP Prodem<br><span style="font-weight:500">asfalto · ripio</span></th><th>BISA<br><span style="font-weight:500">asfalto · ripio</span></th></tr></thead>
+        <tbody class="cz-tarifas"></tbody>
+      </table>
+    </div>
+    <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:22px">Montos en Bs por km. "A cotizar": se usa la cotización del proveedor + 15 %. Las tarifas varían por cuenta.</p>
+
+    <!-- Errores -->
+    <h3 class="subsection-title">Errores frecuentes</h3>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Error</th><th>Qué hacer</th></tr></thead>
+        <tbody>
+          <tr><td>Enviar el cuadro interno al cliente</td><td>Al cliente va solo el cuadro 2 (cobro excedente cliente). El 1 es para coordinación y el 3, para el grupo de notificación.</td></tr>
+          <tr><td>Escribir encima de una celda que se calcula sola</td><td>Completar solo las celdas de entrada y las listas. Si un monto no cuadra, revisar la ciudad, el servicio y los km.</td></tr>
+          <tr><td>Pegar datos de SOA con formato</td><td>Pegar como valores: Ctrl + Mayús + V.</td></tr>
+          <tr><td>Sumar la maniobra al excedente</td><td>La maniobra se cotiza con el proveedor a partir de una foto del vehículo y se cobra aparte.</td></tr>
+          <tr><td>Aplicar la cobertura a un vehículo de más de 3 t</td><td>Si el vehículo excede pesos y dimensiones, Addiuva no aplica la cobertura de 150 km o 1.500 Bs: se deja vacía y se carga el valor cotizado del vehículo pesado.</td></tr>
+          <tr><td>Buscar tarifa para Beni, Pando u Oruro</td><td>No tienen tarifa: siempre se pide la cotización al proveedor.</td></tr>
+          <tr><td>Usar la pestaña estándar con un afiliado de Banco Prodem</td><td>Usar la pestaña VIP: su tope es de 3.500 Bs.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+    (() => {
+      // Precios que efectivamente usa cada pestaña. Nacional 1, 2 y 3 leen la tabla de la pestaña NACIONAL 2.
+      const C = (g, a, r) => ({ g, a, r });
+      const TARIFAS = {
+        nacional: { 'Santa Cruz': C('eje', 18, 20), 'Cochabamba': C('eje', 19, 21), 'La Paz Altiplano': C('eje', 23, 25), 'La Paz Yungas': C('eje', 23, 26),
+                    'Tarija': C('resto', 16, 17), 'Sucre': C('resto', 22, 25), 'Potosí': C('resto', 24, 27), 'Beni': C('cotizar'), 'Oruro': C('cotizar'), 'Pando': C('cotizar') },
+        vip:      { 'Santa Cruz': C('eje', 18, 20), 'Cochabamba': C('eje', 19, 21), 'La Paz Altiplano': C('eje', 23, 25), 'La Paz Yungas': C('eje', 23, 28),
+                    'Tarija': C('resto', 16, 17), 'Sucre': C('resto', 22, 25), 'Potosí': C('resto', 24, 27), 'Beni': C('cotizar'), 'Oruro': C('cotizar'), 'Pando': C('cotizar') },
+        bisa:     { 'Santa Cruz': C('tarifa', 11, 14), 'Cochabamba': C('tarifa', 17, 21), 'La Paz': C('tarifa', 20, 24), 'Tarija': C('tarifa', 12, 15),
+                    'Sucre': C('tarifa', 17, 22), 'Potosí': C('tarifa', 21, 25), 'Oruro': C('tarifa', 21, 25), 'Beni': C('cotizar'), 'Pando': C('cotizar') },
+      };
+
+      // Réplica de las fórmulas de la hoja. Devuelve montos en Bs.
+      function czCalc({ cuenta, ciudad, servicio, categoria, asf, rip, cot, man }) {
+        const t = TARIFAS[cuenta][ciudad];
+        const total = t.g === 'cotizar' ? Math.round(cot * 1.15) : asf * t.a + rip * t.r;
+        let cob, tope;
+        if (cuenta === 'bisa') {
+          cob = categoria === 'M2' ? 1000 : 3000;   // la hoja lo llama "valor cubierto Addiuva"
+          const aa = Math.min(total, cob);
+          return { total, cob, aa, cc: 0, na: Math.max(0, total - cob), man: man * 1.29, t };
+        }
+        tope = servicio === 'siniestro' ? 1500 : 700;
+        if (cuenta === 'vip') cob = Math.min(total, 3500);
+        else if (t.g === 'eje') cob = Math.min(total, Math.min(asf, 150) * t.a + Math.min(Math.max(0, 150 - asf), rip) * t.r);
+        else cob = Math.min(total, 1500);
+        return { total, cob, aa: Math.min(tope, cob), cc: Math.max(0, cob - tope), na: Math.max(0, total - cob), man: man * 1.3, t };
+      }
+
+      // Autocontrol con los casos reales del cuadro (montos verificados en la hoja)
+      const ok = (r, e) => ['total', 'cob', 'aa', 'cc', 'na'].every(k => r[k] === e[k]);
+      console.assert(ok(czCalc({ cuenta: 'nacional', ciudad: 'Santa Cruz', servicio: 'averia', asf: 175, rip: 0, cot: 0, man: 0 }), { total: 3150, cob: 2700, aa: 700, cc: 2000, na: 450 }), 'cotizador: eje troncal');
+      console.assert(ok(czCalc({ cuenta: 'nacional', ciudad: 'Sucre', servicio: 'siniestro', asf: 71, rip: 6, cot: 0, man: 0 }), { total: 1712, cob: 1500, aa: 1500, cc: 0, na: 212 }), 'cotizador: resto del país');
+      console.assert(ok(czCalc({ cuenta: 'vip', ciudad: 'Cochabamba', servicio: 'averia', asf: 255, rip: 0, cot: 0, man: 0 }), { total: 4845, cob: 3500, aa: 700, cc: 2800, na: 1345 }), 'cotizador: VIP');
+      console.assert(ok(czCalc({ cuenta: 'bisa', ciudad: 'Beni', categoria: 'M3', asf: 0, rip: 0, cot: 3000, man: 0 }), { total: 3450, cob: 3000, aa: 3000, cc: 0, na: 450 }), 'cotizador: BISA');
+
+      const bs = n => Math.round(n).toLocaleString('es-BO') + ' Bs';
+
+      // Tabla de tarifas
+      const ciudades = ['Santa Cruz', 'Cochabamba', 'La Paz', 'La Paz Altiplano', 'La Paz Yungas', 'Tarija', 'Sucre', 'Potosí', 'Oruro', 'Beni', 'Pando'];
+      const cell = (k, c) => { const t = TARIFAS[k][c]; return !t ? '—' : t.g === 'cotizar' ? '<span style="color:var(--gold)">A cotizar</span>' : t.a + ' · ' + t.r; };
+      document.querySelector('.cz-tarifas').innerHTML = ciudades.map(c =>
+        '<tr><td>' + c + '</td><td>' + cell('nacional', c) + '</td><td>' + cell('vip', c) + '</td><td>' + cell('bisa', c) + '</td></tr>').join('');
+
+      // Cuadro de muestra: explicación por fila
+      const anat = document.querySelector('.cz-anat'), tip = anat.querySelector('.cz-tip-text'), TIP0 = tip.textContent;
+      const rows = [...anat.querySelectorAll('tr[data-tip]')];
+      let pinned = null;
+      const showTip = r => { rows.forEach(x => x.classList.toggle('active', x === r)); tip.textContent = r ? r.dataset.tip : TIP0; };
+      for (const r of rows) {
+        r.addEventListener('pointerenter', () => showTip(pinned || r));
+        r.addEventListener('pointerleave', () => showTip(pinned));
+        r.addEventListener('focus', () => showTip(r));
+        r.addEventListener('click', () => { pinned = pinned === r ? null : r; showTip(pinned); });
+      }
+
+      // Simulador
+      const sim = document.querySelector('.cz-sim'), f = k => sim.querySelector('[data-f="' + k + '"]');
+      function fillCities() {
+        const prev = f('ciudad').value;
+        f('ciudad').innerHTML = Object.keys(TARIFAS[f('cuenta').value]).map(c => '<option>' + c + '</option>').join('');
+        if ([...f('ciudad').options].some(o => o.value === prev)) f('ciudad').value = prev;
+      }
+      function render() {
+        const cuenta = f('cuenta').value, isBisa = cuenta === 'bisa';
+        sim.querySelector('.cz-servicio').hidden = isBisa;
+        sim.querySelector('.cz-categoria').hidden = !isBisa;
+        const num = k => Math.max(0, +f(k).value || 0);
+        const inp = { cuenta, ciudad: f('ciudad').value, servicio: f('servicio').value, categoria: f('categoria').value, asf: num('asf'), rip: num('rip'), cot: num('cot'), man: num('man') };
+        const r = czCalc(inp), cotizar = r.t.g === 'cotizar';
+        f('asf').disabled = f('rip').disabled = cotizar;
+        f('cot').disabled = !cotizar;
+        const set = (c, v) => { sim.querySelector('.cz-o-' + c).textContent = bs(v); };
+        set('total', r.total); set('cob', r.cob); set('aa', r.aa); set('cc', r.cc); set('na', r.na); set('man', r.man);
+        const pct = v => r.total ? (v / r.total * 100) + '%' : '0%';
+        for (const k of ['aa', 'cc', 'na']) { const s = sim.querySelector('.cz-b-' + k); s.style.width = pct(r[k]); s.textContent = r[k] / (r.total || 1) > 0.08 ? k.toUpperCase() : ''; }
+        const costo = cotizar ? 'Cotización ' + bs(inp.cot) + ' + 15 % = ' + bs(r.total)
+          : inp.asf + ' km × ' + r.t.a + ' + ' + inp.rip + ' km × ' + r.t.r + ' = ' + bs(r.total);
+        const cubre = isBisa ? 'BISA ' + inp.categoria + ' cubre hasta ' + bs(r.cob === r.total ? (inp.categoria === 'M2' ? 1000 : 3000) : r.cob)
+          : cuenta === 'vip' ? 'Banco Prodem cubre hasta 3.500 Bs'
+          : r.t.g === 'eje' ? 'La cuenta cubre los primeros 150 km' : 'La cuenta cubre hasta 1.500 Bs';
+        const tope = isBisa ? '' : ' · Addiuva asume hasta ' + (inp.servicio === 'siniestro' ? '1.500' : '700') + ' Bs (' + (inp.servicio === 'siniestro' ? 'siniestro' : 'avería') + ')';
+        sim.querySelector('.cz-o-how').textContent = costo + ' · ' + cubre + tope + (r.man ? ' · Maniobra: ' + bs(inp.man) + ' + ' + (isBisa ? '29' : '30') + ' %, se cobra aparte' : '') + '.';
+      }
+      f('cuenta').addEventListener('change', () => { fillCities(); render(); });
+      sim.addEventListener('input', render);
+      fillCities(); render();
+    })();
+    </script>
+    </div>
+    </div><!-- /cotizador-body -->
+  </section>
+
+  <section class="section" id="reembolsos">
+    <h2 class="section-title section-toggle" data-target="reembolsos-body" aria-expanded="false">
+      <span><span class="section-num">9</span> Reembolsos y Farmacias</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Flujo de reembolso, retención fiscal y descuento en medicamentos</p>
+    <div class="section-body-wrap" id="reembolsos-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Flujo de reembolso, retención fiscal y módulo de descuento en medicamentos</p>
+
+    <div class="grid-2" style="gap:20px">
+
+      <!-- Reembolsos -->
+      <div>
+        <h3 class="subsection-title" style="margin-bottom:14px">Reembolsos</h3>
+        <div class="steps">
+          <div class="step">
+            
+            <div><div class="step-title">Validar en SOA</div>
+            <div class="step-body">Confirmar que el servicio está cubierto y el expediente está abierto</div></div>
+          </div>
+          <div class="step">
+            
+            <div><div class="step-title">Verificar datos de factura</div>
+            <div class="step-body">Razón Social correcta, NIT de la cuenta y concepto detallado del servicio</div></div>
+          </div>
+          <div class="step">
+            
+            <div><div class="step-title">Informar retención DS 4850</div>
+            <div class="step-body">Para particulares: <strong>16% de retención</strong> aplicada al monto del reembolso</div></div>
+          </div>
+          <div class="step">
+            
+            <div><div class="step-title">Plazo de pago</div>
+            <div class="step-body">3 a 7 días hábiles post-aprobación contable. Informar al afiliado al coordinar</div></div>
+          </div>
+        </div>
+        <div class="alert alert-red" style="margin-top:12px">
+          <span class="alert-icon">!</span>
+          <div><strong>NIT incorrecto = rechazo contable.</strong> Verificar que el NIT en la factura corresponde exactamente al NIT de la cuenta registrado en SOA. Un error aquí reinicia todo el proceso.</div>
+        </div>
+      </div>
+
+      <!-- Farmacias -->
+      <div>
+        <h3 class="subsection-title" style="margin-bottom:14px">Módulo Farmacias — Descuento Medicamentos</h3>
+        <div class="steps">
+          <div class="step">
+            
+            <div><div class="step-title">Validar en SOA</div>
+            <div class="step-body">Confirmar que el plan tiene cobertura de descuento en medicamentos. Si el registro falla: escalar al supervisor indicando la antigüedad del afiliado</div></div>
+          </div>
+          <div class="step">
+            
+            <div><div class="step-title">Verificar receta física</div>
+            <div class="step-body">Receta con firma médica, fecha vigente y saldos disponibles visibles</div></div>
+          </div>
+          <div class="step">
+            
+            <div><div class="step-title">Confirmar límite mensual</div>
+            <div class="step-body">Consultar en SOA el saldo disponible del mes antes de autorizar</div></div>
+          </div>
+          <div class="step">
+            
+            <div><div class="step-title">Coordinar con farmacia</div>
+            <div class="step-body">Confirmar disponibilidad del medicamento en la red (Farmacorp / Económica / Chávez)</div></div>
+          </div>
+          <div class="step">
+            
+            <div><div class="step-title">Registrar en SOA</div>
+            <div class="step-body">Cerrar expediente con tipificación AA y datos de la farmacia asignada</div></div>
+          </div>
+        </div>
+        <div class="alert alert-red" style="margin-top:12px">
+          <span class="alert-icon">!</span>
+          <div>Sin validación SOA o sin receta física válida: <strong>no se coordina</strong>. Informar al afiliado que debe cumplir los requisitos primero.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuentas con descuento farmacia -->
+    <h3 class="subsection-title" style="margin-bottom:10px; margin-top:24px">Cuentas con descuento en medicamentos</h3>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Cuenta</th><th>Asistencias farmacia</th><th>% de 383</th></tr></thead>
+        <tbody>
+          <tr><td>La Boliviana Ciacruz</td><td style="font-weight:700; color:var(--accent)">116</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">30,3 %</span></div></td></tr>
+          <tr><td>Asist. Nacional Seguros Vida y Salud</td><td style="font-weight:700; color:var(--accent)">85</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:73%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">22,2 %</span></div></td></tr>
+          <tr><td>Asistencia Banco FIE</td><td style="font-weight:700; color:var(--accent)">78</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:67%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">20,4 %</span></div></td></tr>
+          <tr><td>Asistencia Banco Ecofuturo</td><td style="font-weight:700; color:var(--accent)">62</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:53%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">16,2 %</span></div></td></tr>
+          <tr><td>Banco Fortaleza</td><td style="font-weight:700; color:var(--accent)">13</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:11%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">3,4 %</span></div></td></tr>
+          <tr><td>BISA Seguros</td><td style="font-weight:700; color:var(--accent)">10</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:9%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">2,6 %</span></div></td></tr>
+          <tr><td>Sagrada Familia</td><td style="font-weight:700; color:var(--accent)">6</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:5%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">1,6 %</span></div></td></tr>
+          <tr><td>Fortaleza Seguros</td><td style="font-weight:700; color:var(--accent)">5</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:4%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">1,3 %</span></div></td></tr>
+          <tr><td>CIDRE</td><td style="font-weight:700; color:var(--accent)">5</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:4%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">1,3 %</span></div></td></tr>
+          <tr><td>Credinform International</td><td style="font-weight:700; color:var(--accent)">3</td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:3%"></div></div><span style="font-size:0.72rem;color:var(--text-muted);min-width:32px;text-align:right">0,8 %</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    </div><!-- /reembolsos-body -->
+  </section>
+
+  <div class="group-band" data-group="Referencia">
+    <span class="group-band-name">Referencia</span>
+  </div>
+  <section class="section" id="errores" style="background: linear-gradient(to bottom, var(--surface), var(--surface-2)); border: 1px solid var(--border);">
+    <h2 class="section-title section-toggle" data-target="errores-body" aria-expanded="false">
+      <span><span class="section-num">10</span> Errores Frecuentes y Terminología Local</span>
+      <span class="toggle-chevron" aria-hidden="true">▲</span>
+    </h2>
+    <p class="section-peek">Desvíos operativos comunes y glosario boliviano</p>
+    <div class="section-body-wrap" id="errores-body">
+    <div class="section-body-inner">
+    <p class="section-subtitle">Desvíos operativos comunes y glosario boliviano</p>
+
+    <!-- Errores frecuentes -->
+    <h3 class="subsection-title" style="margin-bottom:12px">Errores críticos — los 5 más comunes</h3>
+    <div class="table-container" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th>Situación</th><th>Error frecuente</th><th>Acción correcta</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600">Inicio de atención</td>
+            <td style="color:var(--red)">Omitir validación del CI del afiliado</td>
+            <td>Solicitar CI siempre como primer dato antes de cualquier gestión</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Tipificación financiera</td>
+            <td style="color:var(--red)">Confundir AA con CC (tipificar CC un servicio en cobertura, o cargar a la cuenta una excepción que no autorizó)</td>
+            <td>AA = en cobertura o error propio (paga Addiuva). CC = excepción autorizada por la cuenta. NA = excedente o no cubierto (paga el afiliado). Verificar árbol de decisión</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Remolque de más de 30 km</td>
+            <td style="color:var(--red)">Estimar km a ojo sin usar Cotizador Drive</td>
+            <td>Completar el cuadro cotizador (30–150 km), informar el excedente al afiliado y confirmar con el proveedor antes de despachar</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Siniestros en cabina</td>
+            <td style="color:var(--red)">Gestionar el siniestro en cabina, o coordinar un servicio derivado sin aval de la cuenta</td>
+            <td>Siniestros de Nacional: derivar por DOKKA. Servicios derivados de un siniestro: solo con aval de la cuenta</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600">Validación de cobertura</td>
+            <td style="color:var(--red)">Asumir cobertura por reconocer el nombre de la cuenta</td>
+            <td>Siempre validar el plan específico en SOA antes de coordinar cualquier servicio</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Glosario -->
+    <h3 class="subsection-title" style="margin-bottom:12px">Terminología local — Bolivia</h3>
+    <div class="grid-2" style="gap:12px">
+      <div class="card" style="padding:14px 16px">
+        <div style="font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px">Vehículos y circulación</div>
+        <table style="width:100%; font-size:0.79rem; border-collapse:collapse">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Surtidor</td><td style="padding:5px 0; color:var(--text-muted)">Gasolinera / estación de servicio</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Trancadera</td><td style="padding:5px 0; color:var(--text-muted)">Atasco / embotellamiento de tráfico</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Línea / flota</td><td style="padding:5px 0; color:var(--text-muted)">Vehículo de transporte público</td></tr>
+            <tr><td style="padding:5px 0; font-weight:700; color:var(--text)">Pique / trencito</td><td style="padding:5px 0; color:var(--text-muted)">Taxi compartido / minibús informal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="padding:14px 16px">
+        <div style="font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px">Identidad y trámites</div>
+        <table style="width:100%; font-size:0.79rem; border-collapse:collapse">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Carnet</td><td style="padding:5px 0; color:var(--text-muted)">CI — Documento de identidad nacional</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Don / Doña</td><td style="padding:5px 0; color:var(--text-muted)">Tratamiento de respeto esperado en atención</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Celular</td><td style="padding:5px 0; color:var(--text-muted)">Teléfono móvil (prefijos 6x/7x no identifican depto.)</td></tr>
+            <tr><td style="padding:5px 0; font-weight:700; color:var(--text)">Placa / patente</td><td style="padding:5px 0; color:var(--text-muted)">Matrícula / número de chapa del vehículo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="padding:14px 16px">
+        <div style="font-size:0.72rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px">Salud y farmacia</div>
+        <table style="width:100%; font-size:0.79rem; border-collapse:collapse">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Botica</td><td style="padding:5px 0; color:var(--text-muted)">Farmacia pequeña / informal</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Consultorio</td><td style="padding:5px 0; color:var(--text-muted)">Consultorio médico presencial en red</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:5px 0; font-weight:700; color:var(--text)">Receta / prescripción</td><td style="padding:5px 0; color:var(--text-muted)">Documento médico con firma, fecha y saldos</td></tr>
+            <tr><td style="padding:5px 0; font-weight:700; color:var(--text)">Postulación</td><td style="padding:5px 0; color:var(--text-muted)">Solicitud de reembolso formal ante contabilidad</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+    </div><!-- /errores-body -->
+  </section>
+
+</main>
+
+<script>
+// ── Tema claro / oscuro ────────────────────────────────────
+const root = document.documentElement;
+const btn  = document.getElementById('theme-toggle');
+
+function setTheme(dark) {
+  root.setAttribute('data-theme', dark ? 'dark' : 'light');
+  // El icono muestra la acción, no el estado actual
+  btn.textContent = dark ? '☀' : '☾';
+  btn.setAttribute('aria-label', dark ? 'Activar modo claro' : 'Activar modo oscuro');
+  localStorage.setItem('bo-theme', dark ? 'dark' : 'light');
+  refreshCharts();
+}
+
+// ── Menú móvil ─────────────────────────────────────────────
+const sidebar  = document.getElementById('sidebar');
+const menuBtn  = document.getElementById('menu-toggle');
+const backdrop = document.getElementById('nav-backdrop');
+
+function setMenu(open) {
+  sidebar.classList.toggle('open', open);
+  menuBtn.setAttribute('aria-expanded', open);
+  menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+}
+menuBtn.addEventListener('click', () => setMenu(!sidebar.classList.contains('open')));
+backdrop.addEventListener('click', () => setMenu(false));
+let navFrozen = false, navFreezeTimer;
+sidebar.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  e.preventDefault();          // evita el scroll nativo del anchor
+  setMenu(false);
+  // Fijar el link activo y congelar el observer durante la animación
+  navLinks.forEach(l => l.classList.remove('active'));
+  a.classList.add('active');
+  navFrozen = true;
+  clearTimeout(navFreezeTimer);
+  navFreezeTimer = setTimeout(() => { navFrozen = false; }, 700);
+  const section = document.getElementById(a.getAttribute('href').slice(1));
+  if (!section) return;
+  const toggle = section.querySelector('.section-toggle');
+  if (toggle) toggle.click();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+// ── Sidebar desktop — hover ─────────────────────────────────
+const sidebarClose  = document.getElementById('sidebar-close');
+const sidebarReveal = document.getElementById('sidebar-reveal');
+function setSidebarVisible(show) {
+  document.body.classList.toggle('sidebar-hidden', !show);
+  sidebar.classList.toggle('sidebar-hidden', !show);
+}
+
+if (window.matchMedia('(min-width: 901px)').matches) {
+  if (sidebarClose)  sidebarClose.addEventListener('click',  () => setSidebarVisible(false));
+  if (sidebarReveal) sidebarReveal.addEventListener('click', () => setSidebarVisible(true));
+  // empieza visible en desktop
+}
+
+// ── Feedback ────────────────────────────────────────────────
+var FB_EMAIL = ''; // ← ponés tu correo acá
+const fbToggle = document.getElementById('feedback-toggle');
+const fbForm   = document.getElementById('feedback-form');
+const fbSend   = document.getElementById('fb-send');
+const fbOk     = document.getElementById('fb-ok');
+if (fbToggle) fbToggle.addEventListener('click', () => { fbForm.hidden = !fbForm.hidden; fbOk.hidden = true; });
+if (fbSend) fbSend.addEventListener('click', () => {
+  const name    = document.getElementById('fb-name').value.trim();
+  const comment = document.getElementById('fb-comment').value.trim();
+  if (!comment) { document.getElementById('fb-comment').focus(); return; }
+  const subject = encodeURIComponent('Manual Bolivia 2026 — Sugerencia');
+  const body    = encodeURIComponent((name ? 'De: ' + name + '\n\n' : '') + comment);
+  window.open('mailto:' + FB_EMAIL + '?subject=' + subject + '&body=' + body);
+  fbOk.hidden = false;
+});
+
+// Inicializar con preferencia guardada o del sistema
+const saved = localStorage.getItem('bo-theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+setTheme(saved ? saved === 'dark' : prefersDark);
+
+btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') !== 'dark'));
+
+// ── Nav activo (solo por clic en sidebar) ─────────────────
+const sections = document.querySelectorAll('.section');
+const navLinks  = document.querySelectorAll('.nav-link');
+
+function updateActiveNav() { /* no-op: nav se actualiza solo desde sidebar */ }
+
+// ── Búsqueda en contenido ─────────────────────────────────
+(function() {
+  const INDEX = Array.from(navLinks).map(l => {
+    const id = l.getAttribute('href').slice(1);
+    const sec = document.getElementById(id);
+    return { id, label: l.textContent.trim(), text: sec ? sec.textContent.replace(/\s+/g, ' ').trim() : '' };
+  });
+
+  const resultsEl = document.getElementById('search-results');
+  const searchEl  = document.getElementById('search');
+
+  function escape(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function excerpt(text, q) {
+    const pos = text.toLowerCase().indexOf(q);
+    if (pos === -1) return '';
+    const s = Math.max(0, pos - 45), e = Math.min(text.length, pos + q.length + 45);
+    const raw = (s > 0 ? '…' : '') + text.slice(s, e) + (e < text.length ? '…' : '');
+    return raw.replace(new RegExp(escape(q), 'gi'), m => `<mark>${m}</mark>`);
+  }
+
+  function clearSearch() {
+    searchEl.value = '';
+    resultsEl.hidden = true;
+    resultsEl.innerHTML = '';
+  }
+
+  searchEl.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (!q) { clearSearch(); return; }
+
+    const hits = INDEX.filter(e => e.text.toLowerCase().includes(q));
+    resultsEl.hidden = false;
+    resultsEl.innerHTML = hits.length
+      ? hits.map(e => `<a class="search-hit" href="#${e.id}">${e.label}<span class="search-excerpt">${excerpt(e.text, q)}</span></a>`).join('')
+      : '<div class="search-noresult">Sin resultados</div>';
+  });
+
+  // Cerrar dropdown al hacer click fuera o al seleccionar un resultado
+  document.addEventListener('click', e => {
+    if (!document.getElementById('search-wrap').contains(e.target)) clearSearch();
+  });
+  resultsEl.addEventListener('click', () => setTimeout(clearSearch, 80));
+})();
+
+// ── Secciones colapsables ──────────────────────────────────
+document.querySelectorAll('.section-toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    const wrap = document.getElementById(toggle.dataset.target);
+    wrap.classList.toggle('open', !isOpen);
+    if (!isOpen) {
+      wrap.querySelectorAll('.card, .chart-card').forEach((c, i) => {
+        c.style.setProperty('--i', i);
+        c.classList.remove('stagger');
+        void c.offsetWidth;
+        c.classList.add('stagger');
+      });
+      if (toggle.dataset.target === 'panorama-body') renderPanoramaCharts();
+    }
+    navFrozen = true;
+    clearTimeout(navFreezeTimer);
+    navFreezeTimer = setTimeout(() => { navFrozen = false; updateActiveNav(); }, 900);
+    toggle.closest('.section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const openIds = [...document.querySelectorAll('.section-body-wrap.open')].map(w => w.id);
+    localStorage.setItem('bolivia-open', JSON.stringify(openIds));
+  });
+});
+
+// Click en .section-peek también abre la sección
+document.querySelectorAll('.section-peek').forEach(peek => {
+  peek.addEventListener('click', () => peek.previousElementSibling.click());
+});
+
+// ── Expandir / Colapsar todo ─────────────────────────────
+function openSectionQuiet(toggle) {
+  if (!toggle || toggle.getAttribute('aria-expanded') === 'true') return;
+  toggle.setAttribute('aria-expanded', 'true');
+  const wrap = document.getElementById(toggle.dataset.target);
+  wrap.classList.add('open');
+  wrap.querySelectorAll('.card, .chart-card').forEach((c, i) => {
+    c.style.setProperty('--i', i);
+    c.classList.remove('stagger');
+    void c.offsetWidth;
+    c.classList.add('stagger');
+  });
+  if (toggle.dataset.target === 'panorama-body') renderPanoramaCharts();
+}
+function closeSectionQuiet(toggle) {
+  if (!toggle || toggle.getAttribute('aria-expanded') === 'false') return;
+  toggle.setAttribute('aria-expanded', 'false');
+  document.getElementById(toggle.dataset.target).classList.remove('open');
+}
+document.getElementById('expand-all').addEventListener('click', () => {
+  document.querySelectorAll('.section-toggle').forEach(openSectionQuiet);
+  localStorage.setItem('bolivia-open', JSON.stringify(
+    [...document.querySelectorAll('.section-body-wrap')].map(w => w.id)
+  ));
+});
+document.getElementById('collapse-all').addEventListener('click', () => {
+  document.querySelectorAll('.section-toggle').forEach(closeSectionQuiet);
+  localStorage.setItem('bolivia-open', '[]');
+});
+
+// ── Gráficos panorama (SVG vanilla) ───────────────────────
+const FAMILIAS_DATA = [
+  { name: 'Vehicular',    value: 761, color: 'var(--fam-vehicular)',    tip: 'Remolque: 582 · Auxilio vial: 125 · Varios vial: 52 · Chofer reemplazo: 2' },
+  { name: 'Médica',       value: 658, color: 'var(--fam-medica)',       tip: 'Farmacia: 383 · Consultorio: 191 · Dental: 62 · Análisis clínico: 10 · Médico domicilio: 3' },
+  { name: 'Hogar',        value: 101, color: 'var(--fam-hogar)',        tip: 'Gasfitería: 44 · Técnico domicilio: 16 · Electricidad: 15 · Electrodomésticos: 9 · Aire acond.: 7' },
+  { name: 'Mascota',      value:  70, color: 'var(--fam-mascota)',      tip: 'Asistencia veterinaria: 68 · Veterinario en línea: 2' },
+  { name: 'Telemedicina', value:  34, color: 'var(--fam-telemedicina)', tip: 'Médico en línea: 34' },
+  { name: 'Otros',        value:  18, color: 'var(--fam-otros)',        tip: 'Coord. telefónica: 7 · Traslado: 6 · Funeraria: 3 · Siniestros: 2' }
+];
+const PLANES_DATA = [
+  { name: 'Asistencia Vial Nacional',  value: 719, tip: 'Nacional Seguros' },
+  { name: 'Tu Familia',                value: 165, tip: 'Alianza Seguros' },
+  { name: 'PRODEM Servicios Médicos',  value: 113, tip: 'Asist. Nacional Vida y Salud' },
+  { name: 'Medicamentos Banco FIE',    value:  58, tip: 'Asistencia Banco FIE' },
+  { name: 'EcoHogar',                  value:  58, tip: 'Banco Económico' },
+  { name: 'Sol Integral (Banco Sol)',  value:  55, tip: 'La Boliviana Ciacruz' },
+  { name: 'Medicamentos BS CSGS',      value:  49, tip: 'La Boliviana Ciacruz' },
+  { name: 'Mascotas Ecommerce',        value:  43, tip: 'Asist. Nacional Vida y Salud' },
+  { name: 'Asist. p/ Motocicletas',    value:  40, tip: 'BISA Seguros' },
+  { name: 'Familia Protegida JGP',     value:  34, tip: 'Asist. Nacional Vida y Salud' }
+];
+
+function getBarTip() {
+  var tip = document.getElementById('bar-tip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'bar-tip';
+    tip.style.cssText = 'position:fixed;pointer-events:none;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.6;color:var(--text);box-shadow:0 4px 16px rgba(0,0,0,.2);opacity:0;transition:opacity .12s;z-index:9999;white-space:nowrap';
+    document.body.appendChild(tip);
+  }
+  return tip;
+}
+
+function svgBarChart(containerId, data, ml, mr) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const H = el.clientHeight || 155, W = el.clientWidth || 400;
+  const mt = 6, mb = 6, innerW = W - ml - mr;
+  const rowH = (H - mt - mb) / data.length, barH = Math.min(rowH * 0.42, 11);
+  const maxVal = Math.max.apply(null, data.map(d => d.value));
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const textColor  = dark ? '#D8EDD9' : '#0D1F10';
+  const mutedColor = dark ? '#5C7A62' : '#718F77';
+  const trackColor = dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)';
+  const defColor   = dark ? '#2ECC6E' : '#1B6B3A';
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('width', '100%'); svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'Gráfico: ' + data.map(d => `${d.name} ${d.value}`).join(', '));
+  svg.style.fontFamily = 'inherit';
+  const g = document.createElementNS(NS, 'g');
+  g.setAttribute('transform', `translate(${ml},${mt})`);
+  svg.appendChild(g);
+  const mkRect = (x, y, w, h, fill) => {
+    const r = document.createElementNS(NS, 'rect');
+    r.setAttribute('x', x); r.setAttribute('y', y);
+    r.setAttribute('width', w); r.setAttribute('height', h);
+    r.setAttribute('rx', h / 2); r.setAttribute('fill', fill);
+    return r;
+  };
+  const mkText = (x, y, anchor, txt, fill) => {
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y);
+    t.setAttribute('text-anchor', anchor); t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('font-size', '11'); t.setAttribute('fill', fill);
+    t.textContent = txt;
+    return t;
+  };
+  data.forEach((d, i) => {
+    const midY = i * rowH + rowH / 2, bW = Math.max((d.value / maxVal) * innerW, 2);
+    const pct = (d.value / TOTAL_ASIST * 100).toFixed(1).replace('.', ',');
+    g.appendChild(mkRect(0, midY - barH / 2, innerW, barH, trackColor));
+    g.appendChild(mkRect(0, midY - barH / 2, bW, barH, d.color || defColor));
+    g.appendChild(mkText(-6, midY + 1, 'end', d.name, textColor));
+    g.appendChild(mkText(innerW + 6, midY + 1, 'start', d.value, mutedColor));
+    const hit = document.createElementNS(NS, 'rect');
+    hit.setAttribute('x', 0); hit.setAttribute('y', i * rowH);
+    hit.setAttribute('width', innerW); hit.setAttribute('height', rowH);
+    hit.setAttribute('fill', 'transparent');
+    hit.style.cursor = 'default';
+    hit.addEventListener('mousemove', e => {
+      const tip = getBarTip();
+      const subtip = d.tip ? '<br><span style="opacity:.72">' + d.tip + '</span>' : '';
+      tip.innerHTML = '<strong>' + d.name + '</strong>' + subtip + '<br>' + d.value + ' asistencias &nbsp;·&nbsp; ' + pct + ' %';
+      tip.style.opacity = '1';
+      tip.style.left = (e.clientX + 14) + 'px';
+      tip.style.top  = (e.clientY - 36) + 'px';
+    });
+    hit.addEventListener('mouseleave', () => { getBarTip().style.opacity = '0'; });
+    g.appendChild(hit);
+  });
+  el.innerHTML = '';
+  el.appendChild(svg);
+}
+
+var panoramaChartsDrawn = false;   // var: setTheme() lo lee al cargar, antes de esta línea
+function renderPanoramaCharts() {
+  svgBarChart('chart-familias', FAMILIAS_DATA, 110, 55);
+  svgBarChart('chart-planes',   PLANES_DATA,   175, 40);
+  panoramaChartsDrawn = true;
+}
+
+function refreshCharts() {
+  if (panoramaChartsDrawn) renderPanoramaCharts();
+}
+
+// Restaurar estado desplegable al recargar
+(JSON.parse(localStorage.getItem('bolivia-open') || '[]')).forEach(id => {
+  const wrap = document.getElementById(id);
+  const tog = document.querySelector('[data-target="' + id + '"]');
+  if (wrap && tog) {
+    tog.setAttribute('aria-expanded', 'true');
+    wrap.classList.add('open');
+    if (id === 'panorama-body') renderPanoramaCharts();
+  }
+});
+
+</script>
+
+</body>
+</html>
