@@ -486,11 +486,6 @@ tr:hover td { background: var(--surface-2); }
   border-left: 3px solid var(--accent);
 }
 
-/* Placeholder */
-.placeholder {
-  border: 2px dashed var(--border); border-radius: var(--radius);
-  padding: 48px; text-align: center; color: var(--text-muted); font-size: 0.85rem;
-}
 
 /* Cuentas — familia badge */
 .familia-badge { font-size: 0.67rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; text-transform: uppercase; letter-spacing: .5px; }
@@ -558,7 +553,7 @@ tr:hover td { background: var(--surface-2); }
 .section-toggle:hover { background: var(--surface-2); }
 /* Comprimida: toda la tarjeta responde al hover */
 .section:has(.section-toggle[aria-expanded="false"]):hover {
-  background: var(--surface-3);
+  background: var(--surface-2);
   cursor: pointer;
 }
 /* El toggle no duplica el fondo cuando la sección ya lo maneja */
@@ -596,16 +591,6 @@ tr:hover td { background: var(--surface-2); }
 .cz-sheet tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .cz-sheet tr.cz-group th { background: var(--accent-bg); color: var(--accent); font-weight: 700; cursor: default; }
 .cz-tip { position: sticky; top: 72px; }
-.cz-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-.cz-form label { display: flex; flex-direction: column; gap: 3px; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); }
-.cz-form select, .cz-form input { font: inherit; font-size: 0.82rem; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
-.cz-form input:disabled { opacity: 0.45; }
-.cz-form [hidden] { display: none; }
-.cz-bar { display: flex; height: 26px; border-radius: var(--radius-sm); overflow: hidden; background: var(--surface-2); margin: 10px 0 6px; }
-.cz-bar span { display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #fff; min-width: 0; overflow: hidden; transition: width 0.25s; }
-.cz-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
-.cz-out div { padding: 8px 10px; border-radius: var(--radius-sm); background: var(--surface-2); font-size: 0.72rem; color: var(--text-muted); }
-.cz-out strong { display: block; font-size: 1.05rem; color: var(--text); }
 
 /* ── Print / PDF ─────────────────────────────────────────── */
 @media print {
@@ -686,6 +671,43 @@ tr:hover td { background: var(--surface-2); }
   .bento { grid-template-columns: 1fr 1fr; }
   .bento .c2, .bento .c3, .bento .c4, .bento .c5, .bento .c6 { grid-column: span 2; }
 }
+
+/* ============================================================
+   Rediseño aprobado — migrado desde sandbox-redesign.html
+   ============================================================ */
+
+/* 1. Section number badge — sólido */
+.section-num {
+  font-size: 0.62rem; font-weight: 800;
+  color: #fff; background: var(--accent);
+  padding: 3px 9px; border-radius: 5px;
+  opacity: 1; letter-spacing: 0.06em;
+}
+[data-theme="dark"] .section-num { color: #0a130c; }
+
+/* 2. Section peek — más legible */
+.section-peek { font-size: 0.72rem; padding-bottom: 14px; }
+
+/* 3. Strips de color lateral por grupo */
+#panorama, #soa { box-shadow: inset 4px 0 0 0 var(--accent); }
+#cuentas, #proveedores { box-shadow: inset 4px 0 0 0 var(--fam-vehicular); }
+#no-vial, #plataformas, #tipificacion, #cotizador, #reembolsos { box-shadow: inset 4px 0 0 0 var(--gold); }
+#errores { box-shadow: inset 4px 0 0 0 var(--text-muted); }
+
+/* 4. KPI hero — tile del Total destacado */
+#panorama-kpis .hero-kpi { background: var(--accent); border-color: transparent; }
+#panorama-kpis .hero-kpi .card-title { color: rgba(255,255,255,0.75); }
+#panorama-kpis .hero-kpi .kpi-value  { color: #fff; font-size: 2.4rem; line-height: 1.1; }
+#panorama-kpis .hero-kpi .kpi-label  { color: rgba(255,255,255,0.7); }
+[data-theme="dark"] #panorama-kpis .hero-kpi .kpi-value { color: #0a130c; }
+
+/* 5. Steps más legibles */
+.step::before { min-width: 24px; height: 24px; font-size: 0.72rem; font-weight: 800; margin-top: 1px; }
+.step-title { font-size: 0.86rem; font-weight: 700; }
+.step-body  { font-size: 0.78rem; }
+
+/* 7. Subsection title — borde más definido */
+.subsection-title { border-left-width: 4px; font-size: 0.86rem; }
 </style>
 <script>
 // Total del periodo 1-ago a 12-oct-2026, sin las cuentas IKATECH (prueba) ni Addiuva (interna)
@@ -774,8 +796,8 @@ const TOTAL_ASIST = 1642;
     <div class="section-body-inner">
     <p class="section-subtitle">Volumen real de asistencias — agosto a octubre 2026</p>
     <!-- KPIs strip 6 cols -->
-    <div class="bento" style="margin-bottom:10px">
-      <div class="card c1">
+    <div class="bento" id="panorama-kpis" style="margin-bottom:10px">
+      <div class="card c1 hero-kpi">
         <div class="card-title">Total</div>
         <div class="kpi-value">1.642</div>
         <div class="kpi-label">ago — oct 2026</div>
@@ -1136,7 +1158,7 @@ const TOTAL_ASIST = 1642;
           '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px">' +
             '<div>' +
               '<div style="font-size:0.69rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px">' +
-                '#' + c.rank + ' &nbsp;·&nbsp; ' + c.vol.toLocaleString('es-BO') + ' asist. &nbsp;·&nbsp; ' + c.pct + '%' +
+                '#' + c.rank + ' &nbsp;·&nbsp; ' + c.vol.toLocaleString('es-BO') + ' asist. &nbsp;·&nbsp; ' + c.pct.replace('.', ',') + ' %' +
               '</div>' +
               '<div style="font-weight:700;font-size:0.9rem;color:var(--text);line-height:1.3">' + c.nombre + '</div>' +
               '<div style="font-size:0.74rem;color:var(--text-muted);line-height:1.4;margin-top:2px">' + planesTexto(c.planes) + '</div>' +
@@ -1720,7 +1742,7 @@ const TOTAL_ASIST = 1642;
           <tr><td><strong>VIP BANCO PRODEM – NACIONAL</strong></td><td>Afiliados de Banco Prodem (cliente con cobertura especial).</td><td>3.500 Bs en cualquier ciudad</td></tr>
           <tr><td><strong>BISA 1504</strong></td><td>BISA Seguros. Se elige la categoría M2 o M3.</td><td>M2: 1.000 Bs · M3: 3.000 Bs</td></tr>
           <tr><td style="color:var(--text-muted)">BANCOS – NACIONAL</td><td colspan="2" style="color:var(--text-muted)">Solo consulta: bancos con póliza colectiva de Nacional y clientes con cobertura especial (abajo).</td></tr>
-          <tr><td style="color:var(--text-muted)">INSPECTORES NACIONAL</td><td colspan="2" style="color:var(--text-muted)">Solo consulta: directorio de inspectores de Santa Cruz.</td></tr>
+          <tr><td style="color:var(--text-muted)">INSPECTORES NACIONAL</td><td colspan="2" style="color:var(--text-muted)">Solo consulta: directorio de inspectores de Nacional Seguros.</td></tr>
         </tbody>
       </table>
     </div>
@@ -1771,38 +1793,127 @@ const TOTAL_ASIST = 1642;
       <span class="cz-chip cz-in">Escribes</span>
       <span class="cz-chip cz-calc">Se calcula solo: no tocar</span>
     </div>
-    <div class="grid-2 cz-anat" style="margin-bottom:22px; align-items:start">
+    <div class="cz-anat" style="display:grid; grid-template-columns:1fr 260px; gap:16px; margin-bottom:22px; align-items:start">
       <div class="table-container">
         <table class="cz-sheet">
+          <colgroup>
+            <col style="width:37%">
+            <col style="width:15%">
+            <col style="width:17%">
+            <col style="width:14%">
+            <col style="width:17%">
+          </colgroup>
           <tbody>
-            <tr class="cz-group"><th colspan="2">COBRO EXCEDENTE · Nacional Seguros Patrimoniales y Fianzas</th></tr>
-            <tr tabindex="0" data-tip="Lista: AVERÍA o SINIESTRO. Define la cobertura de Addiuva: 700 Bs por avería y 1.500 Bs por siniestro. En un siniestro, el traslado solo se coordina con el aval de la cuenta (el inspector)."><th>Servicio por</th><td class="cz-list">AVERÍA</td></tr>
-            <tr tabindex="0" data-tip="Números de expediente y de asistencia de SOA, y la fecha. Pegar como valores (Ctrl + Mayús + V)."><th>Expediente · Asistencia · Fecha</th><td class="cz-in">00000 · 00000 · 15/10/2026</td></tr>
-            <tr tabindex="0" data-tip="Nombre del asegurado tal como figura en SOA."><th>Asegurado</th><td class="cz-in">Nombre del asegurado</td></tr>
-            <tr tabindex="0" data-tip="La ciudad sale de una lista y define el precio por km. Solo aparecen las ciudades de la columna elegida. La placa se escribe."><th>Ciudad · Placa</th><td><span class="cz-chip cz-list">SANTA CRUZ</span> <span class="cz-chip cz-in">1234-ABC</span></td></tr>
-            <tr tabindex="0" data-tip="Lugar donde está el vehículo y lugar adonde se lo lleva."><th>Dirección del evento · Destino</th><td class="cz-in">Origen → destino</td></tr>
-            <tr tabindex="0" data-tip="Nombre del inspector de la compañía que autoriza el traslado. Directorio en la pestaña INSPECTORES NACIONAL."><th>Inspector que autoriza el traslado</th><td class="cz-in">Nombre del inspector</td></tr>
-            <tr tabindex="0" data-tip="Kilómetros del recorrido, separados por tipo de camino. El total se suma solo."><th>Km de asfalto · Km de ripio</th><td class="cz-in">175 · 0</td></tr>
-            <tr tabindex="0" data-tip="Suma de km de asfalto y de ripio."><th>Total km recorridos</th><td class="cz-calc">175</td></tr>
-            <tr tabindex="0" data-tip="Precio por km de asfalto y de tierra o ripio. Sale de la tabla de tarifas según la ciudad elegida."><th>P. unitario asfalto · ripio (Bs)</th><td class="cz-calc">18 · 20</td></tr>
-            <tr tabindex="0" data-tip="Solo si hace falta rescate o maniobra: se cotiza con el proveedor a partir de una foto del vehículo. Si el vehículo pesa más de 3 toneladas, se carga aparte el valor cotizado del vehículo pesado."><th>Rescate o maniobra · Vehículo pesado (cotizados)</th><td class="cz-in">0 · 0</td></tr>
-            <tr tabindex="0" data-tip="Valor cotizado + 30 %. Se cobra aparte: no entra en el costo total del traslado ni en el excedente."><th>Valor oficial de rescate o maniobra</th><td class="cz-calc">0</td></tr>
-            <tr tabindex="0" data-tip="Km de asfalto × precio de asfalto + km de ripio × precio de ripio. En Beni, Pando y Oruro: cotización del proveedor + 15 %."><th>Costo total del traslado (hasta 3 t)</th><td class="cz-calc">3.150</td></tr>
-            <tr tabindex="0" data-tip="Lo que cubre la cuenta. Eje troncal: el costo de los primeros 150 km. Resto del país: hasta 1.500 Bs. Si el vehículo excede pesos y dimensiones, Addiuva no aplica esta cobertura y se deja vacía."><th>Cobertura eje troncal 150 km</th><td class="cz-calc">2.700</td></tr>
-            <tr tabindex="0" data-tip="Tope de Addiuva: 700 Bs por avería, 1.500 Bs por siniestro. Esta parte se tipifica AA."><th>Cobertura Addiuva <span style="color:var(--code-aa); font-weight:800">AA</span></th><td class="cz-calc">700</td></tr>
-            <tr tabindex="0" data-tip="Solo si el cliente tiene una cobertura especial adicional. Normalmente queda vacía."><th>Cobertura especial VIP</th><td class="cz-in"></td></tr>
-            <tr tabindex="0" data-tip="Cobertura de la cuenta − cobertura de Addiuva. Lo paga la compañía: se tipifica CC."><th>Cobertura de la compañía a pagar <span style="color:var(--accent); font-weight:800">CC</span></th><td class="cz-calc">2.000</td></tr>
-            <tr tabindex="0" data-tip="Costo total − cobertura de la cuenta. Lo paga el cliente: se tipifica NA."><th>Excedente a pagar por el cliente <span style="color:var(--gold); font-weight:800">NA</span></th><td class="cz-calc">450</td></tr>
-            <tr tabindex="0" data-tip="Costo aproximado de la orden de traslado: 30 a 50 Bs si la gestiona el cliente, 80 Bs si la gestiona el proveedor."><th>Orden de traslado (cliente · proveedor)</th><td class="cz-calc">30–50 · 80</td></tr>
-            <tr tabindex="0" data-tip="Marcar SÍ o NO según cómo se le informó al cliente: por correo, por teléfono o ambos."><th>Informado al cliente por correo · teléfono</th><td><span class="cz-chip cz-list">NO</span> <span class="cz-chip cz-list">SÍ</span></td></tr>
-            <tr tabindex="0" data-tip="Nombre del operador que hizo la cotización."><th>Operador</th><td class="cz-in">Nombre del operador</td></tr>
+            <tr class="cz-group">
+              <th colspan="5">COBRO EXCEDENTE INTERNO · Nacional Seguros Patrimoniales y Fianzas · Eje troncal (SCZ / LP / CBBA)</th>
+            </tr>
+            <tr tabindex="0" data-tip="Lista: AVERÍA o SINIESTRO. Define la cobertura de Addiuva: 700 Bs por avería y 1.500 Bs por siniestro. En un siniestro, el traslado solo se coordina con el aval del inspector de la cuenta.">
+              <th>Servicio por</th>
+              <td class="cz-list" colspan="4">AVERÍA</td>
+            </tr>
+            <tr tabindex="0" data-tip="Números de expediente y de asistencia de SOA, y la fecha. Pegar como valores: Ctrl + Mayús + V.">
+              <th>Expediente</th>
+              <td class="cz-in">00000</td>
+              <th>Asistencia</th>
+              <td class="cz-in">00000</td>
+              <td class="cz-in" style="color:var(--text-muted)">Fecha</td>
+            </tr>
+            <tr tabindex="0" data-tip="Nombre del asegurado tal como figura en SOA. La última columna es el número de C.I.">
+              <th>Asegurado</th>
+              <td class="cz-in" colspan="3">Nombre del asegurado</td>
+              <td class="cz-in">C.I.</td>
+            </tr>
+            <tr tabindex="0" data-tip="La ciudad sale de una lista y define el precio por km según la tabla de tarifas. La placa se escribe.">
+              <th>Ciudad</th>
+              <td class="cz-list" colspan="2">SANTA CRUZ</td>
+              <th>Placa</th>
+              <td class="cz-in">0000-AAA</td>
+            </tr>
+            <tr tabindex="0" data-tip="Lugar exacto donde está el vehículo en el momento del evento.">
+              <th>Dirección del evento</th>
+              <td class="cz-in" colspan="4">Lugar del evento</td>
+            </tr>
+            <tr tabindex="0" data-tip="Taller o destino al que se lleva el vehículo.">
+              <th>Destino</th>
+              <td class="cz-in" colspan="4">Taller o destino</td>
+            </tr>
+            <tr tabindex="0" data-tip="Solo para siniestros: nombre del inspector de la cuenta que autoriza el traslado. El directorio completo está en la pestaña INSPECTORES NACIONAL del cuadro.">
+              <th>Inspector que autoriza el traslado</th>
+              <td class="cz-in" colspan="4">Nombre del inspector</td>
+            </tr>
+            <tr tabindex="0" data-tip="Suma de km de asfalto y de ripio. Se calcula solo: no escribir aquí.">
+              <th>Total km recorridos</th>
+              <td class="cz-calc" colspan="2">175</td>
+              <td colspan="2"></td>
+            </tr>
+            <tr tabindex="0" data-tip="Ingresar los km de cada tipo de camino por separado. El total se suma solo.">
+              <th>Km de asfalto</th>
+              <td class="cz-in">175</td>
+              <th colspan="2">Km de ripio</th>
+              <td class="cz-in">0</td>
+            </tr>
+            <tr tabindex="0" data-tip="Precio por km según la ciudad elegida. Se completa automáticamente al seleccionar la ciudad.">
+              <th>P. unitario asfalto Bs</th>
+              <td class="cz-calc">18</td>
+              <th colspan="2">P. unitario ripio Bs</th>
+              <td class="cz-calc">20</td>
+            </tr>
+            <tr tabindex="0" data-tip="Solo si hace falta rescate o maniobra: cotizar con el proveedor a partir de una foto del vehículo. Si el vehículo pesa más de 3 t, cotizar también el vehículo pesado.">
+              <th>Rescate / maniobra cotizado</th>
+              <td class="cz-in">0</td>
+              <th colspan="2">Vh. pesado &gt;3T cotizado</th>
+              <td class="cz-in">0</td>
+            </tr>
+            <tr tabindex="0" data-tip="Valor cotizado + 30 %. Se cobra aparte del traslado y no entra en el excedente.">
+              <th>Rescate / maniobra oficial</th>
+              <td class="cz-calc">0</td>
+              <th colspan="2">Vh. pesado &gt;3T oficial</th>
+              <td class="cz-calc">0</td>
+            </tr>
+            <tr tabindex="0" data-tip="Km de asfalto × precio asfalto + km de ripio × precio ripio. En Beni, Pando y Oruro: cotización del proveedor + 15 %.">
+              <th>Costo total traslado (vh &lt;3T)</th>
+              <td class="cz-calc">3.150</td>
+              <th colspan="3" rowspan="2" style="text-align:center; vertical-align:middle; font-size:0.7rem; color:var(--text-muted)">INFORMADO AL CLIENTE POR:</th>
+            </tr>
+            <tr tabindex="0" data-tip="Lo que cubre la cuenta: costo de los primeros 150 km. Si el vehículo excede pesos y dimensiones, se deja vacía.">
+              <th>Cobertura eje troncal 150 km</th>
+              <td class="cz-calc">2.700</td>
+            </tr>
+            <tr tabindex="0" data-tip="Tope de Addiuva: 700 Bs por avería, 1.500 Bs por siniestro. Esta parte se tipifica AA.">
+              <th>Cobertura Addiuva <span style="color:var(--code-aa); font-weight:800">AA</span></th>
+              <td class="cz-calc">700</td>
+              <th colspan="2">Correo</th>
+              <td class="cz-list">NO</td>
+            </tr>
+            <tr tabindex="0" data-tip="Solo si el cliente tiene cobertura adicional (ej. Banco Prodem VIP: 3.500 Bs). Normalmente queda vacía.">
+              <th>Cobertura especial VIP</th>
+              <td class="cz-in"></td>
+              <th colspan="2">Teléfono</th>
+              <td class="cz-list">SÍ</td>
+            </tr>
+            <tr tabindex="0" data-tip="Cobertura de la cuenta − cobertura de Addiuva. Lo paga la compañía: se tipifica CC.">
+              <th>Cobertura de la compañía <span style="color:var(--accent); font-weight:800">CC</span></th>
+              <td class="cz-calc">2.000</td>
+              <th colspan="3">Operador:</th>
+            </tr>
+            <tr tabindex="0" data-tip="Costo total − cobertura de la cuenta. Lo paga el cliente: se tipifica NA.">
+              <th>Excedente a pagar por el cliente <span style="color:var(--gold); font-weight:800">NA</span></th>
+              <td class="cz-calc">450</td>
+              <td class="cz-in" colspan="3">Nombre del operador</td>
+            </tr>
+            <tr tabindex="0" data-tip="Costo aproximado de la orden de traslado: 30 a 50 Bs si la gestiona el cliente, 80 Bs si la gestiona el proveedor.">
+              <th>Orden de traslado (cliente)</th>
+              <td class="cz-calc">30–50</td>
+              <th colspan="2">Orden de traslado (proveedor)</th>
+              <td class="cz-calc">80</td>
+            </tr>
           </tbody>
         </table>
       </div>
       <div class="card cz-tip" style="padding:14px">
         <div class="card-title" style="margin-bottom:6px">Qué hacer en esta fila</div>
         <div class="cz-tip-text" aria-live="polite" style="font-size:0.82rem; color:var(--text); line-height:1.5">Pasa el mouse o toca una fila del cuadro.</div>
-        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:12px; padding-top:10px; border-top:1px solid var(--border)">Con los datos del ejemplo: el traslado cuesta 3.150 Bs. Addiuva cubre 700 (AA), la compañía 2.000 (CC) y el cliente paga 450 de excedente (NA). 700 + 2.000 + 450 = 3.150.</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:12px; padding-top:10px; border-top:1px solid var(--border)">Con los datos del ejemplo: 175 km en Santa Cruz a 18 Bs/km = 3.150 Bs. Cobertura eje troncal (150 km × 18) = 2.700 Bs. Addiuva cubre 700 (AA), la compañía 2.000 (CC), el cliente paga 450 de excedente (NA). 700 + 2.000 + 450 = 3.150.</div>
       </div>
     </div>
 
@@ -1813,7 +1924,7 @@ const TOTAL_ASIST = 1642;
       <div class="card" style="padding:12px 14px; border-top:3px solid var(--st-canc-mom, #c0392b)">
         <div style="font-weight:700; font-size:0.84rem; color:var(--text)">1 · Cobro excedente interno</div>
         <div style="font-size:0.72rem; font-weight:700; color:var(--st-canc-mom, #c0392b); margin:2px 0 6px">NO ENVIAR AL CLIENTE</div>
-        <div style="font-size:0.78rem; color:var(--text)">Solo para coordinación, para pedir la autorización de la filial.</div>
+        <div style="font-size:0.78rem; color:var(--text)">Se envía primero al grupo <strong>Coordinación Bolivia</strong>, previa revisión del supervisor, para pedir la autorización de la filial.</div>
       </div>
       <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
         <div style="font-weight:700; font-size:0.84rem; color:var(--text)">2 · Cobro excedente cliente</div>
@@ -1863,49 +1974,6 @@ const TOTAL_ASIST = 1642;
 
     <script>
     (() => {
-      // Precios que efectivamente usa cada pestaña. Nacional 1, 2 y 3 leen la tabla de la pestaña NACIONAL 2.
-      const C = (g, a, r) => ({ g, a, r });
-      const TARIFAS = {
-        nacional: { 'Santa Cruz': C('eje', 18, 20), 'Cochabamba': C('eje', 19, 21), 'La Paz Altiplano': C('eje', 23, 25), 'La Paz Yungas': C('eje', 23, 26),
-                    'Tarija': C('resto', 16, 17), 'Sucre': C('resto', 22, 25), 'Potosí': C('resto', 24, 27), 'Beni': C('cotizar'), 'Oruro': C('cotizar'), 'Pando': C('cotizar') },
-        vip:      { 'Santa Cruz': C('eje', 18, 20), 'Cochabamba': C('eje', 19, 21), 'La Paz Altiplano': C('eje', 23, 25), 'La Paz Yungas': C('eje', 23, 28),
-                    'Tarija': C('resto', 16, 17), 'Sucre': C('resto', 22, 25), 'Potosí': C('resto', 24, 27), 'Beni': C('cotizar'), 'Oruro': C('cotizar'), 'Pando': C('cotizar') },
-        bisa:     { 'Santa Cruz': C('tarifa', 11, 14), 'Cochabamba': C('tarifa', 17, 21), 'La Paz': C('tarifa', 20, 24), 'Tarija': C('tarifa', 12, 15),
-                    'Sucre': C('tarifa', 17, 22), 'Potosí': C('tarifa', 21, 25), 'Oruro': C('tarifa', 21, 25), 'Beni': C('cotizar'), 'Pando': C('cotizar') },
-      };
-
-      // Réplica de las fórmulas de la hoja. Devuelve montos en Bs.
-      function czCalc({ cuenta, ciudad, servicio, categoria, asf, rip, cot, man }) {
-        const t = TARIFAS[cuenta][ciudad];
-        const total = t.g === 'cotizar' ? Math.round(cot * 1.15) : asf * t.a + rip * t.r;
-        let cob, tope;
-        if (cuenta === 'bisa') {
-          cob = categoria === 'M2' ? 1000 : 3000;   // la hoja lo llama "valor cubierto Addiuva"
-          const aa = Math.min(total, cob);
-          return { total, cob, aa, cc: 0, na: Math.max(0, total - cob), man: man * 1.29, t };
-        }
-        tope = servicio === 'siniestro' ? 1500 : 700;
-        if (cuenta === 'vip') cob = Math.min(total, 3500);
-        else if (t.g === 'eje') cob = Math.min(total, Math.min(asf, 150) * t.a + Math.min(Math.max(0, 150 - asf), rip) * t.r);
-        else cob = Math.min(total, 1500);
-        return { total, cob, aa: Math.min(tope, cob), cc: Math.max(0, cob - tope), na: Math.max(0, total - cob), man: man * 1.3, t };
-      }
-
-      // Autocontrol con los casos reales del cuadro (montos verificados en la hoja)
-      const ok = (r, e) => ['total', 'cob', 'aa', 'cc', 'na'].every(k => r[k] === e[k]);
-      console.assert(ok(czCalc({ cuenta: 'nacional', ciudad: 'Santa Cruz', servicio: 'averia', asf: 175, rip: 0, cot: 0, man: 0 }), { total: 3150, cob: 2700, aa: 700, cc: 2000, na: 450 }), 'cotizador: eje troncal');
-      console.assert(ok(czCalc({ cuenta: 'nacional', ciudad: 'Sucre', servicio: 'siniestro', asf: 71, rip: 6, cot: 0, man: 0 }), { total: 1712, cob: 1500, aa: 1500, cc: 0, na: 212 }), 'cotizador: resto del país');
-      console.assert(ok(czCalc({ cuenta: 'vip', ciudad: 'Cochabamba', servicio: 'averia', asf: 255, rip: 0, cot: 0, man: 0 }), { total: 4845, cob: 3500, aa: 700, cc: 2800, na: 1345 }), 'cotizador: VIP');
-      console.assert(ok(czCalc({ cuenta: 'bisa', ciudad: 'Beni', categoria: 'M3', asf: 0, rip: 0, cot: 3000, man: 0 }), { total: 3450, cob: 3000, aa: 3000, cc: 0, na: 450 }), 'cotizador: BISA');
-
-      const bs = n => Math.round(n).toLocaleString('es-BO') + ' Bs';
-
-      // Tabla de tarifas
-      const ciudades = ['Santa Cruz', 'Cochabamba', 'La Paz', 'La Paz Altiplano', 'La Paz Yungas', 'Tarija', 'Sucre', 'Potosí', 'Oruro', 'Beni', 'Pando'];
-      const cell = (k, c) => { const t = TARIFAS[k][c]; return !t ? '—' : t.g === 'cotizar' ? '<span style="color:var(--gold)">A cotizar</span>' : t.a + ' · ' + t.r; };
-      document.querySelector('.cz-tarifas').innerHTML = ciudades.map(c =>
-        '<tr><td>' + c + '</td><td>' + cell('nacional', c) + '</td><td>' + cell('vip', c) + '</td><td>' + cell('bisa', c) + '</td></tr>').join('');
-
       // Cuadro de muestra: explicación por fila
       const anat = document.querySelector('.cz-anat'), tip = anat.querySelector('.cz-tip-text'), TIP0 = tip.textContent;
       const rows = [...anat.querySelectorAll('tr[data-tip]')];
@@ -1918,37 +1986,6 @@ const TOTAL_ASIST = 1642;
         r.addEventListener('click', () => { pinned = pinned === r ? null : r; showTip(pinned); });
       }
 
-      // Simulador
-      const sim = document.querySelector('.cz-sim'), f = k => sim.querySelector('[data-f="' + k + '"]');
-      function fillCities() {
-        const prev = f('ciudad').value;
-        f('ciudad').innerHTML = Object.keys(TARIFAS[f('cuenta').value]).map(c => '<option>' + c + '</option>').join('');
-        if ([...f('ciudad').options].some(o => o.value === prev)) f('ciudad').value = prev;
-      }
-      function render() {
-        const cuenta = f('cuenta').value, isBisa = cuenta === 'bisa';
-        sim.querySelector('.cz-servicio').hidden = isBisa;
-        sim.querySelector('.cz-categoria').hidden = !isBisa;
-        const num = k => Math.max(0, +f(k).value || 0);
-        const inp = { cuenta, ciudad: f('ciudad').value, servicio: f('servicio').value, categoria: f('categoria').value, asf: num('asf'), rip: num('rip'), cot: num('cot'), man: num('man') };
-        const r = czCalc(inp), cotizar = r.t.g === 'cotizar';
-        f('asf').disabled = f('rip').disabled = cotizar;
-        f('cot').disabled = !cotizar;
-        const set = (c, v) => { sim.querySelector('.cz-o-' + c).textContent = bs(v); };
-        set('total', r.total); set('cob', r.cob); set('aa', r.aa); set('cc', r.cc); set('na', r.na); set('man', r.man);
-        const pct = v => r.total ? (v / r.total * 100) + '%' : '0%';
-        for (const k of ['aa', 'cc', 'na']) { const s = sim.querySelector('.cz-b-' + k); s.style.width = pct(r[k]); s.textContent = r[k] / (r.total || 1) > 0.08 ? k.toUpperCase() : ''; }
-        const costo = cotizar ? 'Cotización ' + bs(inp.cot) + ' + 15 % = ' + bs(r.total)
-          : inp.asf + ' km × ' + r.t.a + ' + ' + inp.rip + ' km × ' + r.t.r + ' = ' + bs(r.total);
-        const cubre = isBisa ? 'BISA ' + inp.categoria + ' cubre hasta ' + bs(r.cob === r.total ? (inp.categoria === 'M2' ? 1000 : 3000) : r.cob)
-          : cuenta === 'vip' ? 'Banco Prodem cubre hasta 3.500 Bs'
-          : r.t.g === 'eje' ? 'La cuenta cubre los primeros 150 km' : 'La cuenta cubre hasta 1.500 Bs';
-        const tope = isBisa ? '' : ' · Addiuva asume hasta ' + (inp.servicio === 'siniestro' ? '1.500' : '700') + ' Bs (' + (inp.servicio === 'siniestro' ? 'siniestro' : 'avería') + ')';
-        sim.querySelector('.cz-o-how').textContent = costo + ' · ' + cubre + tope + (r.man ? ' · Maniobra: ' + bs(inp.man) + ' + ' + (isBisa ? '29' : '30') + ' %, se cobra aparte' : '') + '.';
-      }
-      f('cuenta').addEventListener('change', () => { fillCities(); render(); });
-      sim.addEventListener('input', render);
-      fillCities(); render();
     })();
     </script>
     </div>
@@ -2281,7 +2318,7 @@ if (window.matchMedia('(min-width: 901px)').matches) {
 }
 
 // ── Feedback ────────────────────────────────────────────────
-var FB_EMAIL = ''; // ← ponés tu correo acá
+var FB_EMAIL = 'emorales@voccare.global';
 const fbToggle = document.getElementById('feedback-toggle');
 const fbForm   = document.getElementById('feedback-form');
 const fbSend   = document.getElementById('fb-send');
@@ -2307,8 +2344,6 @@ btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') !==
 // ── Nav activo (solo por clic en sidebar) ─────────────────
 const sections = document.querySelectorAll('.section');
 const navLinks  = document.querySelectorAll('.nav-link');
-
-function updateActiveNav() { /* no-op: nav se actualiza solo desde sidebar */ }
 
 // ── Búsqueda en contenido ─────────────────────────────────
 (function() {
@@ -2373,7 +2408,7 @@ document.querySelectorAll('.section-toggle').forEach(toggle => {
     }
     navFrozen = true;
     clearTimeout(navFreezeTimer);
-    navFreezeTimer = setTimeout(() => { navFrozen = false; updateActiveNav(); }, 900);
+    navFreezeTimer = setTimeout(() => { navFrozen = false; }, 900);
     toggle.closest('.section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     const openIds = [...document.querySelectorAll('.section-body-wrap.open')].map(w => w.id);
     localStorage.setItem('bolivia-open', JSON.stringify(openIds));

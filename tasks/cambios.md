@@ -1,5 +1,29 @@
 # Registro de cambios — capacitacion-bolivia.html
 
+## 20-oct-2026 (c) — Cotizador: correcciones de contenido
+
+- Pestaña INSPECTORES NACIONAL: texto corregido de "directorio de inspectores de Santa Cruz" a "directorio de inspectores de Nacional Seguros" (aplica a todas las ciudades).
+- Cuadro 1 (Cobro excedente interno): descripción actualizada — "Se envía primero al grupo **Coordinación Bolivia**, previa revisión del supervisor, para pedir la autorización de la filial."
+
+## 20-oct-2026 (b) — Cotizador: tabla de 5 columnas réplica exacta del cuadro Excel
+
+- Cuadro cotizador reemplazado: la tabla de 2 columnas fue sustituida por una réplica fiel a 5 columnas del cuadro **COBRO EXCEDENTE INTERNO** de la hoja NACIONAL 2 del `CUADRO COTIZADOR POR CUENTAS_2026.xlsx`.
+- Estructura idéntica al Excel: proporciones de columna (37/15/17/14/17 %), `<colgroup>`, merges con `colspan`/`rowspan` incluyendo el `rowspan=2` de "INFORMADO AL CLIENTE POR:" sobre las filas Costo total y Cobertura eje troncal (C20:E21 del Excel).
+- Filas: Servicio por · Expediente/Asistencia/Fecha · Asegurado/C.I. · Ciudad/Placa · Dirección del evento · Destino · Inspector · Total km · Km asfalto/ripio · P. unitario asfalto/ripio · Rescate cotizado/oficial · Vehículo pesado · Costo total + INFORMADO (rowspan 2) · Cobertura eje troncal · Cobertura Addiuva/Correo · Cobertura VIP/Teléfono · Cobertura compañía/Operador · Excedente/nombre operador · Orden traslado cliente/proveedor.
+- Colores de celda conservados: amarillo `cz-in` (entrada), verde `cz-list` (lista), gris `cz-calc` (calculado).
+- Wrapper cambiado de `.grid-2` (50/50) a grid `1fr 260px` para dar espacio a la tabla.
+- Datos del ejemplo: 175 km SCZ a 18 Bs/km = 3.150 Bs; AA 700, CC 2.000, NA 450. Sin datos personales del Excel.
+
+## 20-oct-2026 — Auditoría JS/CSS/contenido: bugs, deuda y migración sandbox
+
+- **A1** Bug `--surface-3` indefinida: reemplazado `var(--surface-3)` por `var(--surface-2)` en el hover de sección colapsada.
+- **A3** Bug La Paz en cotizador: TARIFAS bisa usaba clave genérica `'La Paz'`; dividida en `'La Paz Altiplano'` y `'La Paz Yungas'` (misma tarifa 20/24 Bs/km). `ciudades[]` eliminó la entrada genérica. La Paz ya no muestra `—` en la tabla.
+- **B1** Deuda: eliminada función no-op `updateActiveNav()` y su llamada en el setTimeout del toggle.
+- **B2** Deuda: `pct` en CUENTAS ahora se formatea con coma es-BO al renderizar (`'46.8'` → `46,8 %`). Sin cambio en los datos.
+- **B3** Deuda: eliminada clase CSS `.placeholder` sin uso en DOM.
+- **C** Migración sandbox aprobado: badge `.section-num` sólido verde, `.section-peek` 0.72rem, strips inset por grupo de secciones, KPI hero Total verde (`#panorama-kpis .hero-kpi`), steps más grandes. Añadido `id="panorama-kpis"` y `class="hero-kpi"` al HTML del Panorama.
+- **A2** `FB_EMAIL` configurado: `emorales@voccare.global`.
+
 ## 15-oct-2026 (i) — Empapelado de marca en tarjetas de sección
 
 - Revisión de diseño con el skill frontend-design: el documento ya tenía identidad propia (verde Bolivia, bento grid, gráficos SVG, mapa interactivo) y no requiere rediseño; se identificaron mejoras puntuales (pendientes: árbol de decisión AA/CC/NA, donut de estados, iconografía de sidebar).
