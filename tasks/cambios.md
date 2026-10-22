@@ -1,5 +1,22 @@
 # Registro de cambios — capacitacion-bolivia.html
 
+## 22-oct-2026 — Auditoría Word: reglas faltantes y protocolo Mascotas 123
+
+Cambios surgidos de comparar el "Manual a mano de BOLIVIA.docx" con el HTML actual.
+
+- **Validación Nacional (10 min)**: corregido el tiempo de espera del WPP de Nacional de "5 min" a **10 min**. Si Nacional no responde en 10 min, despachar a riesgo.
+- **Dependencia policial**: expandida la tarjeta de condiciones especiales. Se agrega que **el acarreo y el estacionamiento policial no los cubre Nacional Seguros**: el afiliado los paga de su bolsillo.
+- **Factor IVA 0,87**: nueva fila en la tabla de errores frecuentes del cotizador. Si el prestador emite factura, multiplicar el costo por 0,87 antes de compararlo con el tope (Addiuva recupera el IVA del 13 %).
+- **Custodias**: nueva tarjeta en la sección 08 del cotizador. El costo de custodia se cobra a partir del día 11; los primeros 10 días no generan cargo.
+- **Mascotas Ecommerce (123 Asegúrate)**: nueva subsección en Servicios No Viales con protocolo completo: horario L-V 7-20 h, cobertura por ciudades capital, habilitación en 5 días hábiles, tabla de 8 servicios con anticipación requerida y exclusiones clave, regla de excedentes, política de reembolsos y plantilla para escalar a Coordinación Bolivia.
+
+Descartado del Word (no va en el manual):
+- Credenciales (6 sets de usuario/contraseña).
+- Contenido de Perú (Protecta Security, campaña de salud en S/).
+- Contenido de Paraguay (plantillas PY_VIALPROV_*, reembolso Fénix).
+- Programa VidaCovid Nacional (pendiente confirmar si sigue activo).
+- Porcentaje de Banco Ganadero (pendiente confirmar 20 % vs 40 %).
+
 ## 20-oct-2026 (c) — Cotizador: correcciones de contenido
 
 - Pestaña INSPECTORES NACIONAL: texto corregido de "directorio de inspectores de Santa Cruz" a "directorio de inspectores de Nacional Seguros" (aplica a todas las ciudades).
