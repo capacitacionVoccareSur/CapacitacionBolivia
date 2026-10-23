@@ -1,5 +1,11 @@
 # Registro de cambios — capacitacion-bolivia.html
 
+## 23-oct-2026 — Cotizador: reemplazo por web app y archivado de versión Excel
+
+- **Sección 08 reemplazada**: el cotizador basado en Google Sheets (CUADRO COTIZADOR POR CUENTAS_2026.xlsx) fue reemplazado por la web app **Cotizador de Remolques** (Google Apps Script). La nueva sección documenta la interfaz web, los 6 pasos operativos, la generación de PDFs, el correo automático a cabinabo@voccare.global y las reglas de cobro (custodias, IVA).
+- **Cotizador v1 archivado**: todo el contenido del cotizador Excel (pestañas, columnas, cuadro interactivo cz-anat, pasos 1-4, tabla de destinos, BISA, errores) fue movido a `<template id="cotizador-v1">`. El template es inerte: no se renderiza ni ejecuta en el navegador, pero el contenido queda preservado en el HTML.
+- **Sugerencias (Web3Forms)**: botón flotante "✏ Sugerencias" con modal que envía nombre, sección y mensaje a emorales@voccare.global sin abrir el cliente de correo del usuario.
+
 ## 22-oct-2026 — Auditoría Word: reglas faltantes y protocolo Mascotas 123
 
 Cambios surgidos de comparar el "Manual a mano de BOLIVIA.docx" con el HTML actual.

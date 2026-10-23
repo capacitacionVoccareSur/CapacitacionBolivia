@@ -11,11 +11,13 @@ Manual de capacitación operativa de Addiuva Bolivia para coordinadores y cabina
 - `tasks/cambios.md`: registro de cambios y reglas confirmadas por el usuario. Añade una entrada fechada cada vez que cambies contenido o cifras. Formato del encabezado: `## DD-mmm-YYYY (letra) — descripción breve` (la letra distingue varias entregas del mismo día, empezando por `b` si ya existe una entrada sin letra).
 - `dashboard.html`: dashboard de análisis anterior. No se mantiene; su destino está pendiente (ver todo.md).
 - `sandbox-redesign.html`: banco de pruebas para cambios visuales. Úsalo para probar rediseños antes de migrar al principal. No lo borres.
+- `index.html`: redirección a GitHub Pages. No modificar.
+- `patrón.webp`: imagen de referencia del rombo andino. El CSS usa una data URI SVG en `--motif`, no este archivo directamente.
 
 ## Arquitectura de `capacitacion-bolivia.html`
 
 - **Sin dependencias externas**: todo el CSS en un `<style>`, JS inline y la constante `TOTAL_ASIST` (base de todos los porcentajes) en `<head>`. Debe funcionar sin red: no usar CDN.
-- **CSS**: tokens en `:root` y en `[data-theme="dark"]`. Los colores de familia de servicio (`--fam-*`) y de estado (`--st-*`) son tokens compartidos por las tarjetas y los gráficos. AA/CC/NA usan `--code-aa`, `--accent` y `--gold`. Hay un bloque `@media print`.
+- **CSS**: tokens en `:root` y en `[data-theme="dark"]`. Los colores de familia de servicio (`--fam-*`) y de estado (`--st-*`) son tokens compartidos por las tarjetas y los gráficos. AA/CC/NA usan `--code-aa`, `--accent` y `--gold`. El token `--motif` es un rombo andino SVG inline (data URI) en tile de 52 px y opacidad 0,05/0,07 (claro/oscuro), aplicado como `background-image` en cada `.section`; oculto en `@media print`. Hay un bloque `@media print`.
 - **Secciones**: `<section class="section" id="...">` numeradas 01–10 (panorama, soa, cuentas, proveedores, no-vial, plataformas, tipificacion, cotizador, reembolsos, errores). Cada una tiene un `h2.section-toggle` con `data-target` y un cuerpo `.section-body-wrap > .section-body-inner` (colapsable, se abre con la clase `.open`). El menú lateral enlaza a estos ids. Si renumeras, actualiza el `.section-num` y el menú.
 - Los scripts de cada sección van inline al final de la sección (mapa en `#soa`, simulador en `#cotizador`). El script final maneja tema, menú, colapsables y búsqueda: un error ahí deja sin funcionar todo lo que sigue. **Usa `var` para variables que `setTheme()` o cualquier función del bloque inicial necesite leer; un `let` declarado después de su primer uso produce un TDZ ReferenceError silencioso que corta el resto del script.** (Este bug ya ocurrió con `panoramaChartsDrawn`.)
 - El estado abierto/cerrado de secciones se persiste en `localStorage` bajo la clave `bolivia-open` (JSON array de IDs de sección, p. ej. `["panorama","cotizador"]`).
@@ -46,3 +48,11 @@ Manual de capacitación operativa de Addiuva Bolivia para coordinadores y cabina
 - Formato numérico es-BO en textos: `1.642`, `49,0 %`.
 - No incluir credenciales de sistemas.
 - Reglas operativas confirmadas (siniestros, 30 km y cuadro cotizador, TEA 15 min / 10 min BISA, DOKKA) están en `tasks/cambios.md`. Consúltalas antes de redactar protocolos.
+
+## Deuda técnica pendiente (ver `tasks/todo.md`)
+
+- Escala tipográfica: hay textos de 9–10 px; mínimo objetivo 12 px.
+- ~295 estilos inline en HTML pendientes de migrar a clases CSS.
+- Buscador filtra solo el menú lateral; pendiente que busque dentro del contenido de las secciones.
+- Nombre del manual tiene tres variantes en el HTML; unificar.
+- T10 (cierre): `@media print` con tema claro forzado, pie de página con fecha y fuente, botón Imprimir/PDF.

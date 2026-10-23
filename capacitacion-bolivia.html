@@ -1827,18 +1827,168 @@ const TOTAL_ASIST = 1642;
       <span><span class="section-num">8</span> Cuadro Cotizador</span>
       <span class="toggle-chevron" aria-hidden="true">▲</span>
     </h2>
-    <p class="section-peek">Cotizar traslados en grúa · distribución AA / CC / NA</p>
+    <p class="section-peek">Web app de cotización · Nacional Seguros · genera PDFs y envía correo automático</p>
     <div class="section-body-wrap" id="cotizador-body">
     <div class="section-body-inner">
-    <p class="section-subtitle">Cotizar un traslado en grúa y repartir el costo entre Addiuva (AA), la compañía (CC) y el cliente (NA)</p>
+    <p class="section-subtitle">Web app para cotizar remolques de Nacional Seguros · guarda el registro, genera los PDFs y envía el correo automáticamente</p>
 
-    <div class="alert alert-gold" style="margin-bottom:18px">
-      <span class="alert-icon">!</span>
-      <div>La hoja está <strong>parcialmente bloqueada</strong>: solo se completan las celdas de entrada. Los precios, las coberturas y los montos se calculan solos. Para copiar datos desde SOA, pegar como valores con <strong>Ctrl + Mayús + V</strong> para no romper el formato.</div>
+    <!-- Link prominente -->
+    <div class="card" style="padding:14px 16px; margin-bottom:18px; display:flex; flex-wrap:wrap; align-items:center; gap:14px; border-left:4px solid var(--accent)">
+      <div style="flex:1; min-width:200px">
+        <div style="font-weight:700; font-size:0.9rem; color:var(--text); margin-bottom:3px">Cotizador de Remolques — Nacional Seguros</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Abrir con el correo de Bolivia. El correo de notificación se envía automáticamente a <strong style="color:var(--text)">cabinabo@voccare.global</strong>.</div>
+      </div>
+      <a href="https://script.google.com/a/macros/voccare.global/s/AKfycbwI5zq3un4tpZ60Dm3rB8E3e7FjfCCOfiLcIEmOuHGipFt_BmL4E6lD7qghY26FBQUazA/exec" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;padding:9px 16px;background:var(--accent);color:#fff;border-radius:8px;font-size:0.83rem;font-weight:700;text-decoration:none;white-space:nowrap">Abrir cotizador ↗</a>
     </div>
 
-    <!-- Paso 1: pestaña -->
-    <h3 class="subsection-title">1 · Elegir la pestaña según la cuenta</h3>
+    <!-- Qué hace -->
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">Guarda el registro</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Cada cotización queda guardada con un ID único. Solo después de guardar se habilitan los botones de PDF.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">Genera dos PDFs</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)"><strong>PDF asegurado</strong>: para el afiliado o el inspector. <strong>PDF aseguradora</strong>: registro interno y Nacional. Generarlos en ese orden antes de enviar el correo.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">Envía el correo</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">El botón <strong>Enviar correo</strong> se habilita solo cuando los dos PDFs ya están generados. Va automáticamente a <strong>cabinabo@voccare.global</strong>.</div>
+      </div>
+    </div>
+
+    <!-- Paso 1: formulario -->
+    <h3 class="subsection-title">1 · Completar el formulario</h3>
+    <div class="steps" style="margin-bottom:12px">
+      <div class="step"><div>
+        <div class="step-title">Tipo de servicio</div>
+        <div class="step-body">Seleccionar <strong>Avería</strong> o <strong>Siniestro</strong>. El tipo define los campos que aparecen y la cobertura de Addiuva que aplica (700 Bs avería · 1.500 Bs siniestro).</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Información general</div>
+        <div class="step-body">N.º expediente · N.º asistencia · Fecha · Asegurado · Placa · Departamento · Origen · Destino.<br>Si el departamento es <strong>La Paz</strong>: elegir zona (<strong>Altiplano</strong> o <strong>Yungas</strong>) — las tarifas difieren.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Datos del siniestro <span style="font-weight:400; color:var(--text-muted)">(solo si el tipo es Siniestro)</span></div>
+        <div class="step-body">Nombre y teléfono del inspector · ¿Quién asume el excedente? (<strong>Asegurado</strong> / <strong>Aseguradora</strong>) · Nombre del operador responsable.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Recorrido y tarifas</div>
+        <div class="step-body">Ingresar <strong>km de asfalto</strong> y <strong>km de tierra/ripio</strong> por separado.<br>
+        Si el departamento es <strong>Beni, Oruro o Pando</strong>: no hay tarifa por km — ingresar la <strong>cotización del proveedor</strong>; el sistema aplica el <strong>35 % de margen</strong> internamente.</div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Coberturas adicionales</div>
+        <div class="step-body">
+          <strong>VIP</strong>: si aplica, ingresar el tope VIP (reemplaza la cobertura normal).<br>
+          <strong>Maniobra / rescate</strong>: cotizar con foto del vehículo. Ingresar el monto; el sistema suma el <strong>35 %</strong>. Se cobra aparte del traslado.<br>
+          <strong>Orden de traslado</strong> (solo Avería): valor por defecto 80 Bs si la gestiona el proveedor. En siniestros, el asegurado la tramita directamente.
+        </div>
+      </div></div>
+      <div class="step"><div>
+        <div class="step-title">Verificar el resumen y guardar</div>
+        <div class="step-body">El panel de resumen se actualiza en tiempo real. Verificar costo total, cobertura y excedente antes de presionar <strong>Guardar</strong>. Sin guardar no se pueden generar los PDFs.</div>
+      </div></div>
+    </div>
+
+    <div class="card" style="padding:10px 14px; margin-bottom:22px; border-left:3px solid var(--red)">
+      <div style="font-size:0.77rem; color:var(--text-muted)"><strong style="color:var(--text)">Siniestros — orden de traslado:</strong> la tramita directamente el asegurado. Addiuva no gestiona ni cobra este documento.</div>
+    </div>
+
+    <!-- Paso 2: PDFs y correo -->
+    <h3 class="subsection-title">2 · Generar PDFs y enviar correo</h3>
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="card" style="padding:12px 14px">
+        <div style="font-size:0.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:3px">Primero</div>
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">PDF asegurado</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Enviar al afiliado o inspector por CallBell. Validez de <strong>48 h</strong>. Solo aplica con nuestra red de proveedores.</div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-size:0.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:3px">Segundo</div>
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">PDF aseguradora</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Registro interno y para Nacional. Debe generarse antes de que se habilite el botón de correo.</div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-size:0.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:3px">Tercero</div>
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">Enviar correo</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Se habilita solo cuando ambos PDFs ya están generados. Envía automáticamente a <strong>cabinabo@voccare.global</strong>.</div>
+      </div>
+    </div>
+
+    <!-- Coberturas -->
+    <h3 class="subsection-title">3 · Coberturas de referencia — Nacional Seguros</h3>
+    <div class="grid-3" style="margin-bottom:12px">
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">Eje troncal + La Paz</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px">SCZ · CBBA · LP Altiplano · LP Yungas</div>
+        <div style="font-size:0.78rem; color:var(--text)">Precio por km según la ciudad. La cuenta cubre los <strong>primeros 150 km</strong>.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--accent)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">Resto del país con tarifa</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px">Tarija · Sucre · Potosí</div>
+        <div style="font-size:0.78rem; color:var(--text)">Precio por km según la ciudad. La cuenta cubre hasta <strong>1.500 Bs</strong>.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-top:3px solid var(--gold)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text)">A cotizar</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px">Beni · Pando · Oruro</div>
+        <div style="font-size:0.78rem; color:var(--text)">Cotización del proveedor + <strong>35 % de margen</strong> (el sistema lo aplica). La cuenta cubre hasta <strong>1.500 Bs</strong>.</div>
+      </div>
+    </div>
+    <div class="table-container" style="margin-bottom:24px">
+      <table>
+        <thead><tr><th>Parte</th><th>Avería</th><th>Siniestro</th><th>Quién lo asume</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Addiuva <span style="color:var(--code-aa)">AA</span></strong></td><td>700 Bs</td><td>1.500 Bs</td><td>Addiuva cubre hasta este monto</td></tr>
+          <tr><td><strong>Nacional <span style="color:var(--accent)">CC</span></strong></td><td colspan="2">Diferencia entre el tope de la cuenta y el AA</td><td>Nacional Seguros</td></tr>
+          <tr><td><strong>Excedente <span style="color:var(--gold)">NA</span></strong></td><td colspan="2">Lo que supera el tope de la cuenta</td><td>El asegurado lo paga al proveedor</td></tr>
+          <tr><td><strong>VIP Banco Prodem</strong></td><td colspan="2">3.500 Bs (cualquier ciudad)</td><td>Reemplaza la cobertura estándar</td></tr>
+          <tr><td><strong>YPFB</strong></td><td colspan="2">Cobertura total: km, orden de traslado, maniobras</td><td>Todo lo asume Nacional</td></tr>
+          <tr><td><strong>Gas Transboliviano</strong></td><td colspan="2">Cobertura total en km. Orden de traslado: la asume el afiliado</td><td>Nacional (km) · Afiliado (orden)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Reglas vigentes -->
+    <h3 class="subsection-title">4 · Reglas vigentes</h3>
+    <div class="grid-2" style="margin-bottom:12px">
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--gold)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">Custodias</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">El costo de custodia se cobra a partir del <strong style="color:var(--text)">día 11</strong>. Los primeros 10 días no generan cargo.</div>
+      </div>
+      <div class="card" style="padding:12px 14px; border-left:3px solid var(--gold)">
+        <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">Factor IVA si el prestador factura</div>
+        <div style="font-size:0.77rem; color:var(--text-muted)">Multiplicar el costo del proveedor por <strong style="color:var(--text)">0,87</strong> antes de compararlo con el tope. Addiuva recupera el IVA (13 %).</div>
+      </div>
+    </div>
+    <div class="card" style="padding:12px 14px; margin-bottom:24px">
+      <div class="card-title" style="margin-bottom:6px">Bancos con póliza colectiva de Nacional (prestatarios)</div>
+      <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:6px">Si el afiliado dice que viene de uno de estos bancos, proceder <strong style="color:var(--text)">a riesgo</strong>.</div>
+      <div style="font-size:0.76rem; color:var(--text); line-height:1.6">Banco Prodem · Banco Económico · Banco Solidario (Sol) · Banco Ecofuturo · Coop. Jesús Nazareno · Coop. La Promotora · IDEPRO · Catedral · Coop. Cristo Rey · Banco PyME de la Comunidad · Coop. San Martín · Banco Plan Crecer</div>
+    </div>
+
+    <!-- Errores frecuentes -->
+    <h3 class="subsection-title">Errores frecuentes</h3>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Error</th><th>Qué hacer</th></tr></thead>
+        <tbody>
+          <tr><td>Cerrar la pestaña antes de guardar</td><td>Guardar siempre antes de cerrar. Sin guardar el registro se pierde y no se pueden generar los PDFs.</td></tr>
+          <tr><td>Intentar enviar el correo sin haber generado los dos PDFs</td><td>El botón de correo se habilita solo cuando PDF asegurado y PDF aseguradora ya están generados.</td></tr>
+          <tr><td>Enviar el PDF aseguradora al cliente</td><td>Al cliente o inspector va solo el <strong>PDF asegurado</strong>. El PDF aseguradora es de uso interno.</td></tr>
+          <tr><td>No elegir zona en La Paz</td><td>La Paz requiere elegir <strong>Altiplano</strong> o <strong>Yungas</strong>. Las tarifas son distintas entre sí.</td></tr>
+          <tr><td>Ingresar km en Beni, Oruro o Pando</td><td>Estos departamentos no tienen tarifa por km. Usar el campo de cotización del proveedor.</td></tr>
+          <tr><td>Sumar la maniobra al excedente</td><td>La maniobra se cobra aparte. Ingresarla en su propio campo; el sistema agrega el 35 %.</td></tr>
+          <tr><td>No aplicar el factor IVA cuando el prestador factura</td><td>Multiplicar el costo por <strong>0,87</strong> antes de compararlo con el tope. Addiuva recupera el IVA (13 %).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    </div>
+    </div><!-- /cotizador-body -->
+  </section>
+
+  <!-- Cotizador v1 (Excel/Sheets) — archivado oct-2026. Reemplazado por web app. Inerte: no se renderiza ni ejecuta. -->
+  <template id="cotizador-v1">
     <div class="table-container" style="margin-bottom:10px">
       <table>
         <thead><tr><th>Pestaña</th><th>Cuándo</th><th>Cobertura de la cuenta</th></tr></thead>
@@ -1868,8 +2018,6 @@ const TOTAL_ASIST = 1642;
         </table>
       </div>
     </div>
-
-    <!-- Paso 2: columna -->
     <h3 class="subsection-title">2 · Elegir la columna según la ciudad</h3>
     <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 10px">Cada pestaña de Nacional tiene tres columnas con el mismo cuadro. La ciudad se elige de una lista y solo aparecen las de esa columna.</p>
     <div class="grid-3" style="margin-bottom:22px">
@@ -1889,8 +2037,6 @@ const TOTAL_ASIST = 1642;
         <div style="font-size:0.78rem; color:var(--text)">No hay tarifa: se ingresa la <strong>cotización del proveedor</strong> y el cuadro le suma un 15 %. La cuenta cubre hasta <strong>1.500 Bs</strong>.</div>
       </div>
     </div>
-
-    <!-- Paso 3: anatomía -->
     <h3 class="subsection-title">3 · Completar el cuadro</h3>
     <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 8px">Ejemplo ficticio de Nacional, columna eje troncal. Pasa el mouse o toca cada fila para ver qué hacer.</p>
     <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px">
@@ -2021,8 +2167,6 @@ const TOTAL_ASIST = 1642;
         <div style="font-size:0.75rem; color:var(--text-muted); margin-top:12px; padding-top:10px; border-top:1px solid var(--border)">Con los datos del ejemplo: 175 km en Santa Cruz a 18 Bs/km = 3.150 Bs. Cobertura eje troncal (150 km × 18) = 2.700 Bs. Addiuva cubre 700 (AA), la compañía 2.000 (CC), el cliente paga 450 de excedente (NA). 700 + 2.000 + 450 = 3.150.</div>
       </div>
     </div>
-
-    <!-- Paso 4: destino de cada cuadro -->
     <h3 class="subsection-title">4 · Enviar cada cuadro a quien corresponde</h3>
     <p style="font-size:0.8rem; color:var(--text-muted); margin:-4px 0 10px">Lo que se completa arriba se copia solo en tres cuadros. Cada uno tiene un destino distinto.</p>
     <div class="grid-3" style="margin-bottom:12px">
@@ -2046,7 +2190,6 @@ const TOTAL_ASIST = 1642;
       <div style="font-weight:700; font-size:0.84rem; color:var(--text); margin-bottom:3px">Custodias</div>
       <div style="font-size:0.77rem; color:var(--text-muted)">El costo de custodia (vehículo estacionado en el depósito del proveedor) se cobra a partir del <strong style="color:var(--text)">día 11</strong>. Los primeros 10 días no generan cargo.</div>
     </div>
-
     <div class="grid-2" style="margin-bottom:22px; align-items:start">
       <div class="card" style="padding:12px 14px">
         <div class="card-title" style="margin-bottom:6px">El correo de notificación de excedente lleva</div>
@@ -2063,9 +2206,6 @@ const TOTAL_ASIST = 1642;
         <div style="font-size:0.78rem; color:var(--text); line-height:1.6">· Se comparte en coordinación para la autorización.<br>· Al afiliado por CallBell, solo si lo pide.<br>· Por correo al inspector, como respaldo.</div>
       </div>
     </div>
-
-
-    <!-- Errores -->
     <h3 class="subsection-title">Errores frecuentes</h3>
     <div class="table-container">
       <table>
@@ -2078,14 +2218,12 @@ const TOTAL_ASIST = 1642;
           <tr><td>Aplicar la cobertura a un vehículo de más de 3 t</td><td>Si el vehículo excede pesos y dimensiones, Addiuva no aplica la cobertura de 150 km o 1.500 Bs: se deja vacía y se carga el valor cotizado del vehículo pesado.</td></tr>
           <tr><td>Buscar tarifa para Beni, Pando u Oruro</td><td>No tienen tarifa: siempre se pide la cotización al proveedor.</td></tr>
           <tr><td>Usar la pestaña estándar con un afiliado de Banco Prodem</td><td>Usar la pestaña VIP: su tope es de 3.500 Bs.</td></tr>
-          <tr><td>No aplicar el factor IVA cuando el prestador factura</td><td>Si el prestador emite factura, multiplicar el costo por <strong>0,87</strong> antes de compararlo con el tope. Addiuva recupera el IVA (13 %), por lo que el costo neto efectivo es menor.</td></tr>
+          <tr><td>No aplicar el factor IVA cuando el prestador factura</td><td>Si el prestador emite factura, multiplicar el costo por 0,87 antes de compararlo con el tope. Addiuva recupera el IVA (13 %).</td></tr>
         </tbody>
       </table>
     </div>
-
     <script>
     (() => {
-      // Cuadro de muestra: explicación por fila
       const anat = document.querySelector('.cz-anat'), tip = anat.querySelector('.cz-tip-text'), TIP0 = tip.textContent;
       const rows = [...anat.querySelectorAll('tr[data-tip]')];
       let pinned = null;
@@ -2096,12 +2234,9 @@ const TOTAL_ASIST = 1642;
         r.addEventListener('focus', () => showTip(r));
         r.addEventListener('click', () => { pinned = pinned === r ? null : r; showTip(pinned); });
       }
-
     })();
     </script>
-    </div>
-    </div><!-- /cotizador-body -->
-  </section>
+  </template>
 
   <section class="section" id="reembolsos">
     <h2 class="section-title section-toggle" data-target="reembolsos-body" aria-expanded="false">
