@@ -708,6 +708,61 @@ tr:hover td { background: var(--surface-2); }
 
 /* 7. Subsection title — borde más definido */
 .subsection-title { border-left-width: 4px; font-size: 0.86rem; }
+
+/* ── Sugerencias: botón flotante + modal ── */
+#sg-btn {
+  position: fixed; bottom: 24px; right: 24px; z-index: 180;
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px; border-radius: 999px;
+  background: var(--accent); color: #fff; border: none;
+  font-size: 0.82rem; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(27,107,58,0.4);
+  transition: opacity .15s, transform .15s;
+}
+#sg-btn:hover { opacity: .88; transform: translateY(-2px); }
+@media print { #sg-btn, #sg-overlay { display: none !important; } }
+
+#sg-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.45); align-items: center; justify-content: center;
+  padding: 16px;
+}
+#sg-overlay.open { display: flex; }
+#sg-modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 22px 20px; width: 100%; max-width: 420px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.22); position: relative;
+}
+#sg-close {
+  position: absolute; top: 10px; right: 12px;
+  background: none; border: none; font-size: 1.15rem;
+  cursor: pointer; color: var(--text-muted); padding: 4px 6px; line-height: 1;
+}
+#sg-close:hover { color: var(--text); }
+#sg-modal h3 { font-size: 1rem; font-weight: 700; margin: 0 0 3px; color: var(--text); }
+#sg-modal p  { font-size: 0.77rem; color: var(--text-muted); margin: 0 0 16px; }
+.sg-field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 11px; }
+.sg-field label { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.sg-field input, .sg-field select, .sg-field textarea {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 10px; font-size: 0.83rem;
+  color: var(--text); font-family: inherit; resize: vertical;
+}
+.sg-field textarea { min-height: 88px; }
+.sg-field input:focus, .sg-field select:focus, .sg-field textarea:focus {
+  outline: none; border-color: var(--accent);
+}
+#sg-submit {
+  width: 100%; padding: 10px; border-radius: 8px;
+  background: var(--accent); color: #fff; border: none;
+  font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 4px;
+  transition: opacity .15s;
+}
+#sg-submit:hover:not(:disabled) { opacity: .86; }
+#sg-submit:disabled { opacity: .5; cursor: default; }
+#sg-status { font-size: 0.79rem; margin-top: 9px; text-align: center; min-height: 1.1em; }
+#sg-status.ok  { color: var(--accent); }
+#sg-status.err { color: var(--red); }
 </style>
 <script>
 // Total del periodo 1-ago a 12-oct-2026, sin las cuentas IKATECH (prueba) ni Addiuva (interna)
@@ -2657,6 +2712,105 @@ function refreshCharts() {
   }
 });
 
+</script>
+
+<!-- ── Botón de sugerencias ── -->
+<button id="sg-btn" aria-haspopup="dialog" aria-controls="sg-overlay">✏ Sugerencias</button>
+
+<div id="sg-overlay" role="dialog" aria-modal="true" aria-labelledby="sg-title">
+  <div id="sg-modal">
+    <button id="sg-close" aria-label="Cerrar">✕</button>
+    <h3 id="sg-title">Enviar sugerencia</h3>
+    <p>Tu mensaje llega directamente al responsable del manual.</p>
+    <form id="sg-form" novalidate>
+      <input type="hidden" name="access_key" value="8749c5b8-c811-4647-a674-eaeed140eb35">
+      <input type="hidden" name="subject" value="Sugerencia — Manual Capacitación Bolivia">
+      <input type="hidden" name="from_name" value="Manual Bolivia">
+      <div class="sg-field">
+        <label for="sg-nombre">Nombre <span style="font-weight:400;text-transform:none">(opcional)</span></label>
+        <input id="sg-nombre" name="name" type="text" placeholder="Tu nombre">
+      </div>
+      <div class="sg-field">
+        <label for="sg-seccion">Sección</label>
+        <select id="sg-seccion" name="seccion">
+          <option value="">— Sin sección específica —</option>
+          <option value="01 Panorama">01 · Panorama general</option>
+          <option value="02 SOA">02 · SOA y departamentos</option>
+          <option value="03 Cuentas">03 · Cuentas y planes</option>
+          <option value="04 Proveedores">04 · Proveedores viales</option>
+          <option value="05 No Viales">05 · Servicios No Viales</option>
+          <option value="06 Plataformas">06 · Plataformas y Sistemas</option>
+          <option value="07 Tipificacion">07 · Tipificación AA/CC/NA</option>
+          <option value="08 Cotizador">08 · Cuadro Cotizador</option>
+          <option value="09 Reembolsos">09 · Reembolsos y Farmacias</option>
+          <option value="10 Errores">10 · Errores y Terminología</option>
+        </select>
+      </div>
+      <div class="sg-field">
+        <label for="sg-mensaje">Mensaje <span style="color:var(--red)">*</span></label>
+        <textarea id="sg-mensaje" name="message" required placeholder="Describe la corrección o sugerencia…"></textarea>
+      </div>
+      <button type="submit" id="sg-submit">Enviar</button>
+      <div id="sg-status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function() {
+  var btn     = document.getElementById('sg-btn');
+  var overlay = document.getElementById('sg-overlay');
+  var close   = document.getElementById('sg-close');
+  var form    = document.getElementById('sg-form');
+  var submit  = document.getElementById('sg-submit');
+  var status  = document.getElementById('sg-status');
+
+  function openModal()  { overlay.classList.add('open');    close.focus(); }
+  function closeModal() { overlay.classList.remove('open'); btn.focus(); }
+
+  btn.addEventListener('click', openModal);
+  close.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var msg = document.getElementById('sg-mensaje').value.trim();
+    if (!msg) { document.getElementById('sg-mensaje').focus(); return; }
+
+    submit.disabled = true;
+    submit.textContent = 'Enviando…';
+    status.textContent = '';
+    status.className = '';
+
+    var data = new FormData(form);
+    var sec  = document.getElementById('sg-seccion').value;
+    data.set('message', (sec ? '[' + sec + ']\n' : '') + msg);
+
+    fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.success) {
+          status.textContent = '✓ Sugerencia enviada. ¡Gracias!';
+          status.className = 'ok';
+          form.reset();
+          setTimeout(closeModal, 1800);
+        } else {
+          throw new Error(d.message || 'Error desconocido');
+        }
+      })
+      .catch(function() {
+        status.textContent = 'No se pudo enviar. Verificá tu conexión e intentá de nuevo.';
+        status.className = 'err';
+      })
+      .finally(function() {
+        submit.disabled = false;
+        submit.textContent = 'Enviar';
+      });
+  });
+})();
 </script>
 
 </body>
